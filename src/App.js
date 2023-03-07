@@ -1,0 +1,46 @@
+import {React} from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import NavbarComp from './compontents/NavbarComp'
+import {Outlet} from "react-router-dom";
+
+
+
+function App() {
+
+    // return (
+
+
+    return (
+
+        <div>
+            <NavbarComp/>
+
+            <Outlet/>
+        </div>
+
+
+    )
+        ;
+
+
+    // <div className="App">
+    //   <header className="App-header">
+    //
+    //     <p>
+    //       Edit <code>src/App.js</code> and save to reload.
+    //     </p>
+    //     <a
+    //       className="App-link"
+    //       href="https://reactjs.org"
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Learn Reactasdf asdf asdf asdf
+    //     </a>
+    //   </header>
+    // </div>
+    // );
+}
+
+export default App;
