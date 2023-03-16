@@ -1,4 +1,4 @@
-const Listpage = function () {
+const ListPage = function () {
 
     return (
         <div>
@@ -8,4 +8,4 @@ const Listpage = function () {
     )
 
 }
-export default Listpage;
+export default ListPage;

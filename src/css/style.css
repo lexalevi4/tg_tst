@@ -1,0 +1,46 @@
+.select_brunch {
+    font-size: 13px;
+}
+
+.station_link {
+    color: black;
+}
+
+.station_link_active {
+    color: black;
+    text-decoration: underline;
+}
+
+.station_img_hidden {
+    display: none;
+}
+
+.brunch_link_active {
+    /*color: black;*/
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/*.dropdowns-group button:not(:first-child){*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.dropdowns-group button:nth-child(-n+2) {*/
+/*    !*background: skyblue;*!*/
+/*    border-top-right-radius: 0;*/
+/*    border-bottom-right-radius: 0;*/
+/*}*/
+
+#material-dropdown, #floors_count-dropdown {
+    /*background: skyblue;*/
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/*.dropdowns-group button:not(:last-child){*/
+/*    font-weight: lighter;*/
+/*}*/
+#input-group-dropdown-floor, #districts_search_button, #metro_search_button, #to_metro_search_button, #year-dropdown,
+#material-dropdown, #floors_count-dropdown, #input-group-dropdown-price {
+    white-space: pre-line;
+}

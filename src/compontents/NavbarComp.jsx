@@ -1,32 +1,63 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link
+    Link,
+    // lo
 } from "react-router-dom";
 
 
+// const history = useRouterHistory(createHistory)({
+//     basename: '/basename'
+// });
+
+
 import About from '../pages/About'
-import Listpage from '../pages/Listpage'
+// import ListPage from '../pages/ListPage'
+
 import Mappage from '../pages/Mappage'
+import SearchForm from "../pages/SearchForm";
+import FlatList from "../pages/FlatList";
+
 const NavbarComp = function () {
+
+    const [expanded, setExpanded] = useState(false);
 
     return (
         <Router>
             <div>
-                <Navbar bg="dark" variant={"dark"} expand="lg">
-                    <Navbar.Toggle aria-controls="navbarScroll"/>
+                <Navbar
+
+                    expanded={expanded}
+                    bg="dark" variant={"dark"} expand="lg">
+                    <Navbar.Toggle
+                        onClick={() => setExpanded(expanded ? false : "expanded")}
+                        aria-controls="navbarScroll"/>
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
-                            // className="mr-auto my-2 my-lg-0"
+
+                            style={{
+                                marginLeft: '20px'
+                            }
+                            }
+                            className="mr-auto my-2 my-lg-0"
                             // style={{maxHeight: '100px'}}
                             // navbarScroll
                         >
-                            <Nav.Link as={Link} to="/">Map</Nav.Link>
-                            <Nav.Link as={Link} to="/list">List</Nav.Link>
-                            <Nav.Link as={Link} to="/about">About</Nav.Link>
+                            <Nav.Link
+                                onClick={() => setExpanded(false)}
+                                as={Link} to="/map">Map</Nav.Link>
+                            <Nav.Link
+                                onClick={() => setExpanded(false)}
+                                as={Link} to="/list">List</Nav.Link>
+                            <Nav.Link
+                                onClick={() => setExpanded(false)}
+                                as={Link} to="/about">About</Nav.Link>
+                            <Nav.Link
+                                onClick={() => setExpanded(false)}
+                                as={Link} to="/">Filters</Nav.Link>
 
                         </Nav>
 
@@ -38,14 +69,17 @@ const NavbarComp = function () {
             <div>
                 <Routes>
                     <Route path="/about" element={<About/>}>
+                    </Route>
+                    <Route path="/list" element={<FlatList/>}>
 
                     </Route>
-                    <Route path="/list" element={<Listpage/>}>
+                    <Route path="/" element={<SearchForm/>}>
+                    </Route>
+
+                    <Route path="/map" element={<Mappage/>}>
 
                     </Route>
-                    <Route path="/" element={<Mappage/>}>
 
-                    </Route>
                 </Routes>
             </div>
 
