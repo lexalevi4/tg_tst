@@ -40,6 +40,10 @@
 /*.dropdowns-group button:not(:last-child){*/
 /*    font-weight: lighter;*/
 /*}*/
+.pre_line{
+    white-space: pre-line;
+    width: 150px;
+}
 #input-group-dropdown-floor, #districts_search_button, #metro_search_button, #to_metro_search_button, #year-dropdown,
 #material-dropdown, #floors_count-dropdown, #input-group-dropdown-price {
     white-space: pre-line;

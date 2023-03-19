@@ -51,25 +51,6 @@ const MetroLink = function ({
     };
 
 
-    // const handleClick = useCallback(async (id) => {
-    //     // console.log(id);
-    //
-    //     let arr = [];
-    //     state.map(function (item, index) {
-    //         arr.push(item);
-    //         return true;
-    //     })
-    //     if (arr.indexOf(id) > -1) {
-    //         await arr.splice(arr.indexOf(id), 1)
-    //     } else {
-    //         await arr.push(id)
-    //     }
-    //     await dispatch(updateSearch({field: 'metro', value: arr}))
-    //
-    //     // await dispatch(updateSearch({field: field, value: value}))
-    // }, [dispatch, state])
-
-
     const handleClick = (id) => {
         // console.log(id);
         id = Number(id)
@@ -85,7 +66,6 @@ const MetroLink = function ({
         }
         dispatch(updateSearch({field: 'metro', value: arr}))
 
-        // await dispatch(updateSearch({field: field, value: value}))
     }
 
 
@@ -106,7 +86,7 @@ const MetroLink = function ({
                 }}
             />
             {
-                // console.log('qq')
+                console.log('qq')
             }
 
             <div

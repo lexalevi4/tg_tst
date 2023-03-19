@@ -1,9 +1,9 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 
 export const fetchFlats = createAsyncThunk(
     'mapFlats/fetchFlats',
-    async function (ids, {dispatch, rejectWithValue}) {
+    async function (ids, { dispatch, rejectWithValue }) {
         try {
             const response = await fetch('https://pyxi.pro/tg-web-app/get-flats-by-id?ids=' + ids);
             if (!response.ok) {
@@ -54,6 +54,12 @@ const MapFlatsSlice = createSlice(
     {
         name: 'mapFlats',
         initialState: {
+            app_params: {
+                price_desc_modal_open: false,
+                flat_modal_open: false,
+                flat_id: null,
+
+            },
             flats: [],
             status: null,
             error: null,
@@ -89,6 +95,7 @@ const MapFlatsSlice = createSlice(
                 min_year_build: '',
                 max_year_build: '',
                 including_null_years: 1,
+                update: 0
 
             },
             params: {
@@ -96,64 +103,64 @@ const MapFlatsSlice = createSlice(
                 metro: [],
                 districts: [],
                 to_metro: [
-                    {val: 1, title: 'До 5 минут'},
-                    {val: 2, title: 'До 10 минут'},
-                    {val: 3, title: 'До 15 минут'},
-                    {val: 4, title: 'До 20 минут'},
+                    { val: 1, title: 'До 5 минут' },
+                    { val: 2, title: 'До 10 минут' },
+                    { val: 3, title: 'До 15 минут' },
+                    { val: 4, title: 'До 20 минут' },
 
                 ],
                 rooms: [
-                    {val: 200, title: 'Студия'},
-                    {val: 1, title: '1к'},
-                    {val: 2, title: '2к'},
-                    {val: 3, title: '3к'},
-                    {val: 4, title: '4+к'},
+                    { val: 200, title: 'Студия' },
+                    { val: 1, title: '1к' },
+                    { val: 2, title: '2к' },
+                    { val: 3, title: '3к' },
+                    { val: 4, title: '4+к' },
                 ],
                 cats: [
-                    {val: 1, title: 'Вторичка'},
-                    {val: 2, title: 'Аренда'},
-                    {val: 3, title: 'Новостройки'},
+                    { val: 1, title: 'Вторичка' },
+                    { val: 2, title: 'Аренда' },
+                    { val: 3, title: 'Новостройки' },
                 ],
                 floor_types: [
-                    {val: 1, title: "Любой"},
-                    {val: 2, title: "Средний"},
-                    {val: 3, title: "Не первый"},
-                    {val: 4, title: "Не последний"},
-                    {val: 5, title: "Первый"},
-                    {val: 6, title: "Последний"},
+                    { val: 1, title: "Любой" },
+                    { val: 2, title: "Средний" },
+                    { val: 3, title: "Не первый" },
+                    { val: 4, title: "Не последний" },
+                    { val: 5, title: "Первый" },
+                    { val: 6, title: "Последний" },
                 ],
                 floors_count_types: [
-                    {val: 1, title: "До 5 этажей"},
-                    {val: 2, title: "6-10 этажей"},
-                    {val: 3, title: "11-15 этажей"},
-                    {val: 4, title: "16-17 этажей"},
-                    {val: 5, title: "18-25 этажей"},
-                    {val: 6, title: "26-35 этажей"},
-                    {val: 7, title: "36+ этажей"},
+                    { val: 1, title: "До 5 этажей" },
+                    { val: 2, title: "6-10 этажей" },
+                    { val: 3, title: "11-15 этажей" },
+                    { val: 4, title: "16-17 этажей" },
+                    { val: 5, title: "18-25 этажей" },
+                    { val: 6, title: "26-35 этажей" },
+                    { val: 7, title: "36+ этажей" },
                 ],
                 material_types: [
-                    {val: 1, title: "Кирпич"},
-                    {val: 2, title: "Панель"},
-                    {val: 3, title: "Монолит"},
-                    {val: 4, title: "Монолит-кирпич"},
-                    {val: 5, title: "Блочный"},
+                    { val: 1, title: "Кирпич" },
+                    { val: 2, title: "Панель" },
+                    { val: 3, title: "Монолит" },
+                    { val: 4, title: "Монолит-кирпич" },
+                    { val: 5, title: "Блочный" },
 
                 ],
                 year_types: [
-                    {val: 1, title: "До 1980"},
-                    {val: 2, title: "1981-1999"},
-                    {val: 3, title: "2000-2009"},
-                    {val: 4, title: "2010-2019"},
-                    {val: 5, title: "От 2020"},
-                    {val: 6, title: "Не указано"},
+                    { val: 1, title: "До 1980" },
+                    { val: 2, title: "1981-1999" },
+                    { val: 3, title: "2000-2009" },
+                    { val: 4, title: "2010-2019" },
+                    { val: 5, title: "От 2020" },
+                    { val: 6, title: "Не указано" },
 
                 ],
                 price_type: [
-                    {val: 1, title: "Базнадёга"},
-                    {val: 2, title: "Высокие"},
-                    {val: 3, title: "Средние"},
-                    {val: 4, title: "Ниже среднего"},
-                    {val: 5, title: "Дно рынка"},
+                    { val: 1, title: "Базнадёга" },
+                    { val: 2, title: "Высокие" },
+                    { val: 3, title: "Средние" },
+                    { val: 4, title: "Ниже среднего" },
+                    { val: 5, title: "Дно рынка" },
                 ]
 
             },
@@ -162,17 +169,9 @@ const MapFlatsSlice = createSlice(
         reducers: {
             updateSearch(state, action) {
                 state.search[action.payload.field] = action.payload.value
-                // console.log(state.search)
-                // state.query_string = serialize(state.search)
-                //     .replace(/&&+/gi, '&')
-                //     .replace(/&&/gi, '&')
-                // .replace(/&&/gi, '&')
-                // .replace(/&&/gi, '&')
-                // ;
-                // state.query_string = state.search.replace(/&&/gi, '&');
-
-                // let clean = e.target.value.replace(/\D/gi, '');
-                // console.log(state.query_string);
+            },
+            updateAppParam(state, action) {
+                state.app_params[action.payload.field] = action.payload.value
             },
             addFlats(state, action) {
                 // console.log(action)
@@ -222,9 +221,12 @@ export const {
     addFlats,
     cleanFlats,
     updateSearch,
+    updateAppParam,
     setInitialStations,
     setInitialBrunches,
     setInitialDistricts,
-    setQueryString
+    setQueryString,
+
+
 } = MapFlatsSlice.actions;
 export default MapFlatsSlice.reducer;
