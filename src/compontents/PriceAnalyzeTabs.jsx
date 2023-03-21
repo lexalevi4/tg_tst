@@ -1,29 +1,21 @@
-
+import React from 'react';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import '../css/style.css'
-// import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {
-    // Box,
     Button,
-    // Fade,
-    // Box,
-
     Paper,
-    // Popper,
     Table, TableBody, TableCell,
     TableContainer,
     TableHead, TableRow, 
-    //  Typography,
-
 } from "@mui/material";
 
 import { updateAppParam } from 'store/MapFlatsSlice';
 import HelpIcon from '@mui/icons-material/Help';
 import { useDispatch, useSelector } from 'react-redux';
-import React from 'react';
+
 
 const PriceAnalizeTabs = function ({ positions,flat_id }) {
     // console.log(positions)

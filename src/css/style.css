@@ -48,3 +48,10 @@
 #material-dropdown, #floors_count-dropdown, #input-group-dropdown-price {
     white-space: pre-line;
 }
+.inner-container {
+    background: red;
+    grid-area: inner-container;
+    /* overflow-y: scroll; */
+    /* height: 100%; */
+    /* font-size: 144px; */
+}

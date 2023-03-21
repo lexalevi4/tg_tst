@@ -1,4 +1,4 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 
 // const serialize = function (obj, prefix) {
@@ -26,21 +26,33 @@ export const
             }),
             endpoints: (build) => ({
                 getFlats: build.query({
-                        query: (search) => ({
-                            // url: 'get-flats?' + serialize(search).replace(/&&+/gi, '&'),
-                            url: 'get-flats',
-                            method: "POST",
-                            body:
-                                {
-                                    search: search,
-                                    tg_data: window.Telegram.WebApp.initData || null
-                                }
+                    query: (search) => ({
+                        // url: 'get-flats?' + serialize(search).replace(/&&+/gi, '&'),
+                        url: 'get-flats',
+                        method: "POST",
+                        body:
+                        {
+                            search: search,
+                            tg_data: window.Telegram.WebApp.initData || null
+                        }
 
-                        })
-                    }
-                )
+                    })
+                }
+                ),
+                GenerateReportPlot: build.query({
+                    query: (plot_data) => ({
+                        url: 'generate-plot',
+                        method: "POST",
+                        body:
+                        {
+                            plot_data: plot_data,
+                            tg_data: window.Telegram.WebApp.initData || null
+                        }
+
+                    })
+                })
             })
         }
     )
 
-export const {useGetFlatsQuery} = PyxiApi;
+export const { useGetFlatsQuery, useGenerateReportPlotQuery } = PyxiApi;
