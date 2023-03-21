@@ -108,6 +108,9 @@ const ReportPlotModal = function ({ report_plot_open, handleReportPlotClose, Tra
                                 height: '70vh',
 
 
+
+
+                                
                             }}
                             alt={'asdfadf'}
                             src={'https://img.pyxi.pro/stat/img/' + data.img}
