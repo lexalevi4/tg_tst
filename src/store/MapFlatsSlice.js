@@ -57,7 +57,21 @@ const MapFlatsSlice = createSlice(
             app_params: {
                 price_desc_modal_open: false,
                 flat_modal_open: false,
+                report_plot_open: false,
                 flat_id: null,
+                report_plot_request: {
+                    id: null,
+                    x: null,
+                    hue: null,
+                    district: null,
+                    okrug: null,
+                },
+                report_plot: {
+                    status: 'none',
+                    img: '',
+                    plot_data: {}
+                },
+                stat_plot: {}
 
             },
             flats: [],
@@ -171,6 +185,7 @@ const MapFlatsSlice = createSlice(
                 state.search[action.payload.field] = action.payload.value
             },
             updateAppParam(state, action) {
+                console.log(action)
                 state.app_params[action.payload.field] = action.payload.value
             },
             addFlats(state, action) {

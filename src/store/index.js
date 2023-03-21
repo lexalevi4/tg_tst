@@ -1,5 +1,5 @@
-import {configureStore, combineReducers} from '@reduxjs/toolkit'
-
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import createSagaMiddleware from '@redux-saga/core';
 import {
     persistStore,
     persistReducer,
@@ -13,7 +13,8 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import MapFlatsReduser from './MapFlatsSlice';
-import {PyxiApi} from "./PyxiApi";
+import { PyxiApi } from "./PyxiApi";
+import rootSaga from 'saga';
 
 
 // const CurrVersion = 2;
@@ -24,6 +25,7 @@ import {PyxiApi} from "./PyxiApi";
 //     localStorage.removeItem('persist:root')
 // }
 
+const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
     mapFlats: MapFlatsReduser,
@@ -46,10 +48,11 @@ const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }).concat(PyxiApi.middleware),
+        }).concat(PyxiApi.middleware).concat(sagaMiddleware),
 })
-
-
+sagaMiddleware.run(rootSaga)
+// const 
+export const action = (type) => store.dispatch({type});
 export const persistor = persistStore(store);
 export default store;
 

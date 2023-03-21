@@ -5,16 +5,37 @@ import { useGenerateReportPlotQuery } from "store/PyxiApi";
 import PositionsTable from "./PositionsTable";
 import { useState } from "react";
 import { ModalClose, Sheet } from "@mui/joy";
+import ReportPlotModalContent from "./ReportPlotModalContent";
+import { useDispatch, useSelector } from "react-redux";
+import { action } from "store/index";
+import Loading from "./Loading";
 
-const ReportPlotModal = function ({ report_plot_open, handleReportPlotClose, Transition }) {
+const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
-
-
+    let ready = false;
 
     const [statPlotOpen, setStatPlotOpen] = useState(false);
 
     const openStatPlotModal = () => { setStatPlotOpen(true) }
     const closeStatPlotModal = () => { setStatPlotOpen(false) }
+
+
+    const report_plot_open = useSelector(state => state.mapFlats.app_params.report_plot_open);
+    const report_plot_request = useSelector(state => state.mapFlats.app_params.report_plot_request);
+
+    const areEqual = (oldValue, newValue) => (oldValue.id === newValue.id && oldValue.status === newValue.status)
+    const data = useSelector(state => state.mapFlats.app_params.report_plot, areEqual);
+
+    // const data = {}
+    const dispatch = useDispatch();
+
+
+    const generatePlot = () => { action('GetReportPlot') };
+    if (report_plot_open && data.status === 'none') {
+        dispatch(generatePlot)
+    }
+
+
 
     const cols = [
         'Класс',
@@ -29,47 +50,27 @@ const ReportPlotModal = function ({ report_plot_open, handleReportPlotClose, Tra
 
     ]
 
-    const plot_data = {
-        id: 234
+
+
+    if (data?.status === 'ready') {
+        ready = true;
+    } else {
+        ready = false;
     }
 
-    const { data, isLoading } = useGenerateReportPlotQuery(plot_data)
+    const renderSwitch = function (param) {
 
-    // const dispatch = useDispatch();
-    // const handlePage = (event, value) => {
-    //     dispatch(updateSearch({ field: 'page', value: value }))
-    //     window.scrollTo(0, 0)
-    // }
-
-
-    // console.log(data.plot_data.full);
-
-
-
-
-    if (isLoading) {
-
-        return (<h1>Loading</h1>)
+        switch (param) {
+            case 'pending':
+                return (<Loading/>);
+            case 'none':
+                return (<Loading/>);
+            case 'ready':
+                return (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} />);
+            default:
+                return (<h1>Ошибка</h1>);
+        }
     }
-
-
-    // const mapped = Object.entries(data.plot_data.full);
-
-    // const rows = [];
-
-    // mapped.map(([k, v]) => {
-
-    //     rows.push(
-    //         {
-    //             row: [v.name, v.total_count, v.current_position, v.mean, v.min, v.q25, v.q50, v.q75, v.max],
-    //             child: v.full || null,
-    //             active: v.is_active
-    //         }
-    //     )
-    //     return true;
-    // });
-    // console.log(rows)
-
 
 
 
@@ -87,71 +88,18 @@ const ReportPlotModal = function ({ report_plot_open, handleReportPlotClose, Tra
             TransitionComponent={Transition}
         >
 
+
+
             <Box
             >
                 <Sheet>
-                    <Paper
-
-                        className='m-3 p-2'
-                        sx={{
-
-                            // height:500,
-                            overflowX: 'auto',
-                            overflowY: 'auto'
-
-                        }}
-                    >
-                        <img
-                            className='m-2'
-                            style={{
-                                // width: '100vw',
-                                height: '70vh',
 
 
+                    {renderSwitch(data.status)}
+
+                    {/* {!ready ? (<h1>Loading</h1>) : (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} />)} */}
 
 
-                                
-                            }}
-                            alt={'asdfadf'}
-                            src={'https://img.pyxi.pro/stat/img/' + data.img}
-                        />
-                    </Paper>
-
-
-                    <Paper
-
-                        className='m-3 p-2'
-                        sx={{
-
-                            // height:500,
-                            overflowX: 'auto',
-                            overflowY: 'auto'
-
-                        }}
-                    >
-
-                        <Button
-                            onClick={openStatPlotModal}
-                        >Открыть модалку</Button>
-
-                    </Paper>
-
-                    <Paper
-
-                        className='m-3 p-2'
-                        sx={{
-
-                            // height:500,
-                            overflowX: 'auto',
-                            overflowY: 'auto'
-
-                        }}
-                    >
-
-                        <PositionsTable cols={cols} data={data.plot_data.full} />
-
-
-                    </Paper>
 
 
 

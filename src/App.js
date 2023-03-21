@@ -6,12 +6,13 @@ import { Outlet } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { useDispatch, useSelector } from "react-redux";
 import { setInitialBrunches, setInitialDistricts, setInitialStations, updateAppParam } from "./store/MapFlatsSlice";
-import {  Button, Slide  } from '@mui/material';
+import { Button, Slide } from '@mui/material';
 // import {Container} from "react-bootstrap";
 
 import * as React from 'react';
 import PriceDescModal from 'compontents/PriceDescModal';
 import ReportPlotModal from 'compontents/ReportPlotModal';
+import { action } from 'store';
 const tg = window.Telegram.WebApp;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,7 +22,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function App() {
 
     // return (
-    const [report_plot_open, setReport_plot_open] = useState(false);
+    // const [report_plot_open, setReport_plot_open] = useState(false);
+    // const params = useSelector(state => state.params)
 
 
     // const handleReportPlotOpen = () => {
@@ -29,15 +31,25 @@ function App() {
     //     setReport_plot_open(!report_plot_open)
     // }
 
+    const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
+    // const report_plot_open = useSelector(state => state.mapFlats.app_params.report_plot_open);
 
     const handleReportPlotOpen = () => {
-        setReport_plot_open(true);
+        dispatch(updateAppParam({ field: 'report_plot_open', value: true }))
     };
 
+    const cancelGetReportPlot = () => { action('CancelGetReportPlot') };
     const handleReportPlotClose = () => {
-        setReport_plot_open(false);
+        dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
+        dispatch(cancelGetReportPlot)
+        dispatch(updateAppParam({ field: 'report_plot', value: {id:Math.random(),status:'none'} }))
+        // CancelGetReportPlot
+
     };
 
+    const handlePriceDescModal = () => {
+        dispatch(updateAppParam({ field: 'price_desc_modal_open', value: !price_desc_modal_open }))
+    }
 
     useEffect(() => {
 
@@ -75,10 +87,6 @@ function App() {
     }, [dispatch])
 
 
-    const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
-    const handlePriceDescModal = () => {
-        dispatch(updateAppParam({ field: 'price_desc_modal_open', value: !price_desc_modal_open }))
-    }
     return (
         <YMaps query={{ load: "package.full" }}>
             <div>
@@ -88,12 +96,14 @@ function App() {
                 <Outlet handlePriceDescModal={handlePriceDescModal} />
 
                 <PriceDescModal
+                    keepMounted={true}
                     price_desc_modal_open={price_desc_modal_open}
                     handlePriceDescModal={handlePriceDescModal}
                     Transition={Transition}
                 />
                 <ReportPlotModal
-                    report_plot_open={report_plot_open}
+                    keepMounted={true}
+                    // report_plot_open={report_plot_open}
                     handleReportPlotClose={handleReportPlotClose}
                     Transition={Transition}
                 />

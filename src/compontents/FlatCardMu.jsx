@@ -81,7 +81,7 @@ const FlatCardMu = function ({ flat }) {
 
                 {/* {console.log((flat.positions).length)} */}
 
-                {(flat.positions).length > 0 && <PriceAnalizeTabs flat_id={flat.id} positions={flat.positions} />}
+                {(flat.positions).length > 0 && <PriceAnalizeTabs cat = {flat.cat} districts={flat.districts} positions={flat.positions} />}
 
                 <Stack className="mt-3 mb-3" alignItems={'center'} direction="row" spacing={2}>
                     <Button size="small"

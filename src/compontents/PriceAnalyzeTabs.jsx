@@ -9,7 +9,8 @@ import {
     Paper,
     Table, TableBody, TableCell,
     TableContainer,
-    TableHead, TableRow, 
+    TableFooter,
+    TableHead, TableRow,
 } from "@mui/material";
 
 import { updateAppParam } from 'store/MapFlatsSlice';
@@ -17,12 +18,13 @@ import HelpIcon from '@mui/icons-material/Help';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const PriceAnalizeTabs = function ({ positions,flat_id }) {
-    // console.log(positions)
+const PriceAnalizeTabs = function ({ positions, districts, cat }) {
+    // console.log( districts.filter(d => d.type === 'Okrug'))
 
     const dispatch = useDispatch();
     // const search = useSelector(state => state.mapFlats.search);
     const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
+    
     // console.log(price_desc_modal_open);
 
     const handlePriceDescModal = () => {
@@ -101,24 +103,24 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
             // }
             if (item.param === 'price') {
                 if (item.depth === 'town') {
-                    positions_town_price_values[index] = { pos: item.current_position, count: item.count };
+                    positions_town_price_values[index] = item;
                 }
                 if (item.depth === 'okrug') {
-                    positions_okrug_price_values[index] = { pos: item.current_position, count: item.count };
+                    positions_okrug_price_values[index] = item;
                 }
                 if (item.depth === 'district') {
-                    positions_district_price_values[index] = { pos: item.current_position, count: item.count };
+                    positions_district_price_values[index] = item;
                 }
             }
             if (item.param === 'price_per_meter') {
                 if (item.depth === 'town') {
-                    positions_town_price_per_meter_values[index] = { pos: item.current_position, count: item.count };
+                    positions_town_price_per_meter_values[index] = item;
                 }
                 if (item.depth === 'okrug') {
-                    positions_okrug_price_per_meter_values[index] = { pos: item.current_position, count: item.count };
+                    positions_okrug_price_per_meter_values[index] = item;
                 }
                 if (item.depth === 'district') {
-                    positions_district_price_per_meter_values[index] = { pos: item.current_position, count: item.count };
+                    positions_district_price_per_meter_values[index] = item;
                 }
             }
 
@@ -129,6 +131,17 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
 
     })
 
+
+
+
+    const positionClickHandler = function (e) {
+        // console.log(e)
+        let params = JSON.parse(e.target.dataset.onclickparam)
+        console.log(params)
+        dispatch(updateAppParam({ field: 'report_plot_request', value: params }))
+        dispatch(updateAppParam({ field: 'report_plot', value: {id:params.id,status:'none'} }))
+        
+    }
 
     return (
 
@@ -236,12 +249,36 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                 <TableRow
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell>Вся Москва</TableCell>
+                                    <TableCell><span
+
+                                    >Вся Москва</span></TableCell>
                                     {positions_town_price_per_meter_values.map(function (item, index) {
                                         // console.log(item)
                                         return (
 
-                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price_per_meter" + index}>{(item?.pos || null) + "% / " + (item?.count || null)}</TableCell>
+                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price_per_meter" + index}>
+                                                <span
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            hue: item.hue,
+                                                            district: null,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {(item?.current_position || null) + "% / " + (item?.count || null)}
+                                                </span>
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
@@ -252,7 +289,32 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                     <TableCell>Округ</TableCell>
                                     {positions_okrug_price_per_meter_values.map(function (item, index) {
                                         return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price_per_meter" + index}>{item.pos + "% / " + item.count}</TableCell>
+                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price_per_meter" + index}>
+                                                <span
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            cat: cat,
+                                                            param: 'price_per_meter',
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: null,
+                                                            okrug: (districts.filter(d => d.type === 'Okrug'))[0].id,
+                                                        }
+                                                    )
+                                                    }
+
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </span>
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
@@ -262,12 +324,47 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                     <TableCell>Район</TableCell>
                                     {positions_district_price_per_meter_values.map(function (item, index) {
                                         return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price_per_meter" + index}>{item.pos + "% / " + item.count}</TableCell>
+                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price_per_meter" + index}>
+
+                                                <span
+
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            cat: cat,
+                                                            param: 'price_per_meter',
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: (districts.filter(d => d.type !== 'Okrug'))[0].id,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </span>
+
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
 
                             </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={11}
+                                    ></TableCell>
+                                </TableRow>
+                            </TableFooter>
                         </Table>
                     </TableContainer>
 
@@ -293,7 +390,7 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                         return (
                                             <TableCell key={'1_head_' + index} className='pre_line' >{
                                                 label.map(function (item, index) {
-                                                    return (<p  key={'1_head_' + index + item}
+                                                    return (<p key={'1_head_' + index + item}
                                                         className='mt-0 mb-0'
                                                     >{item}</p>)
                                                 })}
@@ -315,7 +412,17 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                         // console.log(item)
                                         return (
 
-                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price" + index}>{(item?.pos || null) + "% / " + (item?.count || null)}</TableCell>
+                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price" + index}>
+                                                <span
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </span>
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
@@ -326,7 +433,17 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                     <TableCell>Округ</TableCell>
                                     {positions_okrug_price_values.map(function (item, index) {
                                         return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price" + index}>{item.pos + "% / " + item.count}</TableCell>
+                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price" + index}>
+                                                <span
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </span>
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
@@ -336,12 +453,30 @@ const PriceAnalizeTabs = function ({ positions,flat_id }) {
                                     <TableCell>Район</TableCell>
                                     {positions_district_price_values.map(function (item, index) {
                                         return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price" + index}>{item.pos + "% / " + item.count}</TableCell>
+                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price" + index}>
+                                                <span
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </span>
+                                            </TableCell>
                                         )
                                     })}
                                 </TableRow>
 
                             </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={11}
+                                    ></TableCell>
+                                </TableRow>
+                            </TableFooter>
+
                         </Table>
                     </TableContainer>
 

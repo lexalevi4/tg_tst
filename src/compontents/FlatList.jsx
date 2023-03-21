@@ -1,12 +1,13 @@
 import React from 'react'
 import {useSelector} from "react-redux";
 import FlatCard from "./FlatCard";
+import Loading from './Loading';
 
 const FlatList = function () {
     const flats = useSelector(state => state.mapFlats);
     if (flats.status === "loading") {
         return (
-            <h2>Loaling</h2>
+            <Loading/>
         )
     }
 
