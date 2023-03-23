@@ -2,7 +2,7 @@ import { Sheet } from "@mui/joy";
 import { Button, Paper } from "@mui/material";
 import PositionsTable from "./PositionsTable";
 
-function ReportPlotModalContent({ cols, data,openStatPlotModal }) {
+function ReportPlotModalContent({ cols, data, openStatPlotModal , plot_data = {}}) {
     return (
 
         <Sheet>
@@ -69,7 +69,11 @@ function ReportPlotModalContent({ cols, data,openStatPlotModal }) {
                 }}
             >
 
-                <PositionsTable cols={cols} data={data.plot_data.full} />
+                <PositionsTable cols={cols} data={data.plot_data.full}
+                    plot_data={{
+
+                    }}
+                />
 
 
             </Paper>
