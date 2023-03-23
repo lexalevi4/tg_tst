@@ -10,7 +10,7 @@ import store, {persistor} from './store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-const CurrVersion = 2123;
+const CurrVersion = 1;
 
 if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
     localStorage.setItem('appVersion', CurrVersion)

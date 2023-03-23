@@ -1,14 +1,21 @@
 import { AppBar, Box, Button, Dialog, IconButton, Modal, Paper, Toolbar } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 // import { useDispatch } from "react-redux";
-import { useGenerateReportPlotQuery } from "store/PyxiApi";
-import PositionsTable from "./PositionsTable";
+// import { useGenerateReportPlotQuery } from "store/PyxiApi";
+// import PositionsTable from "./PositionsTable";
 import { useState } from "react";
 import { ModalClose, Sheet } from "@mui/joy";
 import ReportPlotModalContent from "./ReportPlotModalContent";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "store/index";
 import Loading from "./Loading";
+// import { width } from "@mui/system";
+
+
+// const getReportPlotRequest = (state) => state.mapFlats.app_params.report_plot_request
+
+const getReportPlot = (state) => state.mapFlats.app_params.report_plot
+const getReportPlotOpen = (state) => state.mapFlats.app_params.report_plot_open
 
 const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
@@ -17,16 +24,15 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
     const [statPlotOpen, setStatPlotOpen] = useState(false);
 
     const openStatPlotModal = () => { setStatPlotOpen(true) }
-    const closeStatPlotModal = () => { setStatPlotOpen(false) }
+    // const closeStatPlotModal = () => { setStatPlotOpen(false) }
 
 
-    const report_plot_open = useSelector(state => state.mapFlats.app_params.report_plot_open);
-    const report_plot_request = useSelector(state => state.mapFlats.app_params.report_plot_request);
+    const report_plot_open = useSelector(getReportPlotOpen);
+    // const report_plot_request = useSelector(getReportPlotRequest);
 
     const areEqual = (oldValue, newValue) => (oldValue.id === newValue.id && oldValue.status === newValue.status)
-    const data = useSelector(state => state.mapFlats.app_params.report_plot, areEqual);
+    const data = useSelector(getReportPlot, areEqual);
 
-    // const data = {}
     const dispatch = useDispatch();
 
 
@@ -34,7 +40,6 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
     if (report_plot_open && data.status === 'none') {
         dispatch(generatePlot)
     }
-
 
 
     const cols = [
@@ -62,11 +67,20 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
         switch (param) {
             case 'pending':
-                return (<Loading/>);
+                return (<Loading />);
             case 'none':
-                return (<Loading/>);
+                return (<Loading />);
             case 'ready':
-                return (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} />);
+                return (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} 
+                //     plot_data={{
+                //     x: data.x,
+                //     hue: data.hue,
+                //     param: data.param,
+                //     dataset: data.dataset,
+                //     district: data.district,
+                //     okrug: data.okrug
+                // }}
+                 />);
             default:
                 return (<h1>Ошибка</h1>);
         }
@@ -139,7 +153,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                         // boxShadow: 'lg',
                     }}
                 >
-                    <ModalClose
+                    {/* <ModalClose
                         onClick={closeStatPlotModal}
                         variant="outlined"
                         sx={{
@@ -149,9 +163,10 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                             borderRadius: '50%',
                             bgcolor: 'background.body',
                         }}
-                    />
+                    /> */}
 
-                    <img
+
+                    {/* <img
                         // className='m-2 mb-5'
                         style={{
                             m: 3,
@@ -162,8 +177,15 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                         }}
                         alt={'asdfadf'}
                         src={'https://img.pyxi.pro/stat/img/static/16780ONRsKEnoK9f62.png '}
-                    />
-
+                    /> */}
+                    <Paper
+                        sx={{
+                            height: '40vh',
+                            width: '100vw'
+                        }}
+                    >
+                        <Loading />
+                    </Paper >
                 </Sheet>
             </Modal>
 

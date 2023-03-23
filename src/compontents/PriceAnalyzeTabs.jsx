@@ -24,7 +24,7 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
     const dispatch = useDispatch();
     // const search = useSelector(state => state.mapFlats.search);
     const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
-    
+
     // console.log(price_desc_modal_open);
 
     const handlePriceDescModal = () => {
@@ -139,8 +139,9 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
         let params = JSON.parse(e.target.dataset.onclickparam)
         console.log(params)
         dispatch(updateAppParam({ field: 'report_plot_request', value: params }))
-        dispatch(updateAppParam({ field: 'report_plot', value: {id:params.id,status:'none'} }))
-        
+        dispatch(updateAppParam({ field: 'report_plot', value: { id: params.id, status: 'none' } }))
+        dispatch(updateAppParam({ field: 'report_plot_open', value: true }))
+
     }
 
     return (
@@ -257,27 +258,36 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                         return (
 
                                             <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price_per_meter" + index}>
-                                                <span
+
+
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
                                                     onClick={positionClickHandler}
                                                     data-onclickparam={JSON.stringify(
                                                         {
                                                             report_id: item.report_id,
                                                             param: item.param,
                                                             x: item.x,
+                                                            // x_value: item.x_value,
                                                             hue: item.hue,
+                                                            // hue_value: item.hue_value,
                                                             district: null,
                                                             okrug: null,
                                                         }
                                                     )
                                                     }
+
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
-                                                    {(item?.current_position || null) + "% / " + (item?.count || null)}
-                                                </span>
+                                                    {item.current_position + "% / " + item.count}
+                                                </Button>
+
+
                                             </TableCell>
                                         )
                                     })}
@@ -290,12 +300,15 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                     {positions_okrug_price_per_meter_values.map(function (item, index) {
                                         return (
                                             <TableCell key={Math.random(0, 100000) + "_positions_okrug_price_per_meter" + index}>
-                                                <span
+
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
                                                     onClick={positionClickHandler}
                                                     data-onclickparam={JSON.stringify(
                                                         {
-                                                            cat: cat,
-                                                            param: 'price_per_meter',
+                                                            report_id: item.report_id,
+                                                            param: item.param,
                                                             x: item.x,
                                                             // x_value: item.x_value,
                                                             hue: item.hue,
@@ -308,12 +321,14 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
 
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
                                                     {item.current_position + "% / " + item.count}
-                                                </span>
+                                                </Button>
+
+
                                             </TableCell>
                                         )
                                     })}
@@ -326,13 +341,14 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                         return (
                                             <TableCell key={Math.random(0, 100000) + "_positions_district_price_per_meter" + index}>
 
-                                                <span
-
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
                                                     onClick={positionClickHandler}
                                                     data-onclickparam={JSON.stringify(
                                                         {
-                                                            cat: cat,
-                                                            param: 'price_per_meter',
+                                                            report_id: item.report_id,
+                                                            param: item.param,
                                                             x: item.x,
                                                             // x_value: item.x_value,
                                                             hue: item.hue,
@@ -345,12 +361,12 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
 
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
                                                     {item.current_position + "% / " + item.count}
-                                                </span>
+                                                </Button>
 
                                             </TableCell>
                                         )
@@ -413,15 +429,32 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                         return (
 
                                             <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price" + index}>
-                                                <span
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: null,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
                                                     {item.current_position + "% / " + item.count}
-                                                </span>
+                                                </Button>
                                             </TableCell>
                                         )
                                     })}
@@ -434,15 +467,32 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                     {positions_okrug_price_values.map(function (item, index) {
                                         return (
                                             <TableCell key={Math.random(0, 100000) + "_positions_okrug_price" + index}>
-                                                <span
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: null,
+                                                            okrug: (districts.filter(d => d.type === 'Okrug'))[0].id,
+                                                        }
+                                                    )
+                                                    }
+
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
                                                     {item.current_position + "% / " + item.count}
-                                                </span>
+                                                </Button>
                                             </TableCell>
                                         )
                                     })}
@@ -454,15 +504,33 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                     {positions_district_price_values.map(function (item, index) {
                                         return (
                                             <TableCell key={Math.random(0, 100000) + "_positions_district_price" + index}>
-                                                <span
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: (districts.filter(d => d.type !== 'Okrug'))[0].id,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+
                                                     style={{
                                                         // textDecoration: 'underline',
-                                                        color: '#1976d2'
+                                                        // color: '#1976d2'
 
                                                     }}
                                                 >
                                                     {item.current_position + "% / " + item.count}
-                                                </span>
+                                                </Button>
+
                                             </TableCell>
                                         )
                                     })}

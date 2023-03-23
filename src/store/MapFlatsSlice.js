@@ -71,7 +71,14 @@ const MapFlatsSlice = createSlice(
                     img: '',
                     plot_data: {}
                 },
-                stat_plot: {}
+                stat_plot: {},
+                stat_plot_request: {
+                    id: null,
+                    x: null,
+                    hue: null,
+                    district: null,
+                    okrug: null,
+                },
 
             },
             flats: [],

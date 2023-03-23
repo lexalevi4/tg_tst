@@ -1,15 +1,23 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import PositionsTableRow from "./PositionsTableRow";
 import '../css/style.css'
+import { useSelector } from "react-redux";
 
 
 
+const getReportPlot = (state) => state.mapFlats.app_params.report_plot
 
-function PositionsTable({ cols, data = null, nested = false }) {
+
+function PositionsTable({ cols, data = null, nested = false, current_x = null }) {
+
+
+
+    const plot_data = useSelector(getReportPlot);
 
     if (data === null) {
         return <></>
     }
+
 
 
     const rows = [];
@@ -25,12 +33,19 @@ function PositionsTable({ cols, data = null, nested = false }) {
         )
         return true;
     });
-
+    // let x = null
+    if (!nested) {
+        cols[0] = plot_data.x_label;
+        // x = null
+    } else {
+        cols[0] = plot_data.hue_label;
+        // x = rows.row
+    }
 
     return (
 
         <Paper
-            className={nested? "p-2 inner-container":"p-2" }
+            className={nested ? "p-2 inner-container" : "p-2"}
             sx={{
                 display: 'flex',
                 // gridArea={cu},
@@ -64,6 +79,9 @@ function PositionsTable({ cols, data = null, nested = false }) {
                             rows.map(function (row, row_index) {
                                 return (
                                     <PositionsTableRow
+                                        nested={nested}
+                                        plot_data={plot_data}
+                                        current_x={current_x}
                                         cols={cols}
                                         row={row}
                                         row_index={row_index}

@@ -1,14 +1,15 @@
 import { all } from "redux-saga/effects";
-import { reportPlotWatcher } from "./plotSaga";
+import { reportPlotWatcher, statPlotWatcher } from "./plotSaga";
 
 
 export function* helloSaga() {
-    yield console.log('Hello Sagas!')
-  }
+  yield console.log('Hello Sagas!')
+}
 
 export default function* rootSaga() {
-    yield all([
-      helloSaga(),
-      reportPlotWatcher()
-    ])
-  }
+  yield all([
+    helloSaga(),
+    reportPlotWatcher(),
+    statPlotWatcher()
+  ])
+}
