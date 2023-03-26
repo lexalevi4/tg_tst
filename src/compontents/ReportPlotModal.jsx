@@ -9,6 +9,9 @@ import ReportPlotModalContent from "./ReportPlotModalContent";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "store/index";
 import Loading from "./Loading";
+import { updateAppParam } from "store/MapFlatsSlice";
+import StatPlotModalContent from "./StatPlotModalContent";
+import { stopStatPlot } from "saga/actions";
 // import { width } from "@mui/system";
 
 
@@ -17,11 +20,14 @@ import Loading from "./Loading";
 const getReportPlot = (state) => state.mapFlats.app_params.report_plot
 const getReportPlotOpen = (state) => state.mapFlats.app_params.report_plot_open
 
+const getStatPlot = (state) => state.mapFlats.app_params.stat_plot
+const getStatPlotOpen = (state) => state.mapFlats.app_params.stat_plot_open
+
 const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
     let ready = false;
 
-    const [statPlotOpen, setStatPlotOpen] = useState(false);
+    // const [statPlotOpen, setStatPlotOpen] = useState(false);
 
     const openStatPlotModal = () => { setStatPlotOpen(true) }
     // const closeStatPlotModal = () => { setStatPlotOpen(false) }
@@ -32,6 +38,19 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
     const areEqual = (oldValue, newValue) => (oldValue.id === newValue.id && oldValue.status === newValue.status)
     const data = useSelector(getReportPlot, areEqual);
+
+    const stat_plot_data = useSelector(getStatPlot, areEqual);
+
+    const setStatPlotOpen = function (value) {
+        dispatch(updateAppParam({ field: 'stat_plot_open', value: value }))
+    }
+
+    const closeStatPlotModal = function(){
+        setStatPlotOpen(false);
+        dispatch(stopStatPlot)
+        dispatch(updateAppParam({ field: 'stat_plot', value: {status:'none','id':0,filename:''} }))
+    }
+    const statPlotOpen = useSelector(getStatPlotOpen);
 
     const dispatch = useDispatch();
 
@@ -71,7 +90,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             case 'none':
                 return (<Loading />);
             case 'ready':
-                return (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} 
+                return (<ReportPlotModalContent cols={cols} data={data} closeStatPlotModal={closeStatPlotModal}
                 //     plot_data={{
                 //     x: data.x,
                 //     hue: data.hue,
@@ -80,11 +99,55 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                 //     district: data.district,
                 //     okrug: data.okrug
                 // }}
-                 />);
+                />);
             default:
                 return (<h1>Ошибка</h1>);
         }
     }
+
+
+
+    const statPlotSwitch = function (param) {
+
+        switch (param) {
+            case 'pending':
+                return (
+                <Paper
+                    sx={{
+                        height: '40vh',
+                        width: '100vw'
+                    }}
+                >
+                    <Loading />
+                </Paper>
+                );
+            case 'none':
+                return (
+                    <Paper
+                        sx={{
+                            height: '40vh',
+                            width: '100vw'
+                        }}
+                    >
+                        <Loading />
+                    </Paper>
+                    );
+            case 'ready':
+                return (<StatPlotModalContent filename={stat_plot_data.filename} closeStatPlotModal={closeStatPlotModal}
+                //     plot_data={{
+                //     x: data.x,
+                //     hue: data.hue,
+                //     param: data.param,
+                //     dataset: data.dataset,
+                //     district: data.district,
+                //     okrug: data.okrug
+                // }}
+                />);
+            default:
+                return (<h1>Ошибка</h1>);
+        }
+    }
+
 
 
 
@@ -107,16 +170,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             <Box
             >
                 <Sheet>
-
-
                     {renderSwitch(data.status)}
-
-                    {/* {!ready ? (<h1>Loading</h1>) : (<ReportPlotModalContent cols={cols} data={data} openStatPlotModal={openStatPlotModal} />)} */}
-
-
-
-
-
                 </Sheet>
             </Box>
             <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
@@ -141,7 +195,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-desc"
                 open={statPlotOpen}
-                onClose={() => setStatPlotOpen(false)}
+                onClose={closeStatPlotModal}
                 sx={{ height: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: '', }}
             >
                 <Sheet
@@ -149,43 +203,12 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                     sx={{
                         // maxWidth: 500,
                         borderRadius: 'md',
-                        // p: 3,
-                        // boxShadow: 'lg',
+                        minHeight:150,
+                        p: 1,
+                        boxShadow: 'lg',
                     }}
                 >
-                    {/* <ModalClose
-                        onClick={closeStatPlotModal}
-                        variant="outlined"
-                        sx={{
-                            top: 'calc(-1/4 * var(--IconButton-size))',
-                            right: 'calc(-1/4 * var(--IconButton-size))',
-                            boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
-                            borderRadius: '50%',
-                            bgcolor: 'background.body',
-                        }}
-                    /> */}
-
-
-                    {/* <img
-                        // className='m-2 mb-5'
-                        style={{
-                            m: 3,
-                            width: '95vw',
-                            // height: '40vh',
-
-
-                        }}
-                        alt={'asdfadf'}
-                        src={'https://img.pyxi.pro/stat/img/static/16780ONRsKEnoK9f62.png '}
-                    /> */}
-                    <Paper
-                        sx={{
-                            height: '40vh',
-                            width: '100vw'
-                        }}
-                    >
-                        <Loading />
-                    </Paper >
+                   {statPlotSwitch(stat_plot_data.status)}
                 </Sheet>
             </Modal>
 

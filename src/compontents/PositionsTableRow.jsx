@@ -55,9 +55,13 @@ const getCellContent = function (cell, index, active = false, row_data = {}, nes
                     // style={{
                     //     color: color
                     // }}
+                    sx={{
+                        minWidth:0
+                    }}
                     style={{
                         textTransform: 'none',
-                        fontWeight: active ? 'bold' : null
+                        fontWeight: active ? 'bold' : null,
+                        minWidth:0
     
                     }}
                     className='p-0'

@@ -58,6 +58,7 @@ const MapFlatsSlice = createSlice(
                 price_desc_modal_open: false,
                 flat_modal_open: false,
                 report_plot_open: false,
+                stat_plot_open: false,
                 flat_id: null,
                 report_plot_request: {
                     id: null,

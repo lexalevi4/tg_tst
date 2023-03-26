@@ -123,6 +123,7 @@ const statPlotWatcher = function* () {
 
 
 const statPlotWorker = function* () {
+    yield put(updateAppParam({ field: 'stat_plot_open', value: true }))
     yield delay(300)
     const request = yield select(getStatPlotRequest);
     yield console.log(request)
@@ -132,35 +133,35 @@ const statPlotWorker = function* () {
 
 
 
-    // yield put(updateAppParam({ field: 'stat_plot', value: plot_data }))
-    // yield delay(500)
-    // const update_request = yield select(getStatPlot)
+    yield put(updateAppParam({ field: 'stat_plot', value: plot_data }))
+    yield delay(500)
+    const update_request = yield select(getStatPlot)
 
-    // if (plot_data.status === 'ready') {
-    //     yield put(updateAppParam({ field: 'stat_plot', value: { ...plot_data, status: 'ready' } }))
-    //     return true;
-    // }
-    // // yield 1;
+    if (plot_data.status === 'ready') {
+        yield put(updateAppParam({ field: 'stat_plot', value: { ...plot_data, status: 'ready' } }))
+        return true;
+    }
+    yield 1;
 
-    // if (plot_data.status === 'pending') {
-    //     yield delay(2000);
-    //     for (let i = yield 0; i < 60; yield i++) {
-    //         yield delay(500);
-    //         let data = yield call(post_request, 'check-stat-plot' ,request)
-    //         let plot_data = yield call(() => new Promise(res => res(data.json())))
-    //         yield console.log('retry ' + i)
-    //         if (plot_data.status === 'ready') {
-    //             yield put(updateAppParam({ field: 'stat_plot', value: { ...plot_data, status: 'ready' } }))
-    //             return true;
-    //         }
-    //         if (plot_data.status === 'error') {
-    //             yield put(updateAppParam({ field: 'stat_plot', value: { status: 'error', id: 0 } }))
-    //             return true;
-    //         }
-    //     }
-    //     yield put(updateAppParam({ field: 'stat_plot', value: { status: 'error', id: 0 } }))
-    // }
-    // yield delay(100)
+    if (plot_data.status === 'pending') {
+        yield delay(2000);
+        for (let i = yield 0; i < 30; yield i++) {
+            yield delay(1000);
+            let data = yield call(post_request, 'check-stat-plot' ,update_request)
+            let plot_data = yield call(() => new Promise(res => res(data.json())))
+            yield console.log('retry ' + i)
+            if (plot_data.status === 'ready') {
+                yield put(updateAppParam({ field: 'stat_plot', value: { ...plot_data, status: 'ready' } }))
+                return true;
+            }
+            if (plot_data.status === 'error') {
+                yield put(updateAppParam({ field: 'stat_plot', value: { status: 'error', id: 0 } }))
+                return true;
+            }
+        }
+        yield put(updateAppParam({ field: 'stat_plot', value: { status: 'error', id: 0 } }))
+    }
+    yield delay(100)
 
 
 
