@@ -3,12 +3,13 @@ import FlatCardMu from "../compontents/FlatCardMu";
 
 // import { retry } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector } from "react-redux";
-import {  Pagination, Paper } from "@mui/material";
+import { Pagination, Paper } from "@mui/material";
 // import { useState } from "react";
 import { updateSearch } from "store/MapFlatsSlice";
+import Loading from "compontents/Loading";
 
 
-const FlatList = function ({handlePriceDescModal}) {
+const FlatList = function ({ handlePriceDescModal }) {
 
     const search = useSelector(state => state.mapFlats.search);
     const { data, isLoading } = useGetFlatsQuery(search)
@@ -20,15 +21,9 @@ const FlatList = function ({handlePriceDescModal}) {
     }
 
 
-
-
-
-
-
-
     if (isLoading) {
 
-        return (<h1>Loading</h1>)
+        return (<Loading />)
     }
 
     return (
@@ -44,11 +39,14 @@ const FlatList = function ({handlePriceDescModal}) {
                 }
             </Paper>
             <Pagination
-                className="mb-5 mt-3"
+                className="mt-3"
+                style={{
+                    marginBottom: 80
+                }}
                 count={Math.ceil(data.total_count / 10)} page={search.page}
                 onChange={handlePage}
             />
-            
+
 
         </>
 

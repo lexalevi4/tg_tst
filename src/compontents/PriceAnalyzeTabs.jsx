@@ -234,7 +234,7 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                                             <TableCell key={'0_head_' + index} className='pre_line' >{
                                                 label.map(function (item, index) {
                                                     return (<p key={'0_head_' + index + item}
-                                                        className='mt-0 mb-0'
+                                                        className='mt-0 mb-0 '
                                                     >{item}</p>)
                                                 })}
                                             </TableCell>

@@ -1,4 +1,4 @@
-import { put, takeEvery, call, select, takeLatest, race, take } from "redux-saga/effects"
+import { put, takeEvery, call, select,  race, take } from "redux-saga/effects"
 import { updateAppParam } from "store/MapFlatsSlice"
 
 const getReportPlotRequest = (state) => state.mapFlats.app_params.report_plot_request

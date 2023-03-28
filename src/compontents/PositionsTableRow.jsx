@@ -1,6 +1,6 @@
-import { TableCell, TableRow, Button, useTheme } from "@mui/material";
+import { TableCell, TableRow, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { getStatPlot, stopStatPlot } from "saga/actions";
+import { getStatPlot } from "saga/actions";
 import { updateAppParam } from "store/MapFlatsSlice";
 // import { Button } from "react-bootstrap";
 import PositionsTable from "./PositionsTable";
@@ -38,7 +38,7 @@ const getCellContent = function (cell, index, active = false, row_data = {}, nes
     
         // console.log(row_data)
         if (index === 0) {
-            const value = cell;
+            // const value = cell;
             if (active) {
     
                 // cell = (

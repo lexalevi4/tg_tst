@@ -157,6 +157,6 @@ const MapWithRemoteObjectManager = () => {
     ;
 
 
-    return (<div ref={mapRef} style={{width: '100vw', height: '95vh'}}></div>);
+    return (<div ref={mapRef} style={{width: '100vw', height: '90vh'}}></div>);
 };
 export default MapWithRemoteObjectManager;

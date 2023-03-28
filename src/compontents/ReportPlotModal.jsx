@@ -1,10 +1,10 @@
-import { AppBar, Box, Button, Dialog, IconButton, Modal, Paper, Toolbar } from "@mui/material";
+import { AppBar, Box, Dialog, IconButton, Modal, Paper, Toolbar } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 // import { useDispatch } from "react-redux";
 // import { useGenerateReportPlotQuery } from "store/PyxiApi";
 // import PositionsTable from "./PositionsTable";
-import { useState } from "react";
-import { ModalClose, Sheet } from "@mui/joy";
+// import { useState } from "react";
+import { Sheet } from "@mui/joy";
 import ReportPlotModalContent from "./ReportPlotModalContent";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "store/index";
@@ -25,11 +25,11 @@ const getStatPlotOpen = (state) => state.mapFlats.app_params.stat_plot_open
 
 const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
-    let ready = false;
+    // let ready = false;
 
     // const [statPlotOpen, setStatPlotOpen] = useState(false);
 
-    const openStatPlotModal = () => { setStatPlotOpen(true) }
+    // const openStatPlotModal = () => { setStatPlotOpen(true) }
     // const closeStatPlotModal = () => { setStatPlotOpen(false) }
 
 
@@ -45,10 +45,10 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
         dispatch(updateAppParam({ field: 'stat_plot_open', value: value }))
     }
 
-    const closeStatPlotModal = function(){
+    const closeStatPlotModal = function () {
         setStatPlotOpen(false);
         dispatch(stopStatPlot)
-        dispatch(updateAppParam({ field: 'stat_plot', value: {status:'none','id':0,filename:''} }))
+        dispatch(updateAppParam({ field: 'stat_plot', value: { status: 'none', 'id': 0, filename: '' } }))
     }
     const statPlotOpen = useSelector(getStatPlotOpen);
 
@@ -76,11 +76,11 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
 
 
-    if (data?.status === 'ready') {
-        ready = true;
-    } else {
-        ready = false;
-    }
+    // if (data?.status === 'ready') {
+    //     const ready = true;
+    // } else {
+    //     const ready = false;
+    // }
 
     const renderSwitch = function (param) {
 
@@ -112,14 +112,14 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
         switch (param) {
             case 'pending':
                 return (
-                <Paper
-                    sx={{
-                        height: '40vh',
-                        width: '100vw'
-                    }}
-                >
-                    <Loading />
-                </Paper>
+                    <Paper
+                        sx={{
+                            height: '40vh',
+                            width: '100vw'
+                        }}
+                    >
+                        <Loading />
+                    </Paper>
                 );
             case 'none':
                 return (
@@ -131,7 +131,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                     >
                         <Loading />
                     </Paper>
-                    );
+                );
             case 'ready':
                 return (<StatPlotModalContent filename={stat_plot_data.filename} closeStatPlotModal={closeStatPlotModal}
                 //     plot_data={{
@@ -169,11 +169,15 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
             <Box
             >
-                <Sheet>
+                <Sheet
+                    style={{
+                        marginTop: 80
+                    }}
+                >
                     {renderSwitch(data.status)}
                 </Sheet>
             </Box>
-            <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+            <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
                 <Toolbar>
                     <IconButton
                         // sx={{
@@ -203,12 +207,12 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                     sx={{
                         // maxWidth: 500,
                         borderRadius: 'md',
-                        minHeight:150,
+                        minHeight: 150,
                         p: 1,
                         boxShadow: 'lg',
                     }}
                 >
-                   {statPlotSwitch(stat_plot_data.status)}
+                    {statPlotSwitch(stat_plot_data.status)}
                 </Sheet>
             </Modal>
 

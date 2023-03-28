@@ -1,18 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+import 'css/output.css'
 import NavbarComp from './compontents/NavbarComp'
 import { Outlet } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { useDispatch, useSelector } from "react-redux";
 import { setInitialBrunches, setInitialDistricts, setInitialStations, updateAppParam } from "./store/MapFlatsSlice";
-import { Button, Slide } from '@mui/material';
+import { Slide } from '@mui/material';
 // import {Container} from "react-bootstrap";
 
 import * as React from 'react';
 import PriceDescModal from 'compontents/PriceDescModal';
 import ReportPlotModal from 'compontents/ReportPlotModal';
 import { action } from 'store';
+
+
+import MyBottomNav from 'compontents/MyBottomNav';
+
+
+
 const tg = window.Telegram.WebApp;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -42,7 +49,7 @@ function App() {
     const handleReportPlotClose = () => {
         dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
         dispatch(cancelGetReportPlot)
-        dispatch(updateAppParam({ field: 'report_plot', value: {id:Math.random(),status:'none'} }))
+        dispatch(updateAppParam({ field: 'report_plot', value: { id: Math.random(), status: 'none' } }))
         // CancelGetReportPlot
 
     };
@@ -87,13 +94,23 @@ function App() {
     }, [dispatch])
 
 
+    const [value, setValue] = React.useState(0);
+    console.log(value);
     return (
         <YMaps query={{ load: "package.full" }}>
-            <div>
-                <NavbarComp />
-                <Button onClick={handleReportPlotOpen}>Open modal</Button>
 
-                <Outlet handlePriceDescModal={handlePriceDescModal} />
+            <div>
+                {/* <NavbarComp /> */}
+
+                {/* <Button onClick={handleReportPlotOpen}>Open modal</Button> */}
+                <div style={{
+
+                }}>
+                    <Outlet
+                        handlePriceDescModal={handlePriceDescModal}
+                    />
+
+                </div>
 
                 <PriceDescModal
                     keepMounted={true}
@@ -107,7 +124,14 @@ function App() {
                     handleReportPlotClose={handleReportPlotClose}
                     Transition={Transition}
                 />
+
+
+                <MyBottomNav />
+
             </div>
+
+
+
 
         </YMaps>
     )

@@ -1,0 +1,234 @@
+import React, { useCallback } from 'react'
+import "./../css/style.css";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { updateSearch } from "../store/MapFlatsSlice";
+
+import { AppBar, Box, Dialog, FormControlLabel, IconButton, Toolbar } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import CloseIcon from '@mui/icons-material/Close';
+import DistrictCheckbox from './DistrictCheckbox';
+import { updateDistrict } from 'saga/actions';
+
+
+const getParams = (state) => state.mapFlats.params
+const getOkrugs = (state) => state.mapFlats.search.okrugs
+const getDistricts = (state) => state.mapFlats.search.districts
+
+const DistrictsModalMu = function ({ is_open, handleClose }) {
+
+
+    const params = useSelector(getParams, shallowEqual);
+    const okrugs = useSelector(getOkrugs, shallowEqual);
+    const districts = useSelector(getDistricts, shallowEqual);
+    const dispatch = useDispatch();
+
+
+    // const dropDistricts = () => {
+    //     dispatch(updateSearch({ field: 'okrugs', value: [] }))
+    //     dispatch(updateSearch({ field: 'districts', value: [] }))
+
+    // }
+
+
+    const checkOkrug = (id) => {
+        if (okrugs.indexOf(id) > -1) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+
+    const handleClick = useCallback((e) => {
+        dispatch(updateDistrict(Number(e.target.value)))
+    }, [])
+
+
+
+
+    const handleOkrug = (okrug) => {
+        // console.log(okrug);
+        let current_okrug = params.districts.filter(d => d.parent === okrug)
+        // console.log(current_okrug);
+        let okrugs_arr = [];
+        let districts_arr = [];
+        okrugs.map(function (item, index) {
+
+            okrugs_arr.push(item);
+            return true;
+        })
+        districts.map(function (item, index) {
+            districts_arr.push(item);
+            return true;
+        })
+        if (okrugs_arr.indexOf(okrug) > -1) {
+            okrugs_arr.splice(okrugs_arr.indexOf(okrug), 1)
+            current_okrug.map(function (item) {
+                if (districts_arr.indexOf(item.id) > -1) {
+                    districts_arr.splice(districts_arr.indexOf(item.id), 1)
+                }
+                return true;
+            })
+        } else {
+            // console.log('добавляем')
+            okrugs_arr.push(okrug)
+            current_okrug.map(function (item) {
+                if (districts_arr.indexOf(item.id) < 0) {
+                    districts_arr.push(Number(item.id))
+                }
+                return true;
+            })
+        }
+        dispatch(updateSearch({ field: 'okrugs', value: okrugs_arr }))
+        dispatch(updateSearch({ field: 'districts', value: districts_arr }))
+
+    }
+
+
+    const handleOkrugClick = e => {
+        let param = Number(e.target.value)
+        handleOkrug(param);
+
+    };
+
+    return (
+
+
+        <Dialog
+            fullScreen
+            keepMounted
+            open={is_open}
+            scroll='paper'
+            onClose={handleClose}
+
+        >
+            <div
+                className='m-3 p-2 pt-5 pb-5'
+                style={{
+                    marginBottom: 80,
+                    marginTop: 40
+                }}
+
+
+
+            >
+
+
+
+                {
+                //  is_open && 
+                 params.districts.filter(d => d.type === 'Okrug').map(function (okrug, index) {
+
+                        return (
+                            <div key={okrug.id}
+                                style={{
+                                    marginBottom: 20,
+                                    marginTop: 20
+                                }}
+                            >
+
+                                <FormControlLabel
+                                    label={okrug.name + ":"}
+
+                                    control={
+                                        <Checkbox
+                                            checked={checkOkrug(okrug.id)}
+                                            // indeterminate={checked[0] !== checked[1]}
+                                            value={okrug.id}
+                                            onChange={handleOkrugClick}
+                                        />}
+                                />
+                                {params.districts.filter(d => d.parent === okrug.id).map(function (district) {
+
+                                    return (
+
+                                        <DistrictCheckbox
+                                            key={'district_' + district.id}
+                                            district={district}
+                                            handleClick={handleClick}
+                                            // handleDistrictClick={handleDistrictClick}
+                                            // checked={checkDistrict(district.id)}
+                                            districts={districts}
+
+                                        />
+
+                                        // <Box
+                                        //     key={'d_' + district.id}
+                                        //     sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+                                        //     <FormControlLabel
+                                        //         label={district.name}
+                                        //         control={
+                                        //             <Checkbox
+                                        //                 data-onclickparam={district.id}
+                                        //                 checked={checkDistrict(district.id)}
+                                        //                 value={district.id}
+                                        //                 onChange={handleDistrictClick}
+                                        //             />
+                                        //         }
+                                        //     />
+                                        // </Box>
+                                    )
+
+                                })}
+
+
+
+
+
+                            </div>
+                        )
+
+                    })
+                }
+            </div>
+
+            {/* <div className="modal-footer">
+                <Row className='w-100'>
+                    <Col className='w-50 align-content-center'>
+                        <Button
+                            className='w-100'
+                            // className='align-content-center'
+                            id='drop_districts_btn'
+                            // className='float-end mt-3'
+                            variant='danger'
+                            onClick={dropDistricts}
+                        >
+                            Сбросить
+                        </Button>
+                    </Col>
+                    <Col className='w-50 align-content-center'>
+                        <Button
+                            className='w-100'
+                            id='close_districts_btn_footer'
+                            data-bs-dismiss="modal"
+                            variant='primary'
+                        // onClick={dropDistricts}
+                        >
+                            Сохранить
+                        </Button>
+                    </Col>
+                </Row>
+            </div> */}
+            <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
+                <Toolbar>
+                    <IconButton
+                        // sx={{
+                        //     right: 0
+                        // }}
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+
+                </Toolbar>
+            </AppBar>
+
+        </Dialog>
+    )
+}
+
+
+export default DistrictsModalMu

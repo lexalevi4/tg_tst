@@ -52,7 +52,8 @@ const store = configureStore({
 })
 sagaMiddleware.run(rootSaga)
 // const 
-export const action = (type) => store.dispatch({type});
+export const action = (type) => store.dispatch({ type });
+export const action_with_payload = (type, action) => store.dispatch({ type:type ,action });
 export const persistor = persistStore(store);
 export default store;
 

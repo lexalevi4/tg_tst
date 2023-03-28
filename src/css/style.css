@@ -1,14 +1,22 @@
 .select_brunch {
     font-size: 13px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .station_link {
     color: black;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap
 }
 
 .station_link_active {
     color: black;
     text-decoration: underline;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap
 }
 
 .station_img_hidden {

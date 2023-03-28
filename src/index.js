@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 // import store from "./store";
-import {PersistGate} from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import store, {persistor} from './store';
+import store, { persistor } from './store';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-const CurrVersion = 2;
+const CurrVersion = 225;
 
 if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
     localStorage.setItem('appVersion', CurrVersion)
@@ -22,11 +23,15 @@ if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
 
 root.render(
     // <React.StrictMode>
-    <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <App/>
-        </PersistGate>
-    </Provider>
+    <StyledEngineProvider injectFirst>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+
+                <App />
+
+            </PersistGate>
+        </Provider>
+    </StyledEngineProvider>
     // </React.StrictMode>
 );
 
