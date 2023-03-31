@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 // import 'bootstrap/dist/css/bootstrap.min.css'
-import 'css/output.css'
-import NavbarComp from './compontents/NavbarComp'
+import 'dist/output.css'
+// import NavbarComp from './compontents/NavbarComp'
 import { Outlet } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,6 @@ import { action } from 'store';
 import MyBottomNav from 'compontents/MyBottomNav';
 
 
-
 const tg = window.Telegram.WebApp;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -28,18 +27,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function App() {
 
-    // return (
-    // const [report_plot_open, setReport_plot_open] = useState(false);
-    // const params = useSelector(state => state.params)
 
-
-    // const handleReportPlotOpen = () => {
-    //     console.log('asdfadf');
-    //     setReport_plot_open(!report_plot_open)
-    // }
 
     const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
-    // const report_plot_open = useSelector(state => state.mapFlats.app_params.report_plot_open);
+
 
     const handleReportPlotOpen = () => {
         dispatch(updateAppParam({ field: 'report_plot_open', value: true }))
@@ -50,7 +41,6 @@ function App() {
         dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
         dispatch(cancelGetReportPlot)
         dispatch(updateAppParam({ field: 'report_plot', value: { id: Math.random(), status: 'none' } }))
-        // CancelGetReportPlot
 
     };
 
@@ -59,7 +49,6 @@ function App() {
     }
 
     useEffect(() => {
-
 
         try {
             tg.ready();
@@ -74,8 +63,6 @@ function App() {
 
 
     const dispatch = useDispatch();
-    // const stations = useSelector(state => state.mapFlats);
-
 
     useEffect(() => {
 
@@ -94,24 +81,19 @@ function App() {
     }, [dispatch])
 
 
-    const [value, setValue] = React.useState(0);
-    console.log(value);
+    // const [value, setValue] = React.useState(0);
+    // console.log(value);
     return (
         <YMaps query={{ load: "package.full" }}>
 
             <div>
-                {/* <NavbarComp /> */}
-
-                {/* <Button onClick={handleReportPlotOpen}>Open modal</Button> */}
                 <div style={{
 
                 }}>
                     <Outlet
                         handlePriceDescModal={handlePriceDescModal}
                     />
-
                 </div>
-
                 <PriceDescModal
                     keepMounted={true}
                     price_desc_modal_open={price_desc_modal_open}
@@ -120,18 +102,13 @@ function App() {
                 />
                 <ReportPlotModal
                     keepMounted={true}
-                    // report_plot_open={report_plot_open}
                     handleReportPlotClose={handleReportPlotClose}
                     Transition={Transition}
                 />
 
-
                 <MyBottomNav />
 
             </div>
-
-
-
 
         </YMaps>
     )

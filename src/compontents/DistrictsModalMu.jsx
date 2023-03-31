@@ -3,11 +3,13 @@ import "./../css/style.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "../store/MapFlatsSlice";
 
-import { AppBar, Box, Dialog, FormControlLabel, IconButton, Toolbar } from '@mui/material';
+import { AppBar,  Button, Dialog, FormControlLabel,  Toolbar } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import CloseIcon from '@mui/icons-material/Close';
 import DistrictCheckbox from './DistrictCheckbox';
 import { updateDistrict } from 'saga/actions';
+import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
+import CheckIcon from '@mui/icons-material/Check';
+
 
 
 const getParams = (state) => state.mapFlats.params
@@ -23,11 +25,11 @@ const DistrictsModalMu = function ({ is_open, handleClose }) {
     const dispatch = useDispatch();
 
 
-    // const dropDistricts = () => {
-    //     dispatch(updateSearch({ field: 'okrugs', value: [] }))
-    //     dispatch(updateSearch({ field: 'districts', value: [] }))
+    const dropDistricts = useCallback(() => {
+        dispatch(updateSearch({ field: 'okrugs', value: [] }))
+        dispatch(updateSearch({ field: 'districts', value: [] }))
 
-    // }
+    }, [dispatch])
 
 
     const checkOkrug = (id) => {
@@ -116,14 +118,15 @@ const DistrictsModalMu = function ({ is_open, handleClose }) {
 
 
                 {
-                //  is_open && 
-                 params.districts.filter(d => d.type === 'Okrug').map(function (okrug, index) {
+                    //  is_open && 
+                    params.districts.filter(d => d.type === 'Okrug').map(function (okrug, index) {
 
                         return (
                             <div key={okrug.id}
                                 style={{
                                     marginBottom: 20,
-                                    marginTop: 20
+                                    marginTop: 30,
+                                    marginLeft: 20
                                 }}
                             >
 
@@ -182,46 +185,36 @@ const DistrictsModalMu = function ({ is_open, handleClose }) {
                 }
             </div>
 
-            {/* <div className="modal-footer">
-                <Row className='w-100'>
-                    <Col className='w-50 align-content-center'>
-                        <Button
-                            className='w-100'
-                            // className='align-content-center'
-                            id='drop_districts_btn'
-                            // className='float-end mt-3'
-                            variant='danger'
-                            onClick={dropDistricts}
-                        >
-                            Сбросить
-                        </Button>
-                    </Col>
-                    <Col className='w-50 align-content-center'>
-                        <Button
-                            className='w-100'
-                            id='close_districts_btn_footer'
-                            data-bs-dismiss="modal"
-                            variant='primary'
-                        // onClick={dropDistricts}
-                        >
-                            Сохранить
-                        </Button>
-                    </Col>
-                </Row>
-            </div> */}
-            <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
-                <Toolbar>
-                    <IconButton
-                        // sx={{
-                        //     right: 0
-                        // }}
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
+            <AppBar position="fixed"
+
+                color="primary" sx={{ top: 0, bottom: 'auto' }}>
+                <Toolbar
+                    style={{
+                        justifyContent: 'space-around'
+                    }}
+                >
+
+                    <Button
+                        className='mr-1 w-2/5'
+                        // fullWidth
+                        variant='contained'
+                        startIcon={<RemoveDoneIcon />}
+                        onClick={dropDistricts}
+                        color="error"
                     >
-                        <CloseIcon />
-                    </IconButton>
+                        Сбросить
+                    </Button>
+                    <Button
+                        className='ml-1 w-2/5'
+                        // fullWidth
+                        color="success"
+                        variant='contained'
+                        onClick={handleClose}
+                        startIcon={<CheckIcon />}
+                    >
+                        Сохранить
+                    </Button>
+                    
 
                 </Toolbar>
             </AppBar>

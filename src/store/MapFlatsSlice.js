@@ -90,7 +90,7 @@ const MapFlatsSlice = createSlice(
                 cat: 1,
                 rooms: [],
                 metro: [],
-                to_metro: [],
+                to_metro: '0',
                 brunches: [],
                 districts: [],
                 okrugs: [],

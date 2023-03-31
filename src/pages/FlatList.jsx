@@ -38,15 +38,25 @@ const FlatList = function ({ handlePriceDescModal }) {
                     })
                 }
             </Paper>
-            <Pagination
-                className="mt-3"
-                style={{
-                    marginBottom: 80
-                }}
-                count={Math.ceil(data.total_count / 10)} page={search.page}
-                onChange={handlePage}
-            />
+            <Paper            >
 
+
+
+                <Pagination
+                    className="mt-5 py-2"
+
+                    count={Math.ceil(data.total_count / 10)} page={search.page}
+                    onChange={handlePage}
+                />
+                <div
+                    style={{
+                        marginBottom: 80
+                    }}
+                >
+
+
+                </div>
+            </Paper>
 
         </>
 

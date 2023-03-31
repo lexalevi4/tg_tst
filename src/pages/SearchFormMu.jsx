@@ -3,24 +3,25 @@
 // import MetroModal from "../compontents/MetroModal";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "../store/MapFlatsSlice";
-import React, { useMemo, useState } from "react";
+import React, { useCallback,  useState } from "react";
 
 // import '../css/style.css'
 // import DistrictsModal from "../compontents/DistrictsModal";
 // import { Sheet } from '@mui/joy';
-import { Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material';
+import { Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Paper,  Stack } from '@mui/material';
 
 import MetroModalMu from "compontents/MetroModalMu";
 import DistrictsModalMu from "compontents/DistrictsModalMu";
-// import Divider from '@mui/material/Divider';
+import MyMultiSelect from "compontents/MyMultiSelect";
+import MyNativeSelect from "compontents/MyNativeSelect";
+import MyTextInput from "compontents/MyTextInput";
+
 
 const SearchFormMu = function () {
 
     const state = useSelector(state => state.mapFlats);
-    // console.log(state)
     const params = useSelector(state => state.mapFlats.params, shallowEqual)
     const search = useSelector(state => state.mapFlats.search, shallowEqual)
-    // console.log(params)
 
     const dispatch = useDispatch();
 
@@ -41,21 +42,9 @@ const SearchFormMu = function () {
         set_districts_open(false);
     }
 
-    //
-    // const updateSearchParam = useCallback(async (field, value) => {
-    //     await dispatch(updateSearch({field: field, value: value}))
-    // }, [dispatch])
-
-
-    const updateSearchParam = (field, value) => {
+    const updateSearchParam = useCallback((field, value) => {
         dispatch(updateSearch({ field: field, value: value }))
-    }
-
-
-    // const handleBtnClick = e => {
-    //     let params = JSON.parse(e.target.dataset.onclickparam)
-    //     updateSearchParam(params.field, params.value)
-    // };
+    }, [dispatch])
 
 
     const counter = (param) => {
@@ -67,48 +56,20 @@ const SearchFormMu = function () {
         }
     }
 
-    // const getSearchValue = (param) => {
-    //     let count = state.search[param].length
-    //     // console.log(state.search[param])
-    //     if (count === 0) {
-    //         return '';
-    //     } else {
-    //         return "\n" +
-    //             state.params[param].filter(p => p.val === Number(state.search[param][0]))[0].title
-    //             + ''
-    //     }
-    // }
 
-
-    const checkParam = (e, param) => {
-        if (state.search[param].indexOf(e) > -1) {
-            return true
-        } else {
-            return false
+    const handleChangeMultiple = useCallback(
+        (event) => {
+            const { options } = event.target;
+            const value = [];
+            for (let i = 0, l = options.length; i < l; i += 1) {
+                if (options[i].selected) {
+                    value.push(options[i].value);
+                }
+            }
+            dispatch(updateSearch({ field: event.target.name, value: value }))
         }
-    }
-
-
-    // const handleupdateCheckbox = useCallback(async (field, value, reset = false) => {
-    //     let arr = [];
-    //     // if (!reset) {
-    //     await state.search[field].map(function (item, index) {
-    //         arr.push(item);
-    //         return true;
-    //     })
-    //     // }
-    //     if (arr.indexOf(value) > -1) {
-    //         await arr.splice(arr.indexOf(value), 1)
-    //     } else {
-    //         if (reset) {
-    //             arr = [value]
-    //         } else {
-    //             await arr.push(value)
-    //         }
-    //     }
-    //     await dispatch(updateSearch({field: field, value: arr}))
-    // }, [dispatch, state.search])
-
+        , []
+    );
 
 
 
@@ -116,13 +77,11 @@ const SearchFormMu = function () {
 
         console.log(value)
         let arr = [];
-        // if (!reset) {
         state.search[field].map(function (item, index) {
             arr.push(item);
             return true;
         })
-        // }
-        if (arr.indexOf(value) > -1) {
+        if (arr.includes(value)) {
             arr.splice(arr.indexOf(value), 1)
         } else {
             if (reset) {
@@ -135,298 +94,431 @@ const SearchFormMu = function () {
     }
 
 
-    // const handleChange = function (event) {
-
-    //     console.log(event)
-    // }
-
-
+    const handleChangeSelect = useCallback((e) => {
+        console.log(e.target.value)
+        updateSearchParam(e.target.name, e.target.value)
+    }, [updateSearchParam])
 
 
-
-
-    // const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(
-    //     props,
-    //     ref,
-    // ) {
-    //     const { onChange, ...other } = props;
-
-    //     return (
-    //         <NumericFormat
-    //             {...other}
-    //             getInputRef={ref}
-    //             onValueChange={(values) => {
-    //                 onChange({
-    //                     target: {
-    //                         name: props.name,
-    //                         value: values.value,
-    //                     },
-
-    //                 });
-    //             }}
-    //             thousandSeparator
-    //             valueIsNumericString
-    //         // prefix="₽ "
-    //         />
-    //     );
-    // });
-
-    // NumericFormatCustom.propTypes = {
-    //     name: PropTypes.string.isRequired,
-    //     onChange: PropTypes.func.isRequired,
-    // };
-
-
-
-
-
-    // console.log('form')
+    const handleTextInput = useCallback(
+        (e) => {
+            let clean = e.target.value.replace(/\D/gi, '');
+            updateSearchParam(e.target.name, clean)
+        }
+        , [updateSearchParam]
+    )
 
     return (
-        useMemo(() => {
 
-            return (
-                <>
-                    <Paper
+        <>
+            <Paper
+                className="p-2 m-2"
+                style={{
+                    marginBottom: 80
+                }}
+            >
+                <FormControl
+                    sx={{
+                        // marginTop: '15px',
+                        width: '100%',
+                        display: 'flex'
 
-                        className="p-2 m-2"
-                        style={{
-                            // display: 'flex',
-                            marginBottom: 80
+                    }}
+                >
+                    <FormLabel>Категория</FormLabel >
+                    <ButtonGroup
+                        fullWidth
+                        sx={{
+                            marginTop: '15px',
+                            width: '100%',
+                            display: 'flex'
+
                         }}
+                        variant="contained" aria-label="outlined primary button group">
+                        <Button
+                            // fullWidth
+                            size="small"
+                            onClick={() => updateSearchParam('cat', 1)}
+                            variant={state.search.cat === 1 ? 'contained' : 'outlined'}
+                        >
+                            Вторичка
+                        </Button>
+                        <Button
+                            onClick={() => updateSearchParam('cat', 2)}
+                            variant={state.search.cat === 2 ? 'contained' : 'outlined'}
+                            // fullWidth
+                            size="small"
+                        >Аренда</Button>
+                        <Button
+                            // fullWidth
+                            size="small"
+                            disabled
+                        >Новостройки</Button>
+                    </ButtonGroup>
+                </FormControl>
+                <Divider className="m-3" />
+                <FormControl
+                    sx={{
+                        marginTop: '15px',
+                        width: '100%',
+                        display: 'flex'
+
+                    }}
+                >
+                    <FormLabel>Количество комнат</FormLabel >
+                    <ButtonGroup
+                        fullWidth
+                        sx={{
+                            marginTop: '15px',
+                            width: '100%',
+                            display: 'flex'
+
+                        }}
+                        aria-label="outlined primary button group">
+                        {
+                            params.rooms.map(function (item) {
+                                return (
+                                    < Button
+                                        size="small"
+                                        key={'rooms' + item.val}
+                                        onClick={() => handleupdateCheckbox('rooms', item.val, false)}
+                                        variant={state.search.rooms.includes(item.val) ? 'contained' : 'outlined'}
+                                    > {item.title}
+                                    </Button>
+                                )
+                            })
+                        }
+                    </ButtonGroup>
+                </FormControl>
+                <Divider className="m-3" />
+                <FormControl
+
+                    sx={{
+                        marginTop: '15px',
+                        width: '100%',
+                        display: 'flex',
+                        align: "justify"
+
+                    }}
+                >
+                    <FormLabel
+                        className="mb-1"
+                    >Локация</FormLabel >
+                    <Grid container spacing={2}
+                        className='items-end'
+
+                    >
+                        <Grid item xs={4} md={4}>
+                            <Button
+                                fullWidth
+                                size="small"
+                                onClick={open_metro_modal}
+                                variant="contained"
+                            >Метро{counter('metro')}</Button>
+                        </Grid>
+                        <Grid item xs={4} md={4}
+                            className="pr-2"
+                        >
+                            <Stack
+                                sx={
+                                    { minWidth: 120, Width: '100%' }
+                                }
+                            >
+                                <MyNativeSelect
+                                    name={'to_metro'}
+                                    // label={<>До метро <DirectionsRunIcon /></>}
+                                    label={'Метро пешком'}
+                                    handleChangeSelect={handleChangeSelect}
+                                    value={search.to_metro}
+                                    values={params.to_metro}
+                                />
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={4} md={4}>
+
+                            <Button
+                                fullWidth
+                                size="small"
+                                onClick={open_districts_modal}
+                                variant="contained"
+                            >Районы{counter('districts')}</Button>
+                        </Grid>
+                    </Grid>
+                </FormControl>
+                <Divider className="m-3" />
+                <FormControl
+                    sx={{
+                        // marginTop: '15px',
+                        width: '100%',
+                        display: 'flex'
+
+                    }}
+                >
+                    <FormLabel
+                    // className="mb-3 mt-2"
+                    >Цена
+                    </FormLabel >
+                </FormControl>
+
+                <Stack
+                    className='items-end'
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        display: 'flex'
+                    }}
+                >
+                    <MyTextInput
+                        name={'min_price'}
+                        label="Цена от"
+                        handleTextInput={handleTextInput}
+                        value={search.min_price}
+                    />
+                    <MyTextInput
+                        name={'max_price'}
+                        label="Цена до"
+                        handleTextInput={handleTextInput}
+                        value={search.max_price}
+                    />
+
+                    <Stack
+                        sx={
+                            { minWidth: 120, maxWidth: '30%' }
+                        }
                     >
 
+                        <MyMultiSelect
+                            name={'price_type'}
+                            label={'Тип цены'}
+                            handleChangeMultiple={handleChangeMultiple}
+                            value={search.price_type}
+                            values={params.price_type}
 
-                        {/* <h2 className='mt-1 mb-3'>Базовые параметры:</h2> */}
-                        <Typography
-                            variant="h5"
-                            className="mb-3"
+                        />
+                    </Stack>
+
+                </Stack>
+
+
+                <Divider className="m-3" />
+                <Grid
+                    // className="mt-4" 
+                    container spacing={2}>
+                    <Grid item xs={12} md={12}>
+                        <Stack
+                            divider={<Divider orientation="vertical" flexItem />}
+                            direction="row" spacing={2}
+                            sx={{
+                                display: 'flex'
+
+                            }}
                         >
-                            Базовые параметры:
-                        </Typography>
-                        <FormControl>
-                            <FormLabel>Категория</FormLabel >
-                            <ButtonGroup
-                                fullWidth
-                                sx={{
-                                    marginTop: '15px',
-                                    width: '100%',
-                                    display: 'flex'
-
-                                }}
-
-                                variant="contained" aria-label="outlined primary button group">
-                                <Button
+                            <FormControl>
+                                <FormLabel
+                                    align='left'
                                 >
-                                    Вторичка
-                                </Button>
-                                <Button>Аренда</Button>
-                                <Button
+                                    Общая площадь
+                                </FormLabel>
 
-                                    disabled
-                                >Новостройки</Button>
-                            </ButtonGroup>
+                                <Stack
+                                    direction="row" spacing={2}
+                                    className="mt-1"
+                                    sx={{
+                                        display: 'flex'
+                                    }}
+                                >
 
-                        </FormControl>
-                        <Divider className="m-3" />
-                        <FormControl
+                                    <MyTextInput
+                                        name={'min_total_area'}
+                                        label="От"
+                                        handleTextInput={handleTextInput}
+                                        value={search.min_total_area}
+                                    />
+                                    <MyTextInput
+                                        name={'max_total_area'}
+                                        label="До"
+                                        handleTextInput={handleTextInput}
+                                        value={search.max_total_area}
+                                    />
 
-                            sx={{
-                                marginTop: '15px',
-                                width: '100%',
-                                display: 'flex'
+                                </Stack>
 
-                            }}
-                        >
-                            <FormLabel>Количество комнат</FormLabel >
-
-                            <ButtonGroup
-                                fullWidth
-                                sx={{
-                                    marginTop: '15px',
-                                    width: '100%',
-                                    display: 'flex'
-
-                                }}
-
-                                // variant="contained"
-                                aria-label="outlined primary button group">
-
-
-                                {
-                                    params.rooms.map(function (item) {
-
-                                        return (
-                                            < Button
-                                                // selected
-                                                key={'rooms' + item.val}
-                                                onClick={() => handleupdateCheckbox('rooms', item.val, false)}
-                                                variant={checkParam(item.val, 'rooms') ? 'contained' : 'outlined'}
-                                            // variant="outlined"
-                                            > {item.title}
-                                            </Button>
-                                        )
-                                    })
-                                }
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel
+                                    align='left'
+                                >
+                                    Кухня
+                                    {/* (м<sup>2</sup>) */}
+                                </FormLabel>
 
 
+                                <Stack
+                                    className="mt-1"
+                                    direction="row" spacing={2}
+                                    sx={{
+                                        display: 'flex'
 
+                                    }}
+                                >
 
-                            </ButtonGroup>
-                        </FormControl>
+                                    <MyTextInput
+                                        name={'min_kitchen_area'}
+                                        label="От"
+                                        handleTextInput={handleTextInput}
+                                        value={search.min_kitchen_area}
+                                    />
+                                    <MyTextInput
+                                        name={'max_kitchen_area'}
+                                        label="До"
+                                        handleTextInput={handleTextInput}
+                                        value={search.max_kitchen_area}
+                                    />
 
+                                </Stack>
 
-                        <Divider className="m-3" />
+                            </FormControl>
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Divider
+                        // className="mt-1" 
+                        />
+                    </Grid>
 
-
-
-
-                        <FormControl
-
-                            sx={{
-                                marginTop: '15px',
-                                width: '100%',
-                                display: 'flex',
-                                align: "justify"
-
-                            }}
-                        >
-                            <FormLabel
-
-                                className="mb-4"
-                            >Локация</FormLabel >
-
-                            <Grid container spacing={2}>
-                                <Grid item xs={4} md={4}>
-
-                                    <Button
-                                        fullWidth
-                                        size="small"
-                                        onClick={open_metro_modal}
-                                        variant="contained"
-                                    >Метро{counter('metro')}</Button>
-
-                                </Grid>
-
-                                <Grid item xs={4} md={4}>
-
-                                    <Button
-                                        fullWidth
-                                        size="small"
-                                        variant="contained"
-                                    >До метро</Button>
-
-                                </Grid>
-
-                                <Grid item xs={4} md={4}>
-
-                                    <Button
-                                        fullWidth
-                                        size="small"
-                                        onClick={open_districts_modal}
-                                        variant="contained"
-                                    >Районы{counter('districts')}</Button>
-
-                                </Grid>
-
-                            </Grid>
-
-
-
-
-
-                        </FormControl>
-
-                        <Divider className="m-3" />
-
-                        <FormControl
-
-                            sx={{
-                                marginTop: '15px',
-                                width: '100%',
-                                display: 'flex'
-
-                            }}
-                        >
+                    <Grid
+                        item xs={12} md={12}>
+                        <FormControl>
 
                             <FormLabel
-                                className="mb-3 mt-2"
-
-                            >Цена</FormLabel >
+                                align='left'
+                            >
+                                Этаж
+                            </FormLabel>
                             <Stack
+
+                                className="items-end"
+                                // className="mt-2"
                                 direction="row" spacing={2}
                                 sx={{
                                     display: 'flex'
 
                                 }}
                             >
-                                <TextField
-                                    // InputProps={{
-                                    //     inputComponent: NumericFormatCustom,
-                                    // }}
-                                    name={'min_price'}
-                                    value={search.min_price}
-                                    onChange={(e) => {
-                                        let clean = e.target.value.replace(/\D/gi, '');
-                                        updateSearchParam('min_price', clean)
-                                    }
-                                    }
+                                <Stack
+                                    className='w-3/5'
+                                    direction="row"
+                                // sx={{ width: '50%' }}
+                                >
+                                    <MyTextInput
 
-                                    id="min_price" label="От" variant="standard" />
-                                <TextField
+                                        name={'min_floor'}
+                                        label="От"
+                                        handleTextInput={handleTextInput}
+                                        value={search.min_floor}
+                                    /> 
 
-                                    name={'max_price'}
-                                    value={search.max_price}
-                                    onChange={(e) => {
-                                        let clean = e.target.value.replace(/\D/gi, '');
-                                        updateSearchParam('max_price', clean)
-                                    }
-                                    }
+                                    
+                                    <MyTextInput
+                                        name={'max_floor'}
+                                        label="До"
+                                        handleTextInput={handleTextInput}
+                                        value={search.max_floor}
+                                    />
+                                </Stack>
+                                <Stack
+                                className='w-2/5'
+                                // sx={{ width: '50%' }}
+                                >
+                                    {/* <InputLabel id={"floor_types-standard-label"}>{'Тип этажа'}</InputLabel> */}
+                                    <MyNativeSelect
+                                        name={'floor_types'}
+                                        label={'Тип этажа'}
+                                        handleChangeSelect={handleChangeSelect}
+                                        value={search.floor_types}
+                                        values={params.floor_types}
+                                    />
+                                </Stack>
+
+                            </Stack>
+                        </FormControl>
+                    </Grid>
 
 
-                                    id="max_price-basic" label="До" variant="standard" />
 
-                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120, maxWidth: '30%' }}>
-                                    <InputLabel id="demo-simple-select-standard-label">Тип цены</InputLabel>
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                    <Divider className="m-3" />
+                </Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={12}>
 
 
-                                    <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value={search.price_type}
-                                        // onChange={(e) => handleupdateCheckbox('price_type', e.target.value, false)}
-                                        // onClick={(e) => handleupdateCheckbox('price_type', e.target.value[0], false)}
-                                        label="Тип цены"
-                                        multiple
-                                    >
 
-                                        {
-                                            params.price_type.map(function (type) {
-                                                return (
-                                                    <MenuItem
-                                                        onClick={() => handleupdateCheckbox('price_type', type.val, false)}
-                                                        value={type.val}>{type.title}</MenuItem>
-                                                )
-                                            })
+                        <Stack
+                            // divider={<Divider orientation="vertical" flexItem />}
+                            direction="row" spacing={2}
+                            fullWidth
+                            sx={{
+                                display: 'flex'
 
-                                        }
+                            }}
+                        >
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '33%' }}
+                            >
+                                <MyMultiSelect
+                                    name={'floors_count_type'}
+                                    label={'Этажность'}
+                                    handleChangeMultiple={handleChangeMultiple}
+                                    value={search.floors_count_type}
+                                    values={params.floors_count_types}
+                                />
+                            </Stack>
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '33%' }}
+                            >
 
-                                    </Select>
-
-                                </FormControl>
+                                <MyMultiSelect
+                                    name={'material'}
+                                    label={'Материал'}
+                                    handleChangeMultiple={handleChangeMultiple}
+                                    value={search.material}
+                                    values={params.material_types}
+                                />
 
                             </Stack>
 
-                        </FormControl>
-                    </Paper>
 
-                    <MetroModalMu is_open={metro_open} handleClose={close_metro_modal} />
-                    <DistrictsModalMu is_open={districts_open} handleClose={close_districts_modal} />
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '33%' }}
+                            >
+                                <MyMultiSelect
+
+                                    className='ml-0'
+                                    name={'year_build_type'}
+                                    label={'Год'}
+                                    handleChangeMultiple={handleChangeMultiple}
+                                    value={search.year_build_type}
+                                    values={params.year_types}
+                                />
+                            </Stack>
+                        </Stack>
+                    </Grid>
+                </Grid>
+
+            </Paper>
+
+            <MetroModalMu is_open={metro_open} handleClose={close_metro_modal} />
+            <DistrictsModalMu is_open={districts_open} handleClose={close_districts_modal} />
 
 
-                </>
-            )
-        }, [search])
+        </>
+
 
     )
 
