@@ -12,7 +12,7 @@ module.exports = {
   //   './pages/**/*.{html,js}',
   //   './components/**/*.{html,js}',
   // ],
-  important: '#root',
+  // important: '#root',
   theme: {
     extend: {},
   },

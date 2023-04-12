@@ -1,43 +1,100 @@
 import { Sheet } from "@mui/joy";
-import { Button, Paper } from "@mui/material";
+import { Button, Divider, Paper } from "@mui/material";
 import PositionsTable from "./PositionsTable";
+import { useState } from "react";
+// import { useSpring } from "@react-spring/web";
 
-function ReportPlotModalContent({ cols, data, openStatPlotModal , plot_data = {}}) {
+function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} }) {
+
+    const [zoomed, setZommed] = useState(true)
+    // const { transform, opacity } = useSpring({
+    //   opacity: flipped ? 1 : 0,
+    //   transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
+    //   config: { mass: 5, tension: 500, friction: 80 },
+    // })
+
+
     return (
 
-        <Sheet>
+        <Sheet
+        
+        style={{
+            marginBottom:95
+        }}
+        >
+
+
 
 
 
 
 
             <Paper
+                onClick={() => setZommed(!zoomed)}
 
                 className='m-3 p-2'
-                sx={{
-
-                    // height:500,
+                style={{
+                    // width: '95vw',
+                    height: '70wh',
+                    justifyContent: 'center',
                     overflowX: 'auto',
                     overflowY: 'auto'
-
                 }}
+            // sx={{
+
+            //     // height:500,
+            //     overflowX: 'auto',
+            //     overflowY: 'auto'
+
+            // }}
             >
+
+
+
                 <img
                     className='m-2'
                     style={{
-                        // width: '100vw',
-                        height: '70vh',
-
-
-
-
-
+                        width: zoomed ? '95%' : '250%',
                     }}
-                    alt={'asdfadf'}
+                    alt={'Боксплот'}
                     src={'https://img.pyxi.pro/stat/img/' + data.img}
                 />
-            </Paper>
+                <Divider
+                className="my-2"
+                />
+                <img
+                    className='m-2'
+                    style={{
+                        width: zoomed ? '95%' : '250%',
+                    }}
+                    alt={'Гистограмма'}
+                    src={'https://img.pyxi.pro/stat/img/' + data.img_2}
+                />
 
+
+            </Paper>
+            {/* <Paper
+
+                className='m-3 p-2'
+                style={{
+                    height: '70vh',
+                    justifyContent: 'center',
+                    overflowX: 'auto',
+                    overflowY: 'auto'
+                }}
+            // sx={{
+
+            //     // height:500,
+            //     overflowX: 'auto',
+            //     overflowY: 'auto'
+
+            // }}
+            >
+               
+
+
+
+            </Paper> */}
 
             <Paper
 
@@ -70,6 +127,9 @@ function ReportPlotModalContent({ cols, data, openStatPlotModal , plot_data = {}
             >
 
                 <PositionsTable cols={cols} data={data.plot_data.full}
+
+
+
                     plot_data={{
 
                     }}

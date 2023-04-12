@@ -86,14 +86,12 @@ function App() {
     return (
         <YMaps query={{ load: "package.full" }}>
 
-            <div>
-                <div style={{
 
-                }}>
-                    <Outlet
-                        handlePriceDescModal={handlePriceDescModal}
-                    />
-                </div>
+
+                <Outlet
+                    handlePriceDescModal={handlePriceDescModal}
+                />
+
                 <PriceDescModal
                     keepMounted={true}
                     price_desc_modal_open={price_desc_modal_open}
@@ -108,7 +106,7 @@ function App() {
 
                 <MyBottomNav />
 
-            </div>
+
 
         </YMaps>
     )

@@ -57,7 +57,7 @@ function MyBottomNav() {
 
                     <BottomNavigationAction LinkComponent={Link} href={'/'} to={'/'} value={'/'} label="Фильтр" icon={<ManageSearchIcon />} />
                     <BottomNavigationAction LinkComponent={Link}  href={'/list'}  to={'/list'} value={'/list'} label="Список" icon={<ViewListIcon />} />
-                    {/* <BottomNavigationAction LinkComponent={Link}  href={'/map'}  to={'/map'} value={'/map'} label="Карта" icon={<LocationOnIcon />} /> */}
+                    <BottomNavigationAction LinkComponent={Link}  href={'/map'}  to={'/map'} value={'/map'} label="Карта" icon={<LocationOnIcon />} />
                     {/* */}
                     <BottomNavigationAction label="Избранное" icon={<Badge badgeContent={4} color="primary"> <FavoriteIcon /></Badge>} />
                     {/*  */}
@@ -78,9 +78,9 @@ function MyBottomNav() {
                 <Route path="/" element={<SearchFormMu />}>
                 </Route>
 
-                {/* <Route path="/map" element={<Mappage />}> */}
+                <Route path="/map" element={<Mappage />}>
 
-                {/* </Route> */}
+                </Route>
 
             </Routes>
 

@@ -56,10 +56,25 @@
 #material-dropdown, #floors_count-dropdown, #input-group-dropdown-price {
     white-space: pre-line;
 }
-.inner-container {
-    background: red;
-    grid-area: inner-container;
+/* .inner-container { */
+    /* background: red; */
+    /* grid-area: inner-container; */
     /* overflow-y: scroll; */
     /* height: 100%; */
     /* font-size: 144px; */
+/* } */
+
+.front,
+.back {
+  background-size: cover;
 }
+
+.c {
+    position: absolute;
+    /* max-width: 500px; */
+    /* max-height: 500px; */
+    /* width: 350px; */
+    /* height: 200px; */
+    cursor: pointer;
+    will-change: transform, opacity;
+  }

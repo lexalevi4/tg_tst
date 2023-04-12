@@ -133,7 +133,10 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                     </Paper>
                 );
             case 'ready':
-                return (<StatPlotModalContent filename={stat_plot_data.filename} closeStatPlotModal={closeStatPlotModal}
+                return (<StatPlotModalContent 
+                    filename={stat_plot_data.filename} 
+                    closeStatPlotModal={closeStatPlotModal} 
+                    second={stat_plot_data.second}
                 //     plot_data={{
                 //     x: data.x,
                 //     hue: data.hue,
@@ -170,6 +173,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             <Box
             >
                 <Sheet
+                    classname="p-3"
                     style={{
                         marginTop: 80
                     }}

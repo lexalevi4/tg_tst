@@ -173,201 +173,200 @@
   }
 }
 
-.fixed {
+#root .fixed {
   position: fixed
 }
 
-.absolute {
+#root .absolute {
   position: absolute
 }
 
-.relative {
+#root .relative {
   position: relative
 }
 
-.m-2 {
+#root .m-2 {
   margin: 0.5rem
 }
 
-.m-3 {
+#root .m-3 {
   margin: 0.75rem
 }
 
-.mx-1 {
+#root .m-4 {
+  margin: 1rem
+}
+
+#root .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem
 }
 
-.my-2 {
+#root .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem
 }
 
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem
-}
-
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem
-}
-
-.mb-0 {
+#root .mb-0 {
   margin-bottom: 0px
 }
 
-.mb-1 {
+#root .mb-1 {
   margin-bottom: 0.25rem
 }
 
-.mb-2 {
+#root .mb-2 {
   margin-bottom: 0.5rem
 }
 
-.mb-3 {
+#root .mb-3 {
   margin-bottom: 0.75rem
 }
 
-.mb-4 {
+#root .mb-4 {
   margin-bottom: 1rem
 }
 
-.mb-5 {
+#root .mb-5 {
   margin-bottom: 1.25rem
 }
 
-.ml-0 {
+#root .ml-0 {
   margin-left: 0px
 }
 
-.ml-1 {
+#root .ml-1 {
   margin-left: 0.25rem
 }
 
-.ml-5 {
+#root .ml-5 {
   margin-left: 1.25rem
 }
 
-.mr-1 {
+#root .mr-1 {
   margin-right: 0.25rem
 }
 
-.mr-5 {
+#root .mr-5 {
   margin-right: 1.25rem
 }
 
-.mr-auto {
+#root .mr-auto {
   margin-right: auto
 }
 
-.mt-0 {
+#root .mt-0 {
   margin-top: 0px
 }
 
-.mt-1 {
+#root .mt-1 {
   margin-top: 0.25rem
 }
 
-.mt-2 {
+#root .mt-2 {
   margin-top: 0.5rem
 }
 
-.mt-3 {
+#root .mt-3 {
   margin-top: 0.75rem
 }
 
-.mt-4 {
+#root .mt-4 {
   margin-top: 1rem
 }
 
-.mt-5 {
+#root .mt-5 {
   margin-top: 1.25rem
 }
 
-.block {
+#root .block {
   display: block
 }
 
-.inline {
+#root .inline {
   display: inline
 }
 
-.flex {
+#root .flex {
   display: flex
 }
 
-.table {
+#root .table {
   display: table
 }
 
-.w-2\/5 {
+#root .w-2\/5 {
   width: 40%
 }
 
-.w-3\/5 {
+#root .w-3\/5 {
   width: 60%
 }
 
-.transform {
-  -webkit-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-          transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
-}
-
-.content-center {
+#root .content-center {
   align-content: center
 }
 
-.items-end {
+#root .items-end {
   align-items: flex-end
 }
 
-.gap-2 {
+#root .gap-2 {
   gap: 0.5rem
 }
 
-.border {
+#root .border {
   border-width: 1px
 }
 
-.p-0 {
+#root .p-0 {
   padding: 0px
 }
 
-.p-2 {
+#root .p-2 {
   padding: 0.5rem
 }
 
-.p-3 {
+#root .p-3 {
   padding: 0.75rem
 }
 
-.py-2 {
+#root .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem
 }
 
-.pb-5 {
-  padding-bottom: 1.25rem
-}
-
-.pr-2 {
+#root .px-2 {
+  padding-left: 0.5rem;
   padding-right: 0.5rem
 }
 
-.pt-3 {
+#root .px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem
+}
+
+#root .pb-5 {
+  padding-bottom: 1.25rem
+}
+
+#root .pr-2 {
+  padding-right: 0.5rem
+}
+
+#root .pt-3 {
   padding-top: 0.75rem
 }
 
-.pt-5 {
+#root .pt-5 {
   padding-top: 1.25rem
 }
 
-.underline {
+#root .underline {
   text-decoration-line: underline
 }
 
-.filter {
+#root .filter {
   -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
           filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
 }
