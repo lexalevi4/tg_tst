@@ -149,11 +149,14 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
         <>
 
             <Button
+            style={{
+                textTransform: 'none',
+            }}
                 // aria-describedby={id}
 
                 // className='ml-5 mr-5 '
                 className='m-2 '
-                size="small"
+                // size="small"
                 color="primary"
                 // variant="contained"
                 // type="button" 
@@ -209,12 +212,179 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                     }}
 
                 >
-                    <Tab>За квадрат</Tab>
                     <Tab>За квартиру</Tab>
+                    <Tab>За квадрат</Tab>
+                    
                 </TabList>
 
                 <hr />
-                <TabPanel value={0} className='mb-3'>
+                
+
+                <TabPanel className='mb-3' value={0}>
+
+                    <TableContainer component={Paper}  >
+
+                        <Table
+                            sx={{
+                                width: 'max-content'
+                            }}
+
+                            size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell
+                                        className='pre_line'
+
+                                    >Глубина</TableCell>
+                                    {positions_labels.map(function (label, index) {
+                                        return (
+                                            <TableCell key={'1_head_' + index} className='pre_line' >{
+                                                label.map(function (item, index) {
+                                                    return (<p key={'1_head_' + index + item}
+                                                        className='mt-0 mb-0'
+                                                    >{item}</p>)
+                                                })}
+                                            </TableCell>
+
+                                        )
+                                    })}
+
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell>Вся Москва</TableCell>
+                                    {positions_town_price_values.map(function (item, index) {
+                                        // console.log(item)
+                                        return (
+
+                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price" + index}>
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: null,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        // color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </Button>
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell>Округ</TableCell>
+                                    {positions_okrug_price_values.map(function (item, index) {
+                                        return (
+                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price" + index}>
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: null,
+                                                            okrug: (districts.filter(d => d.type === 'Okrug'))[0].id,
+                                                        }
+                                                    )
+                                                    }
+
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        // color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </Button>
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell>Район</TableCell>
+                                    {positions_district_price_values.map(function (item, index) {
+                                        return (
+                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price" + index}>
+                                                <Button
+                                                    className='p-0'
+                                                    size="small"
+                                                    onClick={positionClickHandler}
+                                                    data-onclickparam={JSON.stringify(
+                                                        {
+                                                            report_id: item.report_id,
+                                                            param: item.param,
+                                                            x: item.x,
+                                                            // x_value: item.x_value,
+                                                            hue: item.hue,
+                                                            // hue_value: item.hue_value,
+                                                            district: (districts.filter(d => d.type !== 'Okrug'))[0].id,
+                                                            okrug: null,
+                                                        }
+                                                    )
+                                                    }
+
+                                                    style={{
+                                                        // textDecoration: 'underline',
+                                                        // color: '#1976d2'
+
+                                                    }}
+                                                >
+                                                    {item.current_position + "% / " + item.count}
+                                                </Button>
+
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={11}
+                                    ></TableCell>
+                                </TableRow>
+                            </TableFooter>
+
+                        </Table>
+                    </TableContainer>
+
+                </TabPanel>
+
+                <TabPanel value={1} className='mb-3'>
                     <TableContainer component={Paper}  >
 
                         <Table
@@ -385,171 +555,6 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                     </TableContainer>
 
                 </TabPanel>
-
-                <TabPanel className='mb-3' value={1}>
-
-                    <TableContainer component={Paper}  >
-
-                        <Table
-                            sx={{
-                                width: 'max-content'
-                            }}
-
-                            size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell
-                                        className='pre_line'
-
-                                    >Глубина</TableCell>
-                                    {positions_labels.map(function (label, index) {
-                                        return (
-                                            <TableCell key={'1_head_' + index} className='pre_line' >{
-                                                label.map(function (item, index) {
-                                                    return (<p key={'1_head_' + index + item}
-                                                        className='mt-0 mb-0'
-                                                    >{item}</p>)
-                                                })}
-                                            </TableCell>
-
-                                        )
-                                    })}
-
-
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-
-                                <TableRow
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell>Вся Москва</TableCell>
-                                    {positions_town_price_values.map(function (item, index) {
-                                        // console.log(item)
-                                        return (
-
-                                            <TableCell sx={{ width: 100 }} key={Math.random(0, 100000) + "_positions_town_price" + index}>
-                                                <Button
-                                                    className='p-0'
-                                                    size="small"
-                                                    onClick={positionClickHandler}
-                                                    data-onclickparam={JSON.stringify(
-                                                        {
-                                                            report_id: item.report_id,
-                                                            param: item.param,
-                                                            x: item.x,
-                                                            // x_value: item.x_value,
-                                                            hue: item.hue,
-                                                            // hue_value: item.hue_value,
-                                                            district: null,
-                                                            okrug: null,
-                                                        }
-                                                    )
-                                                    }
-
-                                                    style={{
-                                                        // textDecoration: 'underline',
-                                                        // color: '#1976d2'
-
-                                                    }}
-                                                >
-                                                    {item.current_position + "% / " + item.count}
-                                                </Button>
-                                            </TableCell>
-                                        )
-                                    })}
-                                </TableRow>
-
-                                <TableRow
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell>Округ</TableCell>
-                                    {positions_okrug_price_values.map(function (item, index) {
-                                        return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_okrug_price" + index}>
-                                                <Button
-                                                    className='p-0'
-                                                    size="small"
-                                                    onClick={positionClickHandler}
-                                                    data-onclickparam={JSON.stringify(
-                                                        {
-                                                            report_id: item.report_id,
-                                                            param: item.param,
-                                                            x: item.x,
-                                                            // x_value: item.x_value,
-                                                            hue: item.hue,
-                                                            // hue_value: item.hue_value,
-                                                            district: null,
-                                                            okrug: (districts.filter(d => d.type === 'Okrug'))[0].id,
-                                                        }
-                                                    )
-                                                    }
-
-                                                    style={{
-                                                        // textDecoration: 'underline',
-                                                        // color: '#1976d2'
-
-                                                    }}
-                                                >
-                                                    {item.current_position + "% / " + item.count}
-                                                </Button>
-                                            </TableCell>
-                                        )
-                                    })}
-                                </TableRow>
-                                <TableRow
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell>Район</TableCell>
-                                    {positions_district_price_values.map(function (item, index) {
-                                        return (
-                                            <TableCell key={Math.random(0, 100000) + "_positions_district_price" + index}>
-                                                <Button
-                                                    className='p-0'
-                                                    size="small"
-                                                    onClick={positionClickHandler}
-                                                    data-onclickparam={JSON.stringify(
-                                                        {
-                                                            report_id: item.report_id,
-                                                            param: item.param,
-                                                            x: item.x,
-                                                            // x_value: item.x_value,
-                                                            hue: item.hue,
-                                                            // hue_value: item.hue_value,
-                                                            district: (districts.filter(d => d.type !== 'Okrug'))[0].id,
-                                                            okrug: null,
-                                                        }
-                                                    )
-                                                    }
-
-                                                    style={{
-                                                        // textDecoration: 'underline',
-                                                        // color: '#1976d2'
-
-                                                    }}
-                                                >
-                                                    {item.current_position + "% / " + item.count}
-                                                </Button>
-
-                                            </TableCell>
-                                        )
-                                    })}
-                                </TableRow>
-
-                            </TableBody>
-                            <TableFooter>
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={11}
-                                    ></TableCell>
-                                </TableRow>
-                            </TableFooter>
-
-                        </Table>
-                    </TableContainer>
-
-                </TabPanel>
-
 
             </Tabs>
 

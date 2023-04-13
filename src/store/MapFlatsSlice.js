@@ -72,7 +72,9 @@ const MapFlatsSlice = createSlice(
                     img: '',
                     plot_data: {}
                 },
-                stat_plot: {},
+                stat_plot: {
+                    status: 'none',
+                },
                 stat_plot_request: {
                     id: null,
                     x: null,
@@ -94,29 +96,29 @@ const MapFlatsSlice = createSlice(
                 brunches: [],
                 districts: [],
                 okrugs: [],
-                addrobjs: [],
+                // addrobjs: [],
                 material: [],
                 price_type: [],
                 floor_types: [],
                 year_build_type: [],
-                floors_type: [],
+                // floors_type: [],
                 floors_count_type: [],
                 min_price: '',
                 max_price: '',
                 min_total_area: '',
                 max_total_area: '',
-                min_living_area: '',
-                max_living_area: '',
+                // min_living_area: '',
+                // max_living_area: '',
                 min_kitchen_area: '',
                 max_kitchen_area: '',
                 min_floor: '',
-                max_flour: '',
+                max_floor: '',
                 floor_type: '',
-                min_floors_count: '',
-                max_floors_count: '',
-                min_year_build: '',
-                max_year_build: '',
-                including_null_years: 1,
+                // min_floors_count: '',
+                // max_floors_count: '',
+                // min_year_build: '',
+                // max_year_build: '',
+                // including_null_years: 1,
                 update: 0
 
             },
@@ -162,10 +164,10 @@ const MapFlatsSlice = createSlice(
                 ],
                 material_types: [
                     { val: 1, title: "Кирпич" },
-                    { val: 2, title: "Панель" },
-                    { val: 3, title: "Монолит" },
-                    { val: 4, title: "Монолит-кирпич" },
-                    { val: 5, title: "Блочный" },
+                    { val: 3, title: "Панель" },
+                    { val: 2, title: "Монолит" },
+                    { val: 5, title: "Монолит-кирпич" },
+                    { val: 4, title: "Блочный" },
 
                 ],
                 year_types: [
@@ -178,11 +180,11 @@ const MapFlatsSlice = createSlice(
 
                 ],
                 price_type: [
-                    { val: 1, title: "Базнадёга" },
-                    { val: 2, title: "Высокие" },
+                    { val: 5, title: "Высокие" },
+                    { val: 4, title: "Выше среднего" },
                     { val: 3, title: "Средние" },
-                    { val: 4, title: "Ниже среднего" },
-                    { val: 5, title: "Дно рынка" },
+                    { val: 2, title: "Ниже среднего" },
+                    { val: 1, title: "Дно рынка" },
                 ]
 
             },
@@ -190,6 +192,14 @@ const MapFlatsSlice = createSlice(
         },
         reducers: {
             updateSearch(state, action) {
+                if (action.payload.field !== 'update') {
+                    state.search.update = Date.now()
+                }
+
+                if (action.payload.field !== 'page') {
+                    state.search.page = 1
+                }
+
                 state.search[action.payload.field] = action.payload.value
             },
             updateAppParam(state, action) {

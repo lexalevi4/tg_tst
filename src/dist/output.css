@@ -193,6 +193,10 @@
   margin: 0.75rem
 }
 
+.m-1 {
+  margin: 0.25rem
+}
+
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem
@@ -347,6 +351,11 @@
   padding-bottom: 0.5rem
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px
+}
+
 .pb-5 {
   padding-bottom: 1.25rem
 }
@@ -361,6 +370,14 @@
 
 .pt-5 {
   padding-top: 1.25rem
+}
+
+.text-center {
+  text-align: center
+}
+
+.text-right {
+  text-align: right
 }
 
 .underline {

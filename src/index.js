@@ -13,7 +13,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-const CurrVersion = 21225;
+const CurrVersion = 2;
 
 if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
     localStorage.setItem('appVersion', CurrVersion)
