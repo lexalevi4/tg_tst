@@ -29,24 +29,6 @@ function App() {
 
 
 
-    const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
-
-
-    const handleReportPlotOpen = () => {
-        dispatch(updateAppParam({ field: 'report_plot_open', value: true }))
-    };
-
-    const cancelGetReportPlot = () => { action('CancelGetReportPlot') };
-    const handleReportPlotClose = () => {
-        dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
-        dispatch(cancelGetReportPlot)
-        dispatch(updateAppParam({ field: 'report_plot', value: { id: Math.random(), status: 'none' } }))
-
-    };
-
-    const handlePriceDescModal = () => {
-        dispatch(updateAppParam({ field: 'price_desc_modal_open', value: !price_desc_modal_open }))
-    }
 
     useEffect(() => {
 
@@ -89,19 +71,7 @@ function App() {
 
 
                 <Outlet
-                    handlePriceDescModal={handlePriceDescModal}
-                />
-
-                <PriceDescModal
-                    keepMounted={true}
-                    price_desc_modal_open={price_desc_modal_open}
-                    handlePriceDescModal={handlePriceDescModal}
-                    Transition={Transition}
-                />
-                <ReportPlotModal
-                    keepMounted={true}
-                    handleReportPlotClose={handleReportPlotClose}
-                    Transition={Transition}
+                     
                 />
 
                 <MyBottomNav />

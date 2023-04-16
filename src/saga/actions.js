@@ -23,3 +23,9 @@ export const updateMetro = (id) => {
 };
 
 export const universalPaload = (type, id) => { action_with_payload(type, id) }
+
+export const GetMapPointClick = (params) => {
+    return { type: 'GetMapPointClick', action: params }
+};
+
+export const CancelMapPointClick = () => { action('CancelMapPointClick') };

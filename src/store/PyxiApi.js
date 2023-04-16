@@ -1,22 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-
-// const serialize = function (obj, prefix) {
-//     var str = [],
-//         p;
-//     for (p in obj) {
-//         if (obj.hasOwnProperty(p)) {
-//             var k = prefix ? prefix + "[" + p + "]" : p,
-//                 v = obj[p];
-//             str.push((v !== null && typeof v === "object") ?
-//                 serialize(v, k) :
-//                 encodeURIComponent(k) + "=" + encodeURIComponent(v));
-//         }
-//     }
-//     // let mid =str.join("&")
-//     return str.join("&")
-// }
-
 export const
     PyxiApi = createApi(
         {
@@ -39,6 +22,36 @@ export const
                     })
                 }
                 ),
+
+                getClusterFlats: build.query({
+                    query: (search ) => ({
+                        url: 'get-cluster-flats',
+                        method: "POST",
+                        body:
+                        {
+                            // cluster: cluster,
+                            search: search,
+                            tg_data: window.Telegram.WebApp.initData || null
+                        }
+
+                    })
+                }
+                ),
+
+
+                getFlatById: build.query({
+                    query: (id) => ({
+                        url: 'get-flat-by-id',
+                        method: "POST",
+                        body:
+                        {
+                            id: id,
+                            tg_data: window.Telegram.WebApp.initData || null
+                        }
+                    })
+                }
+                ),
+
                 GenerateReportPlot: build.query({
                     query: (plot_data) => ({
                         url: 'generate-plot',
@@ -55,4 +68,4 @@ export const
         }
     )
 
-export const { useGetFlatsQuery, useGenerateReportPlotQuery } = PyxiApi;
+export const { useGetFlatsQuery, useGenerateReportPlotQuery, useGetClusterFlatsQuery, useGetFlatByIdQuery } = PyxiApi;

@@ -1,7 +1,8 @@
 // import PositionsRadar from "./PositionsRadar";
 // import FlatImagesCarousel from "./FlatImagesCarousel";
 import {
-    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Stack,
+    Box,
+    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Rating, Stack,
     // Paper,
     // Table, TableBody, TableCell,
     // TableContainer,
@@ -23,9 +24,46 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PriceAnalizeTabs from "./PriceAnalyzeTabs";
+import StarIcon from '@mui/icons-material/Star';
 import { useState } from "react";
 import { Placemark, YMaps, Map, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
+import { red, purple, green, grey, indigo, blue } from '@mui/material/colors';
 const FlatCardMu = function ({ flat }) {
+
+
+
+    const labels = {
+
+        5: 'Высокая',
+
+        4: 'Выше среднего',
+
+        3: 'Средняя',
+
+        2: 'Ниже среднего',
+
+        1: 'Дно рынка',
+    };
+
+    const value = flat.price_type;
+
+    const getPriceRating = (val) => {
+        if (val == 1) {
+            return 5
+        }
+        if (val == 2) {
+            return 4
+        }
+        if (val == 3) {
+            return 3
+        }
+        if (val == 4) {
+            return 2
+        }
+        if (val == 5) {
+            return 1
+        }
+    }
 
     // const positions = flat.positions;
 
@@ -97,6 +135,28 @@ const FlatCardMu = function ({ flat }) {
     // }else{
     //     favContent = (<FavoriteBorderIcon /> + 'Добавить')
     // }
+
+
+    const getRatingColor = (value) => {
+        if (value === 5) {
+            return red[100]
+        }
+        if (value === 4) {
+            return red[200]
+        }
+        if (value === 3) {
+            return red[300]
+        }
+        if (value === 2) {
+            return red[500]
+        }
+        if (value === 1) {
+            return red[900]
+        }
+
+
+    }
+
 
     return (
 
@@ -180,6 +240,33 @@ const FlatCardMu = function ({ flat }) {
                         } / m<sup>2</sup>
                     </Typography>
                 </Typography>
+
+                <Box
+                    className='mb-5'
+                    sx={{
+                        width: 300,
+                        display: 'flex',
+                        alignItems: 'center',
+
+                    }}
+                >
+                    <Rating
+                        name="text-feedback"
+                        // value={getPriceRating(flat.price_type)}
+                        value={getPriceRating(flat.price_type)}
+                        readOnly
+                        // color="#000"
+                        // precision={1}
+                        icon={<FavoriteIcon fontSize="inherit" style={{
+                            color: getRatingColor(flat.price_type)
+
+                        }} />}
+
+                        emptyIcon={<HeartBrokenIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                    />
+                    <Box sx={{ ml: 2 }}><Typography color="text.primary" >{labels[value]}</Typography></Box>
+                </Box>
+
                 <Typography variant="subtitle1" component="p">
                     Площадь: {flat.totalArea}/{flat.livingArea}/{flat.kitchenArea} <br /> Этаж: {flat.floor}/{flat.floorsCount}
                 </Typography>
@@ -246,17 +333,17 @@ const FlatCardMu = function ({ flat }) {
                 </DialogTitle> */}
                 <DialogContent className="p-0">
                     {/* <DialogContentText  id="alert-dialog-description"> */}
-                        <YMaps>
-                            <Map defaultState={mapState}
-                                width={'80vw'}
-                                height={'65vh'}
+                    <YMaps>
+                        <Map defaultState={mapState}
+                            width={'80vw'}
+                            height={'65vh'}
 
-                            >
-                                <Placemark geometry={[flat.lat, flat.lng]} />
-                                <RulerControl options={{ float: "right" }} />
-                                <ZoomControl options={{ size: "small",float: "right" }} />
-                            </Map>
-                        </YMaps>
+                        >
+                            <Placemark geometry={[flat.lat, flat.lng]} />
+                            <RulerControl options={{ float: "right" }} />
+                            <ZoomControl options={{ size: "small", float: "right" }} />
+                        </Map>
+                    </YMaps>
                     {/* </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>

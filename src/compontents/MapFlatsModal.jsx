@@ -1,31 +1,42 @@
 import { AppBar, Box, Dialog, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { useGetClusterFlatsQuery, useGetFlatByIdQuery } from "store/PyxiApi";
+import { shallowEqual, useSelector } from "react-redux";
 
-const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, Transition }) {
+
+const MapFlatsModal = function ({ map_flats_modal_open, handleMapFlatsModal, mapSearch }) {
+
+    const search = useSelector(state => state.mapFlats.search, shallowEqual);
+    console.log(mapSearch)
+    const { data, isLoading, isError, isFetching } = useGetClusterFlatsQuery({ cluster: mapSearch, main: search })
+
+    console.log(data)
+
+
+    if (!map_flats_modal_open) {
+        return (<></>)
+    }
+
+
     return (
         <Dialog
             fullScreen
-            open={price_desc_modal_open}
-            keepMounted
-            onClose={handlePriceDescModal}
-            TransitionComponent={Transition}
+            open={map_flats_modal_open}
+            // keepMounted
+            onClose={handleMapFlatsModal}
+        // TransitionComponent={Transition}
         >
             <AppBar sx={{ position: 'relative' }}>
                 <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={handlePriceDescModal}
+                        onClick={handleMapFlatsModal}
                         aria-label="close"
                     >
                         <CloseIcon />
                     </IconButton>
-                    {/* <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                                Sound
-                            </Typography>
-                            <Button autoFocus color="inherit" onClick={handleReportPlotOpen}>
-                                save
-                            </Button> */}
+
                 </Toolbar>
             </AppBar>
             <Box>
@@ -49,8 +60,6 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                     <Typography className='mt-3' >
                         <b> Второе число - это количество объявлений в классе.</b>
                     </Typography>
-
-
                     <hr />
                     <Typography className='mt-3' >
                         <b>22.1% / 140</b><br /> означает, что в классе 140 объявлений, и только 22% из них доступны в ту же цену.
@@ -63,21 +72,18 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                     <Typography className='mt-3' >
                         <b>0% / 38</b><br /> означает, что в классе 38 объявлений, и этот самый дешёвый из них.
                     </Typography>
-
-                    
                     <hr />
                     <Typography className='mt-3' >
                         <b>Тип цены</b> определяется на основе позиции по цене за квадрат по району.
                     </Typography>
-                    <Typography className='mt-3'component={'div'} >
-                        <ul className= 'mb-5' >
+                    <Typography className='mt-3' component={'div'} >
+                        <ul className='mb-5' >
                             <li>Низкие цены - 5 и более позиций 0% при количестве больше 5 объявлений.</li>
                             <li>Ниже среднего - 5 и более позиций до 20% при количестве больше 5 объявлений.</li>
                             <li>Средние - 5 и более позиций до 50% при количестве больше 5 объявлений.</li>
                             <li>Выше среднего - 5 и более позиций до 80% при количестве больше 5 объявлений.</li>
                             <li>Высокие цены - Все остальные.</li>
                         </ul>
-                        
                     </Typography>
                     <hr />
                     <Typography className='mt-3' >
@@ -86,20 +92,16 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                     <Typography className='mt-3' >
                         Обновляется раз в неделю.
                     </Typography>
-
-                    
-
-
                 </Paper>
                 <div
                     style={{
-                        height:100
+                        height: 100
                     }}
-                    > </div>
+                > </div>
             </Box>
         </Dialog>
 
     );
 }
 
-export default PriceDescModal;
+export default MapFlatsModal;

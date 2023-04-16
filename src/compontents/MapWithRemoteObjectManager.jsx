@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useCallback } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 import { useYMaps } from "@pbe/react-yandex-maps";
-
-// import {fetchFlats} from '../store/MapFlatsSlice'
-
+import { updateSearch } from 'store/MapFlatsSlice';
+import { Box, Paper } from '@mui/material';
+import { useState } from 'react';
+import MapFlatsModal from './MapFlatsModal';
 
 
 const serialize = function (obj, prefix) {
@@ -19,7 +20,6 @@ const serialize = function (obj, prefix) {
                 encodeURIComponent(k) + "=" + encodeURIComponent(v));
         }
     }
-    // let mid =str.join("&")
     var result = str.join("&")
     return result.replace(/&&+/gi, '&')
 }
@@ -27,12 +27,22 @@ const serialize = function (obj, prefix) {
 const MapWithRemoteObjectManager = () => {
     const mapRef = useRef(null);
     window.ymaps = useYMaps();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // const handleClick = useCallback(async (flats) => {
-    //     await dispatch(fetchFlats(flats.join(',')))
-    // }, [dispatch])
+
     const search = useSelector(state => state.mapFlats.search, shallowEqual)
+    const price_types = useSelector(state => state.mapFlats.params.price_type, shallowEqual)
+
+
+
+    const [mapSearch, setMapSearch] = useState({ type: 'flat', id: 0 })
+    const [map_flats_modal_open, setMapFlatsModalOpen] = useState(false)
+
+    const handleMapFlatsModal = () => {
+        setMapFlatsModalOpen(!map_flats_modal_open)
+    }
+
+    
 
     useEffect(() => {
         if (!window.ymaps || !mapRef.current
@@ -51,7 +61,7 @@ const MapWithRemoteObjectManager = () => {
 
         var zoomControl = new window.ymaps.control.ZoomControl({
             options: {
-                zoomDuration:0,
+                zoomDuration: 0,
                 size: "small", position: {
                     // parent.
                     top: window.innerHeight * 0.4, right: 15
@@ -61,18 +71,116 @@ const MapWithRemoteObjectManager = () => {
         window.map.controls.add(zoomControl);
 
 
-        var myButton = new window.ymaps.control.Button("My button");
-        window.map.controls.add(myButton, {
-            position: {
-                top: 10, right: 10
-            },
-        });
-        window.rom = new window.ymaps.RemoteObjectManager('https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&'+serialize(search), {
+
+        var selected_types = search.price_type.slice();
+        console.log(selected_types)
+        if (selected_types.length === 0) {
+            selected_types = ['1', '2', '3', '4', '5'];
+        }
+        console.log(selected_types)
+        console.log(serialize({ 'selected_types': selected_types }))
+
+        const getUrl = () => 'https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&' + serialize(search) + '&' + serialize({ 'selected_types': selected_types })
+
+
+        window.rom = new window.ymaps.RemoteObjectManager(getUrl(), {
             splitRequests: true,
-            // clusterHasBalloon: false,
-            // iconPieChartCoreRadius: 18,
-            // clusterIconLayout: 'default#pieChart'
         });
+
+
+        window.rom.objects.events.add(['click'], onObjectEvent);
+
+        function onObjectEvent(e) {
+
+            let object = window.rom.objects.getById(e.get('objectId'));
+
+            if (object.properties.type === 'cluster') {
+                var current_zoom = window.map.getZoom();
+                if (current_zoom < 16) {
+                    window.map.setZoom(current_zoom + 1)
+                    window.map.setCenter(object.geometry.coordinates)
+                } else {
+                    console.log(object.properties.qk)
+                    console.log(object.properties.z)
+                    setMapSearch(object.properties)
+                    handleMapFlatsModal()
+                }
+            }
+            if (object.properties.type === 'point') {
+
+                console.log(object.properties.flat)
+                setMapSearch(object.properties)
+                handleMapFlatsModal()
+
+
+
+            }
+
+        }
+
+
+        var listBoxItems = price_types
+            .map(function (type) {
+                return new window.ymaps.control.ListBoxItem({
+                    data: {
+                        content: type.title
+                    },
+                    state: {
+                        selected: selected_types.includes(String(type.val))
+                    }
+                })
+            }),
+            reducer = function (filters, filter) {
+                filters[filter.data.get('content')] = filter.isSelected();
+                return filters;
+            },
+            // Теперь создадим список, содержащий 5 пунктов.
+            listBoxControl = new window.ymaps.control.ListBox({
+                data: {
+                    content: 'Цены',
+                    title: 'Цены'
+                },
+                position: {
+                    top: 10, right: 10
+                },
+                items: listBoxItems,
+                state: {
+                    // Признак, развернут ли список.
+                    expanded: true,
+                    filters: listBoxItems.reduce(reducer, {})
+                }
+            });
+
+        // Добавим отслеживание изменения признака, выбран ли пункт списка.
+        listBoxControl.events.add(['select', 'deselect'], function (e) {
+            // console.log(e)
+            var listBoxItem = e.get('target');
+            var filters = window.ymaps.util.extend({}, listBoxControl.state.get('filters'));
+            filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
+            // console.log( filters[listBoxItem.data.get('content')]);
+            listBoxControl.state.set('filters', filters);
+        });
+
+        var filterMonitor = new window.ymaps.Monitor(listBoxControl.state);
+
+        filterMonitor.add('filters', function (filters) {
+            // Применение фильтра к ObjectManager.
+            console.log(filters)
+
+            selected_types = [];
+            price_types.map(function (type) {
+                if (filters[type.title]) {
+                    selected_types.push(String(type.val))
+                }
+                return true;
+            })
+            console.log(selected_types);
+            window.rom.setUrlTemplate('https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&' + serialize(search) + '&' + serialize({ 'selected_types': selected_types }))
+            window.rom.reloadData()
+            dispatch(updateSearch({ field: 'price_type', value: selected_types }))
+        });
+
+        window.map.controls.add(listBoxControl);
 
 
         window.map.geoObjects.add(window.rom);
@@ -83,6 +191,25 @@ const MapWithRemoteObjectManager = () => {
         ;
 
 
-    return (<div ref={mapRef} style={{ width: '99vw', height: '95vh' }}></div>);
+    return (
+        <>
+            <Box>
+                <Paper
+                    className='p-0'
+                    style={{ width: '96vw', height: '90vh' }}
+
+                >
+                    <div ref={mapRef} style={{ width: '100%', height: '100%' }}>
+
+                    </div>
+                </Paper>
+            </Box>
+            <MapFlatsModal
+                mapSearch={mapSearch}
+                handleMapFlatsModal={handleMapFlatsModal}
+                map_flats_modal_open={map_flats_modal_open}
+            />
+        </>
+    );
 };
 export default MapWithRemoteObjectManager;

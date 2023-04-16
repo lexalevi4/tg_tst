@@ -1,6 +1,7 @@
 import { all } from "redux-saga/effects";
 import { reportPlotWatcher, statPlotWatcher } from "./plotSaga";
 import {districtsChangeWatcher, metroChangeWatcher }from "./searchSaga";
+import { mapPointWatcher } from "./mapSaga";
 
 
 export function* helloSaga() {
@@ -13,6 +14,7 @@ export default function* rootSaga() {
     reportPlotWatcher(),
     statPlotWatcher(),
     districtsChangeWatcher(),
-    metroChangeWatcher()
+    metroChangeWatcher(),
+    mapPointWatcher()
   ])
 }
