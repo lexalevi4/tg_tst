@@ -1,6 +1,6 @@
 import {
     Box,
-    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,  Rating, Stack,
+    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Rating, Stack,
     Typography
 } from "@mui/material";
 
@@ -22,6 +22,16 @@ import { red } from '@mui/material/colors';
 const FlatCardMu = function ({ flat }) {
 
 
+
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const links_open = Boolean(anchorEl);
+    const handleLinksClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleLinksClose = () => {
+        setAnchorEl(null);
+    };
 
     const labels = {
 
@@ -74,9 +84,9 @@ const FlatCardMu = function ({ flat }) {
 
     const [mapOpen, setMapOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setDelOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setDelOpen(true);
+    // };
 
     const handleDelClose = () => {
         setDelOpen(false);
@@ -98,13 +108,9 @@ const FlatCardMu = function ({ flat }) {
     // console.log(okrug.name)
     header = header + ", " + okrug.name.replace(/ \(.+/gi, '') + ', ' + district.name;
 
-
-
-
     if (!available) {
         return (<></>)
     }
-
 
 
     const hideFlat = function () {
@@ -121,12 +127,6 @@ const FlatCardMu = function ({ flat }) {
         }
 
     };
-    // if (isFav) {
-    //     favContent = (<HeartBrokenIcon /> + 'Удалить')
-    // }else{
-    //     favContent = (<FavoriteBorderIcon /> + 'Добавить')
-    // }
-
 
     const getRatingColor = (value) => {
         if (value === 5) {
@@ -149,23 +149,17 @@ const FlatCardMu = function ({ flat }) {
     }
 
 
+
+
+
+
+
+
     return (
 
 
         <Card className='mb-2  mt-4 pt-3'>
 
-            {/* <CardMedia
-
-            // component="img"
-            // // height="140"
-            // image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-            // alt="green iguana"
-            >
-
-
-
-            </CardMedia> */}
-            {/*<CardActionArea>*/}
             <CardContent>
 
                 <ImageList
@@ -176,10 +170,9 @@ const FlatCardMu = function ({ flat }) {
                     // rowHeight={121}
                     variant="masonry"
                 >
-                    {/* <ImageList variant="masonry" > */}
 
                     {flat.images.map((item, index) => (
-                        <ImageListItem key={item.img}>
+                        <ImageListItem key={flat.id + "_" + index}>
                             <img
                                 key={item.img}
                                 src={item.thumb}
@@ -189,7 +182,6 @@ const FlatCardMu = function ({ flat }) {
                             />
                         </ImageListItem>
                     ))}
-                    {/* </ImageList> */}
                 </ImageList>
 
                 <Typography gutterBottom variant="h6" component="div">
@@ -243,14 +235,11 @@ const FlatCardMu = function ({ flat }) {
                 >
                     <Rating
                         name="text-feedback"
-                        // value={getPriceRating(flat.price_type)}
+
                         value={getPriceRating(flat.price_type)}
                         readOnly
-                        // color="#000"
-                        // precision={1}
                         icon={<FavoriteIcon fontSize="inherit" style={{
                             color: getRatingColor(flat.price_type)
-
                         }} />}
 
                         emptyIcon={<HeartBrokenIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -261,27 +250,49 @@ const FlatCardMu = function ({ flat }) {
                 <Typography variant="subtitle1" component="p">
                     Площадь: {flat.totalArea}/{flat.livingArea}/{flat.kitchenArea} <br /> Этаж: {flat.floor}/{flat.floorsCount}
                 </Typography>
-                {/* <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                </Typography> */}
-
-                {/* {console.log((flat.positions).length)} */}
-
                 {(flat.positions).length > 0 && <PriceAnalizeTabs cat={flat.cat} districts={flat.districts} positions={flat.positions} />}
 
                 <Stack className="mt-4 flex " justifyContent={"center"} alignItems={'center'} direction="row" spacing={2}>
                     <Button size="small"
-                        // divider={<Divider orientation="vertical" flexItem />}
+                        id={'original_link_' + flat.id}
                         color="primary"
                         variant="contained"
                         style={{
                             textTransform: 'none',
                         }}
+
+                        aria-controls={links_open ? 'demo-positioned-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={links_open ? 'true' : undefined}
+                        onClick={handleLinksClick}
+
+
                     >
                         <LaunchIcon />
                         Ссылка
                     </Button>
+
+                    <Menu
+                        id={'original_link_menu_' + flat.id}
+                        aria-labelledby={'original_link_' + flat.id}
+                        anchorEl={anchorEl}
+                        open={links_open}
+                        onClose={handleLinksClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <MenuItem onClick={handleLinksClose}>Открыть в браузере</MenuItem>
+                        <MenuItem onClick={handleLinksClose}>Отправить в чат</MenuItem>
+
+                    </Menu>
+
+
                     <Button size="small"
                         color={!isFav ? "success" : 'secondary'}
                         variant="outlined"
@@ -295,8 +306,6 @@ const FlatCardMu = function ({ flat }) {
 
 
                         {favContent()}
-                        {/* <FavoriteBorderIcon />
-                        Добавить */}
                     </Button>
                     <Button size="small"
                         onClick={() => setDelOpen(true)}
@@ -319,11 +328,7 @@ const FlatCardMu = function ({ flat }) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                {/* <DialogTitle id="alert-dialog-title">
-                    {"Объект на карте"}
-                </DialogTitle> */}
                 <DialogContent className="p-0">
-                    {/* <DialogContentText  id="alert-dialog-description"> */}
                     <YMaps>
                         <Map defaultState={mapState}
                             width={'80vw'}
@@ -335,7 +340,6 @@ const FlatCardMu = function ({ flat }) {
                             <ZoomControl options={{ size: "small", float: "right" }} />
                         </Map>
                     </YMaps>
-                    {/* </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setMapOpen(false)} autoFocus>
@@ -357,8 +361,6 @@ const FlatCardMu = function ({ flat }) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Он будет скрыт во всех будущих поисках.
-                        {/* <br /><br /> */}
-                        {/* Восстановить можно через избранное. */}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -368,29 +370,19 @@ const FlatCardMu = function ({ flat }) {
                     <Button onClick={handleDelClose}>Нет</Button>
                 </DialogActions>
             </Dialog>
-
-
-            {/*</CardActionArea>*/}
         </Card>
-
-
-
 
     )
 
-
 }
 
-const areEqual = (prevProps, nextProps) => {
-    // console.log(prevProps)
-    // console.log(nextProps)
-    if (prevProps.flat.id === nextProps.flat.id) {
-        return true                                    // donot re-render
-    }
-    return false                                     // will re-render
-}
+// const areEqual = (prevProps, nextProps) => {
+//     if (prevProps.flat.id === nextProps.flat.id) {
+//         return true                                    // donot re-render
+//     }
+//     return false                                     // will re-render
+// }
 
+// export default React.memo(FlatCardMu, areEqual)
 
-export default React.memo(FlatCardMu, areEqual)
-
-// export default FlatCardMu
+export default FlatCardMu

@@ -1,8 +1,11 @@
 import { Sheet } from "@mui/joy";
 import { Button, Divider, Paper } from "@mui/material";
-import PositionsTable from "./PositionsTable";
+// import PositionsTable from "./PositionsTable";
 import { useState } from "react";
+import { lazy } from "react";
 // import { useSpring } from "@react-spring/web";
+
+const PositionsTable = lazy(() => import('./PositionsTable'));
 
 function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} }) {
 

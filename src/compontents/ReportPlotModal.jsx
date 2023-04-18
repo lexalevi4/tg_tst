@@ -1,19 +1,18 @@
 import { AppBar, Box, Dialog, IconButton, Modal, Paper, Toolbar } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-// import { useDispatch } from "react-redux";
-// import { useGenerateReportPlotQuery } from "store/PyxiApi";
-// import PositionsTable from "./PositionsTable";
-// import { useState } from "react";
 import { Sheet } from "@mui/joy";
-import ReportPlotModalContent from "./ReportPlotModalContent";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "store/index";
 import Loading from "./Loading";
 import { updateAppParam } from "store/MapFlatsSlice";
-import StatPlotModalContent from "./StatPlotModalContent";
 import { stopStatPlot } from "saga/actions";
-// import { width } from "@mui/system";
+import { lazy } from "react";
 
+// import StatPlotModalContent from "./StatPlotModalContent";
+// import ReportPlotModalContent from "./ReportPlotModalContent";
+// import { width } from "@mui/system";
+const ReportPlotModalContent = lazy(() => import('./ReportPlotModalContent'));
+const StatPlotModalContent = lazy(() => import('./StatPlotModalContent'));
 
 // const getReportPlotRequest = (state) => state.mapFlats.app_params.report_plot_request
 

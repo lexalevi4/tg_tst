@@ -70,11 +70,7 @@ const MapFlatsModal = function ({ map_flats_modal_open, handleMapFlatsModal, dis
                     {/* <MapFlatsContent status={status} flats={flats}/> */}
 
                 </Paper>
-                <div
-                    style={{
-                        height: 100
-                    }}
-                > </div>
+               
             </Box>
         </Dialog>
 

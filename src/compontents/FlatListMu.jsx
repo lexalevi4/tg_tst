@@ -1,12 +1,24 @@
 import { useSelector } from "react-redux";
 import { action } from "store";
 import { updateAppParam, updateSearch } from "store/MapFlatsSlice";
+
+import { Pagination, Paper, Typography } from "@mui/material";
+// import FlatCardMu from "./FlatCardMu";
+
+
+// import PriceDescModal from "./PriceDescModal";
+// import ReportPlotModal from "./ReportPlotModal";
+
+
 import Loading from "./Loading";
 import NotFound from "./NotFound";
-import { Pagination, Paper, Typography } from "@mui/material";
-import FlatCardMu from "./FlatCardMu";
-import PriceDescModal from "./PriceDescModal";
-import ReportPlotModal from "./ReportPlotModal";
+import { lazy } from "react";
+
+
+const ReportPlotModal = lazy(() => import('./ReportPlotModal'));
+const PriceDescModal = lazy(() => import('./PriceDescModal'));
+
+const FlatCardMu = lazy(() => import('./FlatCardMu'));
 
 
 function FlatListMu({ data, isLoading, dispatch, page, per_page=10 }) {

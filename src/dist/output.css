@@ -224,10 +224,6 @@
   margin-bottom: 0.75rem
 }
 
-.mb-4 {
-  margin-bottom: 1rem
-}
-
 .mb-5 {
   margin-bottom: 1.25rem
 }
@@ -250,10 +246,6 @@
 
 .mr-5 {
   margin-right: 1.25rem
-}
-
-.mr-auto {
-  margin-right: auto
 }
 
 .mt-0 {
@@ -315,10 +307,6 @@
 
 .items-end {
   align-items: flex-end
-}
-
-.gap-2 {
-  gap: 0.5rem
 }
 
 .border {

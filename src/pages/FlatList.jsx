@@ -2,7 +2,10 @@ import { useGetFlatsQuery } from "../store/PyxiApi";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "store/MapFlatsSlice";
 import { useEffect } from "react";
-import FlatListMu from "compontents/FlatListMu";
+import { lazy } from "react";
+
+// import FlatListMu from "compontents/FlatListMu";
+const FlatListMu = lazy(() => import('compontents/FlatListMu'));
 
 const FlatList = function () {
     const dispatch = useDispatch();

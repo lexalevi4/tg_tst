@@ -2,7 +2,7 @@ import { Badge, BottomNavigation, BottomNavigationAction, Paper } from "@mui/mat
 
 
 
-import React, {useState} from 'react'
+import React, {useState, lazy} from 'react'
 
 import {
     BrowserRouter as Router,
@@ -12,26 +12,30 @@ import {
     // lo
 } from "react-router-dom";
 
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 // const history = useRouterHistory(createHistory)({
 //     basename: '/basename'
 // });
 
 
-import About from '../pages/About'
+// import About from '../pages/About'
 // import ListPage from '../pages/ListPage'
 
-import Mappage from '../pages/Mappage'
-import SearchFormMu from "../pages/SearchFormMu";
-import FlatList from "../pages/FlatList";
+// import Mappage from '../pages/Mappage'
+// import SearchFormMu from "../pages/SearchFormMu";
+// import FlatList from "../pages/FlatList";
+
+const Mappage = lazy(() => import('../pages/Mappage'));
+const SearchFormMu = lazy(() => import('../pages/SearchFormMu'));
+const FlatList = lazy(() => import('../pages/FlatList'));
 
 
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -61,7 +65,7 @@ function MyBottomNav() {
                     {/* */}
                     <BottomNavigationAction label="Избранное" icon={<Badge badgeContent={4} color="primary"> <FavoriteIcon /></Badge>} />
                     {/*  */}
-                    <BottomNavigationAction label="Профиль" icon={<AccountCircleIcon />} />
+                    <BottomNavigationAction label="Выход" icon={<LogoutIcon />} />
 
 
 
@@ -70,8 +74,8 @@ function MyBottomNav() {
 
 
             <Routes>
-                <Route path="/about" element={<About />}>
-                </Route>
+                {/* <Route path="/about" element={<About />}>
+                </Route> */}
                 <Route path="/list" element={<FlatList />}>
 
                 </Route>

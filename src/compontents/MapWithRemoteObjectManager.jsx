@@ -5,9 +5,12 @@ import { useYMaps } from "@pbe/react-yandex-maps";
 import { updateAppParam, updateSearch } from 'store/MapFlatsSlice';
 import { Box, Paper } from '@mui/material';
 import { useState } from 'react';
-import MapFlatsModal from './MapFlatsModal';
-import { getMapPointClick } from 'saga/actions';
 
+import { getMapPointClick } from 'saga/actions';
+import { lazy } from 'react';
+
+// import MapFlatsModal from './MapFlatsModal';
+const MapFlatsModal = lazy(() => import('./MapFlatsModal'));
 
 const serialize = function (obj, prefix) {
     var str = [],
