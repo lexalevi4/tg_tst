@@ -11,8 +11,14 @@ const FlatList = function () {
     }, [])
     const search = useSelector(state => state.mapFlats.search, shallowEqual);
     const { data, isLoading, isFetching } = useGetFlatsQuery(search)
+
+    var loading = false
+    if (isLoading || isFetching){
+        loading = true
+    }
+
     return (
-        <FlatListMu data={data} isFetching={isFetching} isLoading={isLoading} dispatch={dispatch} search={search}/>
+        <FlatListMu data={data}  isLoading={loading} dispatch={dispatch} page={search.page}/>
     )
 }
 export default FlatList;

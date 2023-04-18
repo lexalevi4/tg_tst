@@ -9,8 +9,8 @@ import PriceDescModal from "./PriceDescModal";
 import ReportPlotModal from "./ReportPlotModal";
 
 
-function FlatListMu({ data, isFetching, isLoading, dispatch, search }) {
-    const per_page = 10;
+function FlatListMu({ data, isLoading, dispatch, page, per_page=10 }) {
+    // const per_page = 10;
 
     const handlePage = (event, value) => {
         dispatch(updateSearch({ field: 'page', value: value }))
@@ -32,7 +32,7 @@ function FlatListMu({ data, isFetching, isLoading, dispatch, search }) {
     }
 
 
-    if (isLoading || isFetching) {
+    if (isLoading) {
 
         return (<Loading />)
     }
@@ -50,7 +50,7 @@ function FlatListMu({ data, isFetching, isLoading, dispatch, search }) {
                     className="p-2 text-right"
                 >
                     <Typography variant="body2" color="text.secondary">
-                        Показано: {(((search.page - 1) * per_page) + 1)}- {(((search.page - 1) * per_page) + data.flats.length)} из {data.total_count}
+                        Показано: {(((page - 1) * per_page) + 1)}- {(((page - 1) * per_page) + data.flats.length)} из {data.total_count}
                     </Typography>
                 </Paper>
                 {
@@ -60,11 +60,11 @@ function FlatListMu({ data, isFetching, isLoading, dispatch, search }) {
                     })
                 }
             </Paper>
-            <Paper            >
+            <Paper >
                 <Pagination
                     className="mt-5 py-2"
 
-                    count={Math.ceil(data.total_count / per_page)} page={search.page}
+                    count={Math.ceil(data.total_count / per_page)} page={page}
                     onChange={handlePage}
                 />
                 <div

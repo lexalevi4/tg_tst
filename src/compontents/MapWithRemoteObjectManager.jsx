@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 import { useYMaps } from "@pbe/react-yandex-maps";
-import { updateSearch } from 'store/MapFlatsSlice';
+import { updateAppParam, updateSearch } from 'store/MapFlatsSlice';
 import { Box, Paper } from '@mui/material';
 import { useState } from 'react';
 import MapFlatsModal from './MapFlatsModal';
+import { getMapPointClick } from 'saga/actions';
 
 
 const serialize = function (obj, prefix) {
@@ -29,20 +30,25 @@ const MapWithRemoteObjectManager = () => {
     window.ymaps = useYMaps();
     const dispatch = useDispatch();
 
-
     const search = useSelector(state => state.mapFlats.search, shallowEqual)
     const price_types = useSelector(state => state.mapFlats.params.price_type, shallowEqual)
 
 
-
-    const [mapSearch, setMapSearch] = useState({ type: 'flat', id: 0 })
     const [map_flats_modal_open, setMapFlatsModalOpen] = useState(false)
+
+
+    const handleClusterClick = (object) => {
+
+        setMapFlatsModalOpen(true)
+        dispatch(updateAppParam({ field: 'map_flats_status', value: 'pending' }))
+        dispatch(updateAppParam({ field: 'map_flats_request', value: object }))
+        dispatch(getMapPointClick);
+    }
 
     const handleMapFlatsModal = () => {
         setMapFlatsModalOpen(!map_flats_modal_open)
     }
 
-    
 
     useEffect(() => {
         if (!window.ymaps || !mapRef.current
@@ -70,8 +76,6 @@ const MapWithRemoteObjectManager = () => {
         });
         window.map.controls.add(zoomControl);
 
-
-
         var selected_types = search.price_type.slice();
         console.log(selected_types)
         if (selected_types.length === 0) {
@@ -91,9 +95,7 @@ const MapWithRemoteObjectManager = () => {
         window.rom.objects.events.add(['click'], onObjectEvent);
 
         function onObjectEvent(e) {
-
             let object = window.rom.objects.getById(e.get('objectId'));
-
             if (object.properties.type === 'cluster') {
                 var current_zoom = window.map.getZoom();
                 if (current_zoom < 16) {
@@ -102,22 +104,14 @@ const MapWithRemoteObjectManager = () => {
                 } else {
                     console.log(object.properties.qk)
                     console.log(object.properties.z)
-                    setMapSearch(object.properties)
-                    handleMapFlatsModal()
+                    handleClusterClick(object.properties)
                 }
             }
             if (object.properties.type === 'point') {
-
                 console.log(object.properties.flat)
-                setMapSearch(object.properties)
-                handleMapFlatsModal()
-
-
-
+                handleClusterClick(object.properties)
             }
-
         }
-
 
         var listBoxItems = price_types
             .map(function (type) {
@@ -186,9 +180,7 @@ const MapWithRemoteObjectManager = () => {
         window.map.geoObjects.add(window.rom);
         // eslint-disable-next-line
     }, [window.ymaps]
-        // }, []
-    )
-        ;
+    );
 
 
     return (
@@ -197,17 +189,15 @@ const MapWithRemoteObjectManager = () => {
                 <Paper
                     className='p-0'
                     style={{ width: '96vw', height: '90vh' }}
-
                 >
                     <div ref={mapRef} style={{ width: '100%', height: '100%' }}>
-
                     </div>
                 </Paper>
             </Box>
             <MapFlatsModal
-                mapSearch={mapSearch}
                 handleMapFlatsModal={handleMapFlatsModal}
                 map_flats_modal_open={map_flats_modal_open}
+                dispatch={dispatch}
             />
         </>
     );

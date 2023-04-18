@@ -1,22 +1,13 @@
-// import PositionsRadar from "./PositionsRadar";
-// import FlatImagesCarousel from "./FlatImagesCarousel";
 import {
     Box,
-    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Rating, Stack,
-    // Paper,
-    // Table, TableBody, TableCell,
-    // TableContainer,
-    // TableHead, TableRow,
+    Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,  Rating, Stack,
     Typography
 } from "@mui/material";
-// import Tabs from '@mui/joy/Tabs';
-// import TabList from '@mui/joy/TabList';
-// import Tab, { tabClasses } from '@mui/joy/Tab';
-// import TabPanel from '@mui/joy/TabPanel';
+
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import React from "react";
-// import React from "react";
+
 import ExploreIcon from '@mui/icons-material/Explore';
 import LaunchIcon from '@mui/icons-material/Launch';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -24,10 +15,10 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PriceAnalizeTabs from "./PriceAnalyzeTabs";
-import StarIcon from '@mui/icons-material/Star';
+// import StarIcon from '@mui/icons-material/Star';
 import { useState } from "react";
 import { Placemark, YMaps, Map, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
-import { red, purple, green, grey, indigo, blue } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 const FlatCardMu = function ({ flat }) {
 
 
@@ -48,19 +39,19 @@ const FlatCardMu = function ({ flat }) {
     const value = flat.price_type;
 
     const getPriceRating = (val) => {
-        if (val == 1) {
+        if (val === 1) {
             return 5
         }
-        if (val == 2) {
+        if (val === 2) {
             return 4
         }
-        if (val == 3) {
+        if (val === 3) {
             return 3
         }
-        if (val == 4) {
+        if (val === 4) {
             return 2
         }
-        if (val == 5) {
+        if (val === 5) {
             return 1
         }
     }
@@ -94,7 +85,7 @@ const FlatCardMu = function ({ flat }) {
 
     var header = '';
 
-    if (flat.rooms == 200) {
+    if (flat.rooms === 200) {
         header = 'Студия'
     }
     else if (flat.rooms > 3) {
@@ -102,8 +93,8 @@ const FlatCardMu = function ({ flat }) {
     } else {
         header = flat.rooms + "к"
     }
-    const okrug = flat.districts.filter(d => d.type == 'Okrug')[0];
-    const district = flat.districts.filter(d => d.type != 'Okrug')[0];
+    const okrug = flat.districts.filter(d => d.type === 'Okrug')[0];
+    const district = flat.districts.filter(d => d.type !== 'Okrug')[0];
     // console.log(okrug.name)
     header = header + ", " + okrug.name.replace(/ \(.+/gi, '') + ', ' + district.name;
 

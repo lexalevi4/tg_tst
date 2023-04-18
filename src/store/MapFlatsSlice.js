@@ -62,6 +62,7 @@ const MapFlatsSlice = createSlice(
                 flat_id: null,
                 map_flats: [],
                 map_flats_status: 'pending',
+                map_flats_request: { type: 'point', id: 0 },
                 report_plot_request: {
                     id: null,
                     x: null,

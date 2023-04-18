@@ -5,15 +5,13 @@ import 'dist/output.css'
 // import NavbarComp from './compontents/NavbarComp'
 import { Outlet } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
-import { useDispatch, useSelector } from "react-redux";
-import { setInitialBrunches, setInitialDistricts, setInitialStations, updateAppParam } from "./store/MapFlatsSlice";
-import { Slide } from '@mui/material';
+import { useDispatch } from "react-redux";
+import { setInitialBrunches, setInitialDistricts, setInitialStations } from "./store/MapFlatsSlice";
+// import { Slide } from '@mui/material';
 // import {Container} from "react-bootstrap";
 
 import * as React from 'react';
-import PriceDescModal from 'compontents/PriceDescModal';
-import ReportPlotModal from 'compontents/ReportPlotModal';
-import { action } from 'store';
+
 
 
 import MyBottomNav from 'compontents/MyBottomNav';
@@ -21,9 +19,9 @@ import MyBottomNav from 'compontents/MyBottomNav';
 
 const tg = window.Telegram.WebApp;
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//     return <Slide direction="up" ref={ref} {...props} />;
+// });
 
 function App() {
 
@@ -66,15 +64,19 @@ function App() {
     // const [value, setValue] = React.useState(0);
     // console.log(value);
     return (
-        <YMaps query={{ load: "package.full" }}>
+        <YMaps query={{
+            load: "package.full",
+            lang: "ru_RU",
+            apikey: "e105999a-b1c1-4234-963f-21e492dca418"
+        }}>
 
 
 
-                <Outlet
-                     
-                />
+            <Outlet
 
-                <MyBottomNav />
+            />
+
+            <MyBottomNav />
 
 
 
