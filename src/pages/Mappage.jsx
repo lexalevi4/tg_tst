@@ -5,6 +5,7 @@ import { lazy } from "react";
 const MapWithRemoteObjectManager = lazy(() => import('compontents/MapWithRemoteObjectManager'));
 const Mappage = function () {
 
+    
     return (
         <>
                 <MapWithRemoteObjectManager />

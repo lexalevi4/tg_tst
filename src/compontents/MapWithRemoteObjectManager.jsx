@@ -3,7 +3,11 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 import { useYMaps } from "@pbe/react-yandex-maps";
 import { updateAppParam, updateSearch } from 'store/MapFlatsSlice';
-import { Box, Paper } from '@mui/material';
+// import { Box, Paper } from '@mui/material';
+
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
 import { useState } from 'react';
 
 import { getMapPointClick } from 'saga/actions';
@@ -28,10 +32,24 @@ const serialize = function (obj, prefix) {
     return result.replace(/&&+/gi, '&')
 }
 
+
+const htmlRegexG = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g;
+
 const MapWithRemoteObjectManager = () => {
     const mapRef = useRef(null);
     window.ymaps = useYMaps();
     const dispatch = useDispatch();
+
+
+
+    
+    useEffect(() => {
+
+        dispatch(updateAppParam({ field: 'stat_plot_open', value: false }))
+        dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
+
+    }, [])
+   
 
     const search = useSelector(state => state.mapFlats.search, shallowEqual)
     const price_types = useSelector(state => state.mapFlats.params.price_type, shallowEqual)
@@ -80,12 +98,12 @@ const MapWithRemoteObjectManager = () => {
         window.map.controls.add(zoomControl);
 
         var selected_types = search.price_type.slice();
-        console.log(selected_types)
+        // console.log(selected_types)
         if (selected_types.length === 0) {
             selected_types = ['1', '2', '3', '4', '5'];
         }
-        console.log(selected_types)
-        console.log(serialize({ 'selected_types': selected_types }))
+        // console.log(selected_types)
+        // console.log(serialize({ 'selected_types': selected_types }))
 
         const getUrl = () => 'https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&' + serialize(search) + '&' + serialize({ 'selected_types': selected_types })
 
@@ -105,13 +123,13 @@ const MapWithRemoteObjectManager = () => {
                     window.map.setZoom(current_zoom + 1)
                     window.map.setCenter(object.geometry.coordinates)
                 } else {
-                    console.log(object.properties.qk)
-                    console.log(object.properties.z)
+                    // console.log(object.properties.qk)
+                    // console.log(object.properties.z)
                     handleClusterClick(object.properties)
                 }
             }
             if (object.properties.type === 'point') {
-                console.log(object.properties.flat)
+                // console.log(object.properties.flat)
                 handleClusterClick(object.properties)
             }
         }
@@ -120,7 +138,8 @@ const MapWithRemoteObjectManager = () => {
             .map(function (type) {
                 return new window.ymaps.control.ListBoxItem({
                     data: {
-                        content: type.title
+                        content: '<span style="color:' + type.color + '">' + type.title + '</span>'
+                        // content:  type.title
                     },
                     state: {
                         selected: selected_types.includes(String(type.val))
@@ -128,7 +147,7 @@ const MapWithRemoteObjectManager = () => {
                 })
             }),
             reducer = function (filters, filter) {
-                filters[filter.data.get('content')] = filter.isSelected();
+                filters[filter.data.get('content').replace(htmlRegexG, '')] = filter.isSelected();
                 return filters;
             },
             // Теперь создадим список, содержащий 5 пунктов.
@@ -153,7 +172,7 @@ const MapWithRemoteObjectManager = () => {
             // console.log(e)
             var listBoxItem = e.get('target');
             var filters = window.ymaps.util.extend({}, listBoxControl.state.get('filters'));
-            filters[listBoxItem.data.get('content')] = listBoxItem.isSelected();
+            filters[listBoxItem.data.get('content').replace(htmlRegexG, '')] = listBoxItem.isSelected();
             // console.log( filters[listBoxItem.data.get('content')]);
             listBoxControl.state.set('filters', filters);
         });

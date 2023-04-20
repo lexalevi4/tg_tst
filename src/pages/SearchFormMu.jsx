@@ -2,13 +2,23 @@
 
 // import MetroModal from "../compontents/MetroModal";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { updateSearch } from "../store/MapFlatsSlice";
-import React, { useCallback,  useState } from "react";
+import { updateAppParam, updateSearch } from "../store/MapFlatsSlice";
+import React, { useCallback,  useEffect,  useState } from "react";
 
 // import '../css/style.css'
 // import DistrictsModal from "../compontents/DistrictsModal";
 // import { Sheet } from '@mui/joy';
-import { Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Paper,  Stack } from '@mui/material';
+// import { Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Paper, Stack } from '@mui/material';
+
+import  Button  from "@mui/material/Button";
+import  ButtonGroup  from "@mui/material/ButtonGroup";
+import  Divider  from "@mui/material/Divider";
+import  FormControl  from "@mui/material/FormControl";
+import  FormLabel  from "@mui/material/FormLabel";
+import  Grid  from "@mui/material/Grid";
+import  Paper  from "@mui/material/Paper";
+import  Stack  from "@mui/material/Stack";
+
 
 import MetroModalMu from "compontents/MetroModalMu";
 import DistrictsModalMu from "compontents/DistrictsModalMu";
@@ -47,6 +57,16 @@ const SearchFormMu = function () {
     }, [dispatch])
 
 
+    // useEffect(() => {
+
+    // }, [])
+
+    useEffect(() => {
+        dispatch(updateAppParam({ field: 'stat_plot_open', value: false }))
+        dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
+        
+    }, [dispatch])
+
     const counter = (param) => {
         let count = state.search[param].length
         if (count === 0) {
@@ -68,7 +88,7 @@ const SearchFormMu = function () {
             }
             dispatch(updateSearch({ field: event.target.name, value: value }))
         }
-        , []
+        , [dispatch]
     );
 
 
@@ -416,9 +436,9 @@ const SearchFormMu = function () {
                                         label="От"
                                         handleTextInput={handleTextInput}
                                         value={search.min_floor}
-                                    /> 
+                                    />
 
-                                    
+
                                     <MyTextInput
                                         name={'max_floor'}
                                         label="До"
@@ -427,7 +447,7 @@ const SearchFormMu = function () {
                                     />
                                 </Stack>
                                 <Stack
-                                className='w-2/5'
+                                    className='w-2/5'
                                 // sx={{ width: '50%' }}
                                 >
                                     {/* <InputLabel id={"floor_types-standard-label"}>{'Тип этажа'}</InputLabel> */}
@@ -459,7 +479,7 @@ const SearchFormMu = function () {
                         <Stack
                             // divider={<Divider orientation="vertical" flexItem />}
                             direction="row" spacing={2}
-                            fullWidth
+                            // fullWidth
                             sx={{
                                 display: 'flex'
 

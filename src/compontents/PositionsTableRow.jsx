@@ -1,4 +1,9 @@
-import { TableCell, TableRow, Button } from "@mui/material";
+// import { TableCell, TableRow, Button } from "@mui/material";
+import  TableCell  from "@mui/material/TableCell";
+import  TableRow  from "@mui/material/TableRow";
+import  Button  from "@mui/material/Button";
+
+
 import { useDispatch } from "react-redux";
 import { getStatPlot } from "saga/actions";
 import { updateAppParam } from "store/MapFlatsSlice";
@@ -19,12 +24,8 @@ const PositionsTableRow = function ({ row, row_index, cols, nested = false, plot
     const dispatch = useDispatch();
 
     const statPlotHandler = function (e) {
-        // console.log(JSON.parse(e.target.dataset.onclickparam))
-
         dispatch(updateAppParam({field:'stat_plot_request',value:JSON.parse( e.target.dataset.onclickparam)}))
-        console.log(1)
         dispatch(getStatPlot)
-        console.log(2)
 
     }
 
@@ -33,28 +34,11 @@ const PositionsTableRow = function ({ row, row_index, cols, nested = false, plot
 const getCellContent = function (cell, index, active = false, row_data = {}, nested) {
 
 
-    // stopStatPlot
-        // active ? <b>{{ cell }}</b> : cell
-    
-        // console.log(row_data)
         if (index === 0) {
-            // const value = cell;
-            if (active) {
-    
-                // cell = (
-                //     // <b>
-                //         {cell}
-                //     {/* </b> */}
-                // )
-            }
+
             return (
                 <Button
-    
-                    // disabled={cell_index > 0}
-    
-                    // style={{
-                    //     color: color
-                    // }}
+
                     sx={{
                         minWidth:0
                     }}

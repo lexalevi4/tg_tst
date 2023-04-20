@@ -1,6 +1,9 @@
-import { Badge, BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+// import { Badge, BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 
-
+import Badge from '@mui/material/Badge';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Paper from '@mui/material/Paper';
 
 import React, {useState, lazy} from 'react'
 

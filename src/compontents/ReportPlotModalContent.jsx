@@ -1,5 +1,10 @@
-import { Sheet } from "@mui/joy";
-import { Button, Divider, Paper } from "@mui/material";
+import Sheet from "@mui/joy/Sheet";
+
+
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+
 // import PositionsTable from "./PositionsTable";
 import { useState } from "react";
 import { lazy } from "react";
@@ -20,10 +25,10 @@ function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} 
     return (
 
         <Sheet
-        
-        style={{
-            marginBottom:95
-        }}
+
+            style={{
+                marginBottom: 95
+            }}
         >
 
 
@@ -63,7 +68,7 @@ function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} 
                     src={'https://img.pyxi.pro/stat/img/' + data.img}
                 />
                 <Divider
-                className="my-2"
+                    className="my-2"
                 />
                 <img
                     className='m-2'

@@ -55,6 +55,7 @@ const MapFlatsSlice = createSlice(
         name: 'mapFlats',
         initialState: {
             app_params: {
+                user: { id: 0 },
                 price_desc_modal_open: false,
                 flat_modal_open: false,
                 report_plot_open: false,
@@ -95,7 +96,7 @@ const MapFlatsSlice = createSlice(
                 cat: 1,
                 rooms: [],
                 metro: [],
-                to_metro: '0',
+                to_metro: 0,
                 brunches: [],
                 districts: [],
                 okrugs: [],
@@ -116,7 +117,7 @@ const MapFlatsSlice = createSlice(
                 max_kitchen_area: '',
                 min_floor: '',
                 max_floor: '',
-                floor_type: '',
+                floor_type: 0,
                 // min_floors_count: '',
                 // max_floors_count: '',
                 // min_year_build: '',
@@ -130,6 +131,7 @@ const MapFlatsSlice = createSlice(
                 metro: [],
                 districts: [],
                 to_metro: [
+                    { val: 0, title: '' },
                     { val: 1, title: 'До 5 минут' },
                     { val: 2, title: 'До 10 минут' },
                     { val: 3, title: 'До 15 минут' },
@@ -149,6 +151,7 @@ const MapFlatsSlice = createSlice(
                     { val: 3, title: 'Новостройки' },
                 ],
                 floor_types: [
+                    { val: 0, title: '' },
                     { val: 1, title: "Любой" },
                     { val: 2, title: "Средний" },
                     { val: 3, title: "Не первый" },
@@ -183,11 +186,11 @@ const MapFlatsSlice = createSlice(
 
                 ],
                 price_type: [
-                    { val: 5, title: "Высокие" },
-                    { val: 4, title: "Выше среднего" },
-                    { val: 3, title: "Средние" },
-                    { val: 2, title: "Ниже среднего" },
-                    { val: 1, title: "Дно рынка" },
+                    { val: 5, title: "Высокие", color: '#595959' },
+                    { val: 4, title: "Выше среднего", color: '#0E4779' },
+                    { val: 3, title: "Средние", color: '#1BAD03' },
+                    { val: 2, title: "Ниже среднего", color: '#ED4543' },
+                    { val: 1, title: "Дно рынка", color: '#B51EFF' },
                 ]
 
             },
@@ -206,7 +209,7 @@ const MapFlatsSlice = createSlice(
                 state.search[action.payload.field] = action.payload.value
             },
             updateAppParam(state, action) {
-                console.log(action)
+                // console.log(action)
                 state.app_params[action.payload.field] = action.payload.value
             },
             addFlats(state, action) {
@@ -235,7 +238,7 @@ const MapFlatsSlice = createSlice(
             },
             setQueryString(state, action) {
                 state.query_string = serialize(action.payload)
-                console.log(state.query_string)
+                // console.log(state.query_string)
             }
         },
 

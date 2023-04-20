@@ -2,7 +2,11 @@ import { useSelector } from "react-redux";
 import { action } from "store";
 import { updateAppParam, updateSearch } from "store/MapFlatsSlice";
 
-import { Pagination, Paper, Typography } from "@mui/material";
+// import { Pagination, Paper, Typography } from "@mui/material";
+
+import Pagination from '@mui/material/Pagination';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 // import FlatCardMu from "./FlatCardMu";
 
 

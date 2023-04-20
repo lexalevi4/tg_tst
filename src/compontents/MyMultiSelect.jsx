@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, Select } from "@mui/material";
+// import { FormControl, InputLabel, Select } from "@mui/material";
+
+import  FormControl  from "@mui/material/FormControl";
+import  InputLabel  from "@mui/material/InputLabel";
+import  Select  from "@mui/material/Select";
+
+
 import { useMemo } from "react";
 
 function MyMultiSelect({ name, label, value, values, handleChangeMultiple }) {

@@ -5,7 +5,15 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "../store/MapFlatsSlice";
-import { AppBar, Button, Dialog, Toolbar, Typography } from '@mui/material';
+// import { AppBar, Button, Dialog, Toolbar, Typography } from '@mui/material';
+
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
+
 // import CloseIcon from '@mui/icons-material/Close';
 import MetroLinkMu from './MetroLinkMu';
 import { updateMetro } from 'saga/actions';

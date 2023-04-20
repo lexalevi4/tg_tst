@@ -1,5 +1,5 @@
-import { ModalClose } from "@mui/joy";
-import { Divider } from "@mui/material";
+import  ModalClose  from "@mui/joy/ModalClose";
+import  Divider  from "@mui/material/Divider";
 
 function StatPlotModalContent({ filename = '', closeStatPlotModal, second = '' }) {
     return (

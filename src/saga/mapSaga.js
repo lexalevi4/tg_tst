@@ -40,9 +40,7 @@ const mapPointWorker = function* () {
     let flats = yield call(() => new Promise(res => res(data.json())))
     yield put(updateAppParam({ field: 'map_flats', value: flats }))
     yield put(updateAppParam({ field: 'map_flats_status', value: 'ready' }))
-
-    
-    yield console.log(flats);
+    // yield console.log(flats);
 }
 
 export { mapPointWatcher, mapPointWorker }

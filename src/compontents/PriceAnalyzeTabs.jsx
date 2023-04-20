@@ -4,14 +4,17 @@ import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import '../css/style.css'
-import {
-    Button,
-    Paper,
-    Table, TableBody, TableCell,
-    TableContainer,
-    TableFooter,
-    TableHead, TableRow,
-} from "@mui/material";
+
+
+import  TableRow  from "@mui/material/TableRow";
+import  TableHead  from "@mui/material/TableHead";
+import  TableFooter  from "@mui/material/TableFooter";
+import  TableContainer  from "@mui/material/TableContainer";
+import  TableCell  from "@mui/material/TableCell";
+import  TableBody  from "@mui/material/TableBody";
+import  Table  from "@mui/material/Table";
+import  Paper  from "@mui/material/Paper";
+import  Button  from "@mui/material/Button";
 
 import { updateAppParam } from 'store/MapFlatsSlice';
 import HelpIcon from '@mui/icons-material/Help';

@@ -1,7 +1,7 @@
 // import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import React, { useMemo } from "react";
 // import { updateSearch } from "../store/MapFlatsSlice";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 // import {updateSearch} from "../store/MapFlatsSlice";
 
 const MetroLinkMu = function ({
@@ -13,7 +13,7 @@ const MetroLinkMu = function ({
     const checked = useMemo(() => {
         let id = Number(station.id)
         return state.includes(id)
-    }, [state,station])
+    }, [state, station])
 
 
     return (
@@ -59,7 +59,7 @@ const MetroLinkMu = function ({
                     </div>
                 </>
             )
-        }, [checked,station])
+        }, [checked, station])
 
     )
 }

@@ -3,7 +3,13 @@ import "./../css/style.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateSearch } from "../store/MapFlatsSlice";
 
-import { AppBar,  Button, Dialog, FormControlLabel,  Toolbar } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Toolbar from '@mui/material/Toolbar';
+
+
 import Checkbox from '@mui/material/Checkbox';
 import DistrictCheckbox from './DistrictCheckbox';
 import { updateDistrict } from 'saga/actions';
@@ -214,7 +220,7 @@ const DistrictsModalMu = function ({ is_open, handleClose }) {
                     >
                         Сохранить
                     </Button>
-                    
+
 
                 </Toolbar>
             </AppBar>
