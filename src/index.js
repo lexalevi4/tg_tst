@@ -14,14 +14,22 @@ import Loading from 'compontents/Loading';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-const CurrVersion = 6;
+const CurrVersion = 3;
 
 if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
     localStorage.setItem('appVersion', CurrVersion)
     persistor.purge()
+
+    if ('caches' in window) {
+        caches.keys().then((names) => {
+            // Delete all the cache files
+            names.forEach(name => {
+                caches.delete(name);
+            })
+        });
+        window.location.reload(true);
+    }
 }
-
-
 
 
 root.render(

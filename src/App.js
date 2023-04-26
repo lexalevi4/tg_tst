@@ -17,7 +17,7 @@ import * as React from 'react';
 import MyBottomNav from 'compontents/MyBottomNav';
 
 
-const tg = window.Telegram.WebApp;
+
 
 // const Transition = React.forwardRef(function Transition(props, ref) {
 //     return <Slide direction="up" ref={ref} {...props} />;
@@ -25,8 +25,8 @@ const tg = window.Telegram.WebApp;
 
 function App() {
 
-
-
+    const tg = window.Telegram.WebApp;
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
@@ -39,14 +39,24 @@ function App() {
             console.log('tg_err')
         }
 
-    }, [])
+    }, [tg])
 
 
-    const dispatch = useDispatch();
+   
 
     useEffect(() => {
+        // tg_data = window.Telegram.WebApp.initData || null
 
-        fetch('https://pyxi.pro/tg-web-app/get-metro').then(
+        fetch('https://pyxi.pro/tg-web-app/get-metro', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                // search: data.search,
+                // cluster: data.cluster,
+                tg_data: window.Telegram.WebApp.initData || null
+            })
+        })
+        .then(
             res => res.json()
         ).then(
             data => uploadMetroInitial(data)
@@ -67,7 +77,7 @@ function App() {
         <YMaps query={{
             load: "package.full",
             lang: "ru_RU",
-            apikey: "e105999a-b1c1-4234-963f-21e492dca418"
+            // apikey: "e105999a-b1c1-4234-963f-21e492dca418"
         }}>
 
 

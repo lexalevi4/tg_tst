@@ -24,6 +24,10 @@ import { useDispatch, useSelector } from 'react-redux';
 const PriceAnalizeTabs = function ({ positions, districts, cat }) {
     // console.log( districts.filter(d => d.type === 'Okrug'))
 
+
+    
+
+
     const dispatch = useDispatch();
     // const search = useSelector(state => state.mapFlats.search);
     const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);

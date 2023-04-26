@@ -25,7 +25,7 @@ const PriceDescModal = lazy(() => import('./PriceDescModal'));
 const FlatCardMu = lazy(() => import('./FlatCardMu'));
 
 
-function FlatListMu({ data, isLoading, dispatch, page, per_page=10 }) {
+function FlatListMu({ data, isLoading, dispatch, page, per_page = 10 }) {
     // const per_page = 10;
 
     const handlePage = (event, value) => {
@@ -34,6 +34,9 @@ function FlatListMu({ data, isLoading, dispatch, page, per_page=10 }) {
     }
 
     const price_desc_modal_open = useSelector(state => state.mapFlats.app_params.price_desc_modal_open);
+    const metro = useSelector(state => state.mapFlats.params.metro);
+
+    // console.log(metro)
 
     const cancelGetReportPlot = () => { action('CancelGetReportPlot') };
     const handleReportPlotClose = () => {
@@ -72,7 +75,7 @@ function FlatListMu({ data, isLoading, dispatch, page, per_page=10 }) {
                 {
                     data.flats.map(function (flat) {
 
-                        return (<FlatCardMu handlePriceDescModal={handlePriceDescModal} key={'flat_card_' + flat.id} flat={flat} />)
+                        return (<FlatCardMu handlePriceDescModal={handlePriceDescModal} key={'flat_card_' + flat.id} flat={flat} metro={metro} />)
                     })
                 }
             </Paper>

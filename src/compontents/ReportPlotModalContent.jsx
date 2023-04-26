@@ -15,49 +15,25 @@ const PositionsTable = lazy(() => import('./PositionsTable'));
 function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} }) {
 
     const [zoomed, setZommed] = useState(true)
-    // const { transform, opacity } = useSpring({
-    //   opacity: flipped ? 1 : 0,
-    //   transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
-    //   config: { mass: 5, tension: 500, friction: 80 },
-    // })
-
 
     return (
 
         <Sheet
-
             style={{
                 marginBottom: 95
             }}
         >
-
-
-
-
-
-
-
             <Paper
                 onClick={() => setZommed(!zoomed)}
 
                 className='m-3 p-2'
                 style={{
-                    // width: '95vw',
                     height: '70wh',
                     justifyContent: 'center',
                     overflowX: 'auto',
                     overflowY: 'auto'
                 }}
-            // sx={{
-
-            //     // height:500,
-            //     overflowX: 'auto',
-            //     overflowY: 'auto'
-
-            // }}
             >
-
-
 
                 <img
                     className='m-2'
@@ -79,31 +55,7 @@ function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} 
                     src={'https://img.pyxi.pro/stat/img/' + data.img_2}
                 />
 
-
             </Paper>
-            {/* <Paper
-
-                className='m-3 p-2'
-                style={{
-                    height: '70vh',
-                    justifyContent: 'center',
-                    overflowX: 'auto',
-                    overflowY: 'auto'
-                }}
-            // sx={{
-
-            //     // height:500,
-            //     overflowX: 'auto',
-            //     overflowY: 'auto'
-
-            // }}
-            >
-               
-
-
-
-            </Paper> */}
-
             <Paper
 
                 className='m-3 p-2'
@@ -119,31 +71,20 @@ function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} 
                 <Button
                     onClick={openStatPlotModal}
                 >Открыть модалку</Button>
-
             </Paper>
-
             <Paper
 
                 className='m-3 p-2'
                 sx={{
-
-                    // height:500,
                     overflowX: 'auto',
                     overflowY: 'auto'
-
                 }}
             >
-
                 <PositionsTable cols={cols} data={data.plot_data.full}
+                    // plot_data={{
 
-
-
-                    plot_data={{
-
-                    }}
+                    // }}
                 />
-
-
             </Paper>
 
 

@@ -31,8 +31,12 @@ const MapFlatsModal = function ({ map_flats_modal_open, handleMapFlatsModal, dis
             fullScreen
             open={map_flats_modal_open}
             onClose={handleMapFlatsModal}
+            scroll='paper'
         >
-            <AppBar sx={{ position: 'relative' }}>
+            <AppBar 
+            position="fixed"
+            
+            >
                 <Toolbar>
                     <IconButton
                         edge="start"

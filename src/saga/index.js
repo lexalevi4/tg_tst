@@ -4,13 +4,13 @@ import {districtsChangeWatcher, metroChangeWatcher }from "./searchSaga";
 import { mapPointWatcher } from "./mapSaga";
 
 
-export function* helloSaga() {
-  yield console.log('Hello Sagas!')
-}
+// export function* helloSaga() {
+//   yield console.log('Hello Sagas!')
+// }
 
 export default function* rootSaga() {
   yield all([
-    helloSaga(),
+    // helloSaga(),
     reportPlotWatcher(),
     statPlotWatcher(),
     districtsChangeWatcher(),

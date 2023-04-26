@@ -27,12 +27,11 @@ const MetroModalMu = function ({ is_open, handleClose }) {
     const params = useSelector(state => state.mapFlats.params, shallowEqual);
     const dispatch = useDispatch();
 
-    const dropStations = useCallback(
-        () => {
-            dispatch(updateSearch({ field: 'brunches', value: [] }))
-            dispatch(updateSearch({ field: 'metro', value: [] }))
+    const dropStations = () => {
+        dispatch(updateSearch({ field: 'brunches', value: [] }))
+        dispatch(updateSearch({ field: 'metro', value: [] }))
 
-        }, [dispatch])
+    }
 
 
     const handleBrunch = (bruch) => {
@@ -76,9 +75,9 @@ const MetroModalMu = function ({ is_open, handleClose }) {
     };
 
 
-    const handleStationClick = useCallback((e) => {
+    const handleStationClick =(e) => {
         dispatch(updateMetro(Number(e.target.dataset.onclickparam)))
-    }, [])
+    }
 
 
     return (

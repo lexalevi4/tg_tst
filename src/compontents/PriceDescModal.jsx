@@ -15,7 +15,7 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
         <Dialog
             fullScreen
             open={price_desc_modal_open}
-            keepMounted
+            // keepMounted
             onClose={handlePriceDescModal}
             TransitionComponent={Transition}
         >

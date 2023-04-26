@@ -1,9 +1,3 @@
-// import {
-//     Box,
-//     Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, Rating, Stack,
-//     Typography
-// } from "@mui/material";
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -18,10 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-
-
-
-
 
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -38,12 +28,32 @@ import PriceAnalizeTabs from "./PriceAnalyzeTabs";
 import { useState } from "react";
 import { Placemark, YMaps, Map, RulerControl, ZoomControl } from "@pbe/react-yandex-maps";
 import { red } from '@mui/material/colors';
-const FlatCardMu = function ({ flat }) {
+import GalleryModal from './GalleryModal';
+
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+// import SwipeVerticalIcon from '@mui/icons-material/SwipeVertical';
+// import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+
+import '../css/style.css'
+import { shallowEqual, useSelector } from 'react-redux';
+
+const FlatCardMu = function ({ flat, metro = null }) {
 
 
-
+    const to_metro = useSelector(state => state.mapFlats.params.to_metro, shallowEqual);
+    const material_types = useSelector(state => state.mapFlats.params.material_types, shallowEqual);
 
     const [anchorEl, setAnchorEl] = useState(null);
+
+
+    const [assessment, setAssessment] = useState(null)
+
+    const handleAssessment = (e) => {
+        setAssessment(e);
+    }
+
     const links_open = Boolean(anchorEl);
     const handleLinksClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -85,7 +95,6 @@ const FlatCardMu = function ({ flat }) {
         }
     }
 
-    // const positions = flat.positions;
 
     const mapState = {
         center: [flat.lat, flat.lng],
@@ -93,19 +102,19 @@ const FlatCardMu = function ({ flat }) {
     };
 
     const [available, setAvailable] = useState(true);
-    const [isFav, setIsFav] = useState(false);
+    const [isFav, setIsFav] = useState(flat.is_fav);
 
-
-
-    // console.log(flat.rooms)
 
     const [delOpen, setDelOpen] = useState(false);
 
     const [mapOpen, setMapOpen] = useState(false);
 
-    // const handleClickOpen = () => {
-    //     setDelOpen(true);
-    // };
+    const [gallery_modal_open, SetGalleryModalOpen] = useState(false);
+
+    const handleGalleryModal = () => {
+        SetGalleryModalOpen(!gallery_modal_open)
+    }
+
 
     const handleDelClose = () => {
         setDelOpen(false);
@@ -171,7 +180,54 @@ const FlatCardMu = function ({ flat }) {
 
 
 
+    const handleFav = () => {
 
+
+        if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
+            fetch('https://pyxi.pro/tg-web-app/fav', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    flat_id: flat.id,
+                    tg_data: window.Telegram.WebApp.initData || null
+                })
+            }).then(
+                setIsFav(!isFav)
+            )
+        } else {
+            setIsFav(!isFav)
+        }
+
+
+
+
+    }
+
+
+    const openLink = () => {
+        window.Telegram.WebApp.openLink(flat.link)
+        handleLinksClose()
+    }
+
+    const SendLinkToChat = () => {
+
+        console.log('send_to_chat')
+
+        // fetch('https://pyxi.pro/tg-web-app/send-link-to-chat', {
+        //     method: 'post',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         // search: data.search,
+        //         flat_id: flat.id,
+        //         flat_link: flat.link,
+        //         tg_data: window.Telegram.WebApp.initData || null
+        //     })
+        // })
+
+        handleLinksClose()
+    }
+
+    // console.log(metro)
 
 
     return (
@@ -193,6 +249,7 @@ const FlatCardMu = function ({ flat }) {
                     {flat.images.map((item, index) => (
                         <ImageListItem key={flat.id + "_" + index}>
                             <img
+                                onClick={handleGalleryModal}
                                 key={item.img}
                                 src={item.thumb}
                                 srcSet={item.thumb}
@@ -221,8 +278,16 @@ const FlatCardMu = function ({ flat }) {
                         <ExploreIcon size='8px' />
                     </Button>
                     {flat.address}
+                    {
+                        (flat.isApartments) && (<span> <br /> Апартаменты</span>)
+                    }
+
 
                 </Typography>
+
+
+
+
                 <Typography variant="h6" component="p">
                     <Typography variant="h6" component="span">
                         {Intl.NumberFormat('ru-RU', {
@@ -244,7 +309,8 @@ const FlatCardMu = function ({ flat }) {
                 </Typography>
 
                 <Box
-                    className='mb-5'
+                    className='mb-3'
+
                     sx={{
                         width: 300,
                         display: 'flex',
@@ -264,10 +330,129 @@ const FlatCardMu = function ({ flat }) {
                         emptyIcon={<HeartBrokenIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                     />
                     <Box sx={{ ml: 2 }}><Typography color="text.primary" >{labels[value]}</Typography></Box>
-                </Box>
 
-                <Typography variant="subtitle1" component="p">
+                </Box>
+                {/* <Box> */}
+
+
+
+                <Typography color="text.primary" className='mt-0 mb-5' >
+
+                    Согласны?
+                    &nbsp;
+                    {/* <br/ > */}
+                    <Button size="small"
+
+                        onClick={() => setAssessment(1)}
+                        className='mr-1'
+                        color="success"
+                        variant={assessment === 1 ? "contained" : "outlined"}
+                        style={{
+                            // minWidth:0,
+                            textTransform: 'none',
+                        }}
+                    >
+                        <ThumbUpAltIcon />
+                        {/* &nbsp; */}
+                        {/* Да */}
+                    </Button>
+
+                    {/* <Button size="small"
+
+                    onClick={() => setAssessment(3)}
+                    color="warning"
+                    variant={assessment === 3 ? "contained" : "outlined"}
+                    style={{
+                        textTransform: 'none',
+                    }}
+                >
+                    <ThumbsUpDownIcon />&nbsp;
+                    
+                </Button> */}
+                    <Button size="small"
+                        onClick={() => setAssessment(2)}
+                        className='mr-1'
+                        color="error"
+                        variant={assessment === 2 ? "contained" : "outlined"}
+                        style={{
+                            textTransform: 'none',
+                        }}
+                    >
+                        <ThumbDownAltIcon />
+                        {/* &nbsp; */}
+                        {/* Нет */}
+                    </Button>
+
+                </Typography>
+
+                {/* </Box> */}
+                <Typography variant="body1" component="p">
+                    {flat.metro.map(function (station) {
+                        let range = 0;
+                        if (station.range < 1) {
+                            range = Math.ceil(station.range * 1000) + " м.";
+                        } else {
+                            range = Math.round(station.range * 100) / 100 + ' км';
+                        }
+
+                        let brunch = '';
+
+
+
+
+                        // console.log(brunch.)
+
+
+
+                        return (<>
+                            {
+                                metro[station.id].colors.map(function (color) {
+                                    return (<span style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+                                })
+                            }
+                            {metro[station.id].metro} {range} <br /></>)
+                    })}
+
+
+
+
+                </Typography>
+                {(
+                    flat.metro_type === 5
+                )
+                    ?
+                    <Typography variant="subtitle1" className='mt-5' component="p">Метро транспортом</Typography>
+                    :
+                    <Typography variant="subtitle1" className='mt-5' component="p">Метро {to_metro.filter(item => item.val === flat.metro_type)[0].title.toLowerCase()} пешком</Typography>
+                }
+
+                <Typography variant="subtitle1" component="p"  >
                     Площадь: {flat.totalArea}/{flat.livingArea}/{flat.kitchenArea} <br /> Этаж: {flat.floor}/{flat.floorsCount}
+                    {(
+                        flat.material_type < 6 && flat.material_type > 0
+                    )
+                        ?
+                        <span> {material_types.filter(item => item.val === flat.material_type)[0]?.title}</span>
+                        :
+                        ''
+                    }
+
+
+                </Typography>
+
+
+                <Typography variant="subtitle1" component="p"  >
+                    Год постройки: 
+                    {(
+                        flat.buildYear > 0
+                    )
+                        ?
+                        <span> {flat.buildYear}</span>
+                        :
+                        <span> не указано</span>
+                    }
+
+
                 </Typography>
                 {(flat.positions).length > 0 && <PriceAnalizeTabs cat={flat.cat} districts={flat.districts} positions={flat.positions} />}
 
@@ -306,8 +491,8 @@ const FlatCardMu = function ({ flat }) {
                             horizontal: 'left',
                         }}
                     >
-                        <MenuItem onClick={handleLinksClose}>Открыть в браузере</MenuItem>
-                        <MenuItem onClick={handleLinksClose}>Отправить в чат</MenuItem>
+                        <MenuItem onClick={openLink}>Открыть в браузере</MenuItem>
+                        <MenuItem onClick={SendLinkToChat}>Отправить в чат</MenuItem>
 
                     </Menu>
 
@@ -316,7 +501,7 @@ const FlatCardMu = function ({ flat }) {
                         color={!isFav ? "success" : 'secondary'}
                         variant="outlined"
                         data-onclickparam={flat.id}
-                        onClick={() => setIsFav(!isFav)}
+                        onClick={handleFav}
                         style={{
                             textTransform: 'none',
                         }}
@@ -389,6 +574,18 @@ const FlatCardMu = function ({ flat }) {
                     <Button onClick={handleDelClose}>Нет</Button>
                 </DialogActions>
             </Dialog>
+
+            <GalleryModal
+                gallery_modal_open={gallery_modal_open}
+                handleGalleryModal={handleGalleryModal}
+                images={flat.images}
+            />
+
+
+
+
+
+
         </Card>
 
     )

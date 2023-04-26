@@ -51,6 +51,13 @@ function MyBottomNav() {
         setValue(newValue);
     }
 
+    const closeApp = ()=>{
+        try{
+            window.Telegram.WebApp.close();
+        }catch(e){
+
+        }
+    }
 
     return (
         <Router>
@@ -68,7 +75,7 @@ function MyBottomNav() {
                     {/* */}
                     <BottomNavigationAction label="Избранное" icon={<Badge badgeContent={4} color="primary"> <FavoriteIcon /></Badge>} />
                     {/*  */}
-                    <BottomNavigationAction label="Выход" icon={<LogoutIcon />} />
+                    <BottomNavigationAction onClick={closeApp} label="Выход" icon={<LogoutIcon />} />
 
 
 
