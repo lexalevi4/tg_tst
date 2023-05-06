@@ -14,7 +14,7 @@ import Loading from 'compontents/Loading';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-const CurrVersion = 3;
+const CurrVersion = 7;
 
 if (Number(localStorage.getItem('appVersion')) !== CurrVersion) {
     localStorage.setItem('appVersion', CurrVersion)

@@ -6,7 +6,7 @@ import 'dist/output.css'
 import { Outlet } from "react-router-dom";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { useDispatch } from "react-redux";
-import { setInitialBrunches, setInitialDistricts, setInitialStations } from "./store/MapFlatsSlice";
+import { setInitialBrunches, setInitialDistricts, setInitialStations, updateAppParam } from "./store/MapFlatsSlice";
 // import { Slide } from '@mui/material';
 // import {Container} from "react-bootstrap";
 
@@ -68,6 +68,9 @@ function App() {
         dispatch(setInitialStations(data.metro))
         dispatch(setInitialBrunches(data.brunches))
         dispatch(setInitialDistricts(data.districts))
+        dispatch(updateAppParam({ field: 'user', value: data.user }))
+        dispatch(updateAppParam({ field: 'fav_count', value: data.fav_count }))
+        
     }, [dispatch])
 
 

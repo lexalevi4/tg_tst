@@ -25,11 +25,15 @@ const PriceDescModal = lazy(() => import('./PriceDescModal'));
 const FlatCardMu = lazy(() => import('./FlatCardMu'));
 
 
-function FlatListMu({ data, isLoading, dispatch, page, per_page = 10 }) {
+function FlatListMu({ data, isLoading, dispatch, page, per_page = 10, fav = false }) {
     // const per_page = 10;
 
     const handlePage = (event, value) => {
-        dispatch(updateSearch({ field: 'page', value: value }))
+        if (!fav) {
+            dispatch(updateSearch({ field: 'page', value: value }))
+        } else {
+            dispatch(updateSearch({ field: 'fav_page', value: value }))
+        }
         window.scrollTo(0, 0)
     }
 
@@ -75,7 +79,7 @@ function FlatListMu({ data, isLoading, dispatch, page, per_page = 10 }) {
                 {
                     data.flats.map(function (flat) {
 
-                        return (<FlatCardMu handlePriceDescModal={handlePriceDescModal} key={'flat_card_' + flat.id} flat={flat} metro={metro} />)
+                        return (<FlatCardMu handlePriceDescModal={handlePriceDescModal} key={'flat_card_' + flat.id} flat={flat} metro={metro} fav={fav} dispatch={dispatch} />)
                     })
                 }
             </Paper>

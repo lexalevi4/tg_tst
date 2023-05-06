@@ -531,6 +531,109 @@ const SearchFormMu = function () {
                     </Grid>
                 </Grid>
 
+                
+                <Grid item xs={12} md={12}>
+                    <Divider className="m-3" />
+                </Grid>
+
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={12}>
+
+
+
+                        <Stack
+                            // divider={<Divider orientation="vertical" flexItem />}
+                            direction="row" spacing={2}
+                            // fullWidth
+                            sx={{
+                                display: 'flex'
+
+                            }}
+                        >
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '50%' }}
+                            >
+                                <MyMultiSelect
+                                    name={'plan'}
+                                    label={'Планировка'}
+                                    handleChangeMultiple={handleChangeMultiple}
+                                    value={search.plan}
+                                    values={params.plans}
+                                />
+                            </Stack>
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '50%' }}
+                            >
+
+                                <MyNativeSelect
+                                    name={'isApartment'}
+                                    label={'Апартаменты'}
+                                    handleChangeSelect={handleChangeSelect}
+                                    value={search.isApartment}
+                                    values={params.isApartment}
+                                />
+
+                            </Stack>
+
+                        </Stack>
+                    </Grid>
+                </Grid>
+
+
+            
+                <Grid item xs={12} md={12}>
+                    <Divider className="m-3" />
+                </Grid>
+
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={12}>
+
+
+
+                        <Stack
+                            // divider={<Divider orientation="vertical" flexItem />}
+                            direction="row" spacing={2}
+                            // fullWidth
+                            sx={{
+                                display: 'flex'
+
+                            }}
+                        >
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '50%' }}
+                            >
+                                <MyMultiSelect
+                                    name={'src'}
+                                    label={'Источник'}
+                                    handleChangeMultiple={handleChangeMultiple}
+                                    value={search.src}
+                                    values={params.srcs}
+                                />
+                            </Stack>
+                            <Stack
+                                className='ml-0'
+                                sx={{ width: '50%' }}
+                            >
+
+                                <MyNativeSelect
+                                    name={'isByHomeowner'}
+                                    label={'От собственников'}
+                                    handleChangeSelect={handleChangeSelect}
+                                    value={search.isByHomeowner}
+                                    values={params.isByHomeowner}
+                                />
+
+                            </Stack>
+
+                        </Stack>
+                    </Grid>
+                </Grid>
+
+
+
             </Paper>
 
             <MetroModalMu is_open={metro_open} handleClose={close_metro_modal} />

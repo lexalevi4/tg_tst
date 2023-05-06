@@ -55,6 +55,8 @@ const MapFlatsSlice = createSlice(
         name: 'mapFlats',
         initialState: {
             app_params: {
+                
+                fav_count: 0,
                 user: { id: 0 },
                 price_desc_modal_open: false,
                 flat_modal_open: false,
@@ -92,6 +94,7 @@ const MapFlatsSlice = createSlice(
             status: null,
             error: null,
             search: {
+                fav_page: 1,
                 page: 1,
                 cat: 1,
                 rooms: [],
@@ -118,6 +121,10 @@ const MapFlatsSlice = createSlice(
                 min_floor: '',
                 max_floor: '',
                 floor_type: 0,
+                src: [1, 2],
+                plan: [],
+                isApartment: 2,
+                isByHomeowner: 2,
                 // min_floors_count: '',
                 // max_floors_count: '',
                 // min_year_build: '',
@@ -130,6 +137,28 @@ const MapFlatsSlice = createSlice(
                 brunches: [],
                 metro: [],
                 districts: [],
+
+                srcs: [
+                    { val: 1, title: 'Cian' },
+                    { val: 2, title: 'Avito' },
+                ],
+
+                isApartment: [
+                    { val: 2, title: 'Не важно' },
+                    { val: 1, title: 'Да' },
+                    { val: 0, title: 'Нет' },
+
+                ],
+                isByHomeowner: [
+                    { val: 2, title: 'Не важно' },
+                    { val: 1, title: 'Да' },
+                    { val: 0, title: 'Нет' },
+                ],
+                plans: [
+                    { val: 1, title: 'Изолированная' },
+                    { val: 2, title: 'Смежная' },
+                    { val: 3, title: 'Смежно-изолированная' },
+                ],
                 to_metro: [
                     { val: 0, title: '' },
                     { val: 1, title: 'До 5 минут' },
@@ -236,6 +265,10 @@ const MapFlatsSlice = createSlice(
                 state.params.districts = action.payload
                 // setQueryString()
             },
+            // setInitialUser(state, action) {
+            //     state.params.user = action.payload
+            //     // setQueryString()
+            // },
             setQueryString(state, action) {
                 state.query_string = serialize(action.payload)
                 // console.log(state.query_string)

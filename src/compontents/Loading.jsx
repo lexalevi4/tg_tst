@@ -9,15 +9,7 @@ import ReactECharts from 'echarts-for-react';
 const Loading = function () {
 
 
-    // useEffect(() => {
-
-
-    //     var chartDom = document.getElementById('scatter');
-
-    //     var myChart = echarts.init(chartDom);
-    //     var option;
-
-    const option = {
+        const option = {
         graphic: {
             elements: [
                 {
@@ -72,10 +64,7 @@ const Loading = function () {
 
     return (
         <div className='echarts'>
-            {/* <Paper> */}
                 <ReactECharts option={option} />
-                {/* <div id="scatter" className='chart'></div> */}
-            {/* </Paper> */}
         </div>
 
     );

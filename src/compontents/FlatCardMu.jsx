@@ -34,25 +34,28 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 // import SwipeVerticalIcon from '@mui/icons-material/SwipeVertical';
 // import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
-import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+// import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 import '../css/style.css'
 import { shallowEqual, useSelector } from 'react-redux';
+import { updateAppParam } from 'store/MapFlatsSlice';
 
-const FlatCardMu = function ({ flat, metro = null }) {
+const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
 
     const to_metro = useSelector(state => state.mapFlats.params.to_metro, shallowEqual);
     const material_types = useSelector(state => state.mapFlats.params.material_types, shallowEqual);
 
+    const fav_count = useSelector(state => state.mapFlats.app_params.fav_count, shallowEqual);
+
     const [anchorEl, setAnchorEl] = useState(null);
 
 
-    const [assessment, setAssessment] = useState(null)
+    const [assessment, setAssessment] = useState(flat.assessment)
 
-    const handleAssessment = (e) => {
-        setAssessment(e);
-    }
+    // const handleAssessment = (e) => {
+    //     setAssessment(e);
+    // }
 
     const links_open = Boolean(anchorEl);
     const handleLinksClick = (event) => {
@@ -143,6 +146,23 @@ const FlatCardMu = function ({ flat, metro = null }) {
 
     const hideFlat = function () {
         setDelOpen(false);
+
+        try {
+            if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
+                fetch('https://pyxi.pro/tg-web-app/black-list', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        flat_id: flat.id,
+                        tg_data: window.Telegram.WebApp.initData || null
+                    })
+                }).then(
+                    // setIsFav(!isFav)
+                )
+            }
+        } catch (e) {
+
+        }
         setAvailable(false)
     }
 
@@ -181,24 +201,34 @@ const FlatCardMu = function ({ flat, metro = null }) {
 
 
     const handleFav = () => {
+        setIsFav(!isFav)
 
-
-        if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
-            fetch('https://pyxi.pro/tg-web-app/fav', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    flat_id: flat.id,
-                    tg_data: window.Telegram.WebApp.initData || null
-                })
-            }).then(
-                setIsFav(!isFav)
-            )
+        if (!isFav) {
+            dispatch(updateAppParam({ field: 'fav_count', value: fav_count + 1 }))
         } else {
-            setIsFav(!isFav)
+            dispatch(updateAppParam({ field: 'fav_count', value: fav_count - 1 }))
         }
 
 
+
+        try {
+            if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
+                fetch('https://pyxi.pro/tg-web-app/fav', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        flat_id: flat.id,
+                        tg_data: window.Telegram.WebApp.initData || null
+                    })
+                }).then(
+
+                )
+            } else {
+
+            }
+        } catch (e) {
+
+        }
 
 
     }
@@ -224,10 +254,41 @@ const FlatCardMu = function ({ flat, metro = null }) {
         //     })
         // })
 
-        handleLinksClose()
+        handleLinksClose();
     }
 
     // console.log(metro)
+
+
+
+    const assessmentHandler = (e) => {
+        console.log(e);
+
+
+        try {
+            if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
+                fetch('https://pyxi.pro/tg-web-app/assessment', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        status: e,
+                        flat_id: flat.id,
+                        tg_data: window.Telegram.WebApp.initData || null
+                    })
+                }).then(
+                    // setIsFav(!isFav)
+                )
+            } else {
+                // setIsFav(!isFav)
+            }
+        } catch (e) {
+
+        }
+
+
+        setAssessment(e);
+
+    }
 
 
     return (
@@ -343,7 +404,7 @@ const FlatCardMu = function ({ flat, metro = null }) {
                     {/* <br/ > */}
                     <Button size="small"
 
-                        onClick={() => setAssessment(1)}
+                        onClick={() => assessmentHandler(1)}
                         className='mr-1'
                         color="success"
                         variant={assessment === 1 ? "contained" : "outlined"}
@@ -370,7 +431,7 @@ const FlatCardMu = function ({ flat, metro = null }) {
                     
                 </Button> */}
                     <Button size="small"
-                        onClick={() => setAssessment(2)}
+                        onClick={() => assessmentHandler(2)}
                         className='mr-1'
                         color="error"
                         variant={assessment === 2 ? "contained" : "outlined"}
@@ -395,7 +456,7 @@ const FlatCardMu = function ({ flat, metro = null }) {
                             range = Math.round(station.range * 100) / 100 + ' км';
                         }
 
-                        let brunch = '';
+                        // let brunch = '';
 
 
 
@@ -406,11 +467,11 @@ const FlatCardMu = function ({ flat, metro = null }) {
 
                         return (<>
                             {
-                                metro[station.id].colors.map(function (color) {
-                                    return (<span style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+                                metro.filter(item => item.id === station.id)[0].colors.map(function (color, index) {
+                                    return (<span key={flat.id + '_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
                                 })
                             }
-                            {metro[station.id].metro} {range} <br /></>)
+                            {metro.filter(item => item.id === station.id)[0].metro} {range} <br /></>)
                     })}
 
 
@@ -442,7 +503,7 @@ const FlatCardMu = function ({ flat, metro = null }) {
 
 
                 <Typography variant="subtitle1" component="p"  >
-                    Год постройки: 
+                    Год постройки:
                     {(
                         flat.buildYear > 0
                     )

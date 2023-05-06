@@ -42,17 +42,19 @@ const MapWithRemoteObjectManager = () => {
 
 
 
-    
+
     useEffect(() => {
 
         dispatch(updateAppParam({ field: 'stat_plot_open', value: false }))
         dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
 
     }, [])
-   
+
 
     const search = useSelector(state => state.mapFlats.search, shallowEqual)
     const price_types = useSelector(state => state.mapFlats.params.price_type, shallowEqual)
+    const user = useSelector(state => state.mapFlats.app_params.user, shallowEqual)
+
 
 
     const [map_flats_modal_open, setMapFlatsModalOpen] = useState(false)
@@ -105,7 +107,21 @@ const MapWithRemoteObjectManager = () => {
         // console.log(selected_types)
         // console.log(serialize({ 'selected_types': selected_types }))
 
-        const getUrl = () => 'https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&' + serialize(search) + '&' + serialize({ 'selected_types': selected_types })
+        const getUrl = () => {
+            let link = 'https://pyxi.pro/tg-web-app/map-cluster?z=%z&bbox=%b&'
+                + serialize(search)
+                + '&'
+                + serialize({ 'selected_types': selected_types })
+
+            if (user.id > 0) {
+                link += '&user_id=' + user.id
+            } else {
+                link += '&user_id=0'
+            }
+
+            return link
+
+        }
 
 
         window.rom = new window.ymaps.RemoteObjectManager(getUrl(), {

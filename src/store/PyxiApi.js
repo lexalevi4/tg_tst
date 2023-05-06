@@ -24,7 +24,7 @@ export const
                 ),
 
                 getClusterFlats: build.query({
-                    query: (search ) => ({
+                    query: (search) => ({
                         url: 'get-cluster-flats',
                         method: "POST",
                         body:
@@ -51,6 +51,19 @@ export const
                     })
                 }
                 ),
+                getFav: build.query({
+                    query: (search) => ({
+                        url: 'get-fav',
+                        method: "POST",
+                        body:
+                        {
+                            // id: id,
+                            search: search,
+                            tg_data: window.Telegram.WebApp.initData || null
+                        }
+                    })
+                }
+                ),
 
                 GenerateReportPlot: build.query({
                     query: (plot_data) => ({
@@ -68,4 +81,4 @@ export const
         }
     )
 
-export const { useGetFlatsQuery, useGenerateReportPlotQuery, useGetClusterFlatsQuery, useGetFlatByIdQuery } = PyxiApi;
+export const { useGetFlatsQuery, useGenerateReportPlotQuery, useGetClusterFlatsQuery, useGetFlatByIdQuery, useGetFavQuery } = PyxiApi;
