@@ -55,7 +55,7 @@ const MapFlatsSlice = createSlice(
         name: 'mapFlats',
         initialState: {
             app_params: {
-                
+                report_flat:{ id: 0 },
                 fav_count: 0,
                 user: { id: 0 },
                 price_desc_modal_open: false,

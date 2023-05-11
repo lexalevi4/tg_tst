@@ -1,12 +1,12 @@
 
 
-import  AppBar  from "@mui/material/AppBar";
-import  Box  from "@mui/material/Box";
-import  Dialog  from "@mui/material/Dialog";
-import  IconButton  from "@mui/material/IconButton";
-import  Paper  from "@mui/material/Paper";
-import  Toolbar  from "@mui/material/Toolbar";
-import  Typography  from "@mui/material/Typography";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -15,11 +15,12 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
         <Dialog
             fullScreen
             open={price_desc_modal_open}
+            // scroll="paper"
             // keepMounted
             onClose={handlePriceDescModal}
             TransitionComponent={Transition}
         >
-            <AppBar sx={{ position: 'relative' }}>
+            <AppBar position="fixed" color="primary" sx={{ top: 0, bottom: 'auto' }}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -40,6 +41,10 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
             <Box>
                 <Paper
                     className='m-3 p-2'
+                    style={{
+                        marginTop: 80
+                    }}
+
                 >
                     <Typography >
                         В ячейках таблицы указаны два числа.
@@ -73,20 +78,20 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                         <b>0% / 38</b><br /> означает, что в классе 38 объявлений, и этот самый дешёвый из них.
                     </Typography>
 
-                    
+
                     <hr />
                     <Typography className='mt-3' >
                         <b>Тип цены</b> определяется на основе позиции по цене за квадрат по району.
                     </Typography>
-                    <Typography className='mt-3'component={'div'} >
-                        <ul className= 'mb-5' >
+                    <Typography className='mt-3' component={'div'} >
+                        <ul className='mb-5' >
                             <li>Низкие цены - 5 и более позиций 0% при количестве больше 5 объявлений.</li>
                             <li>Ниже среднего - 5 и более позиций до 20% при количестве больше 5 объявлений.</li>
                             <li>Средние - 5 и более позиций до 50% при количестве больше 5 объявлений.</li>
                             <li>Выше среднего - 5 и более позиций до 80% при количестве больше 5 объявлений.</li>
                             <li>Высокие цены - Все остальные.</li>
                         </ul>
-                        
+
                     </Typography>
                     <hr />
                     <Typography className='mt-3' >
@@ -96,15 +101,15 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                         Обновляется раз в неделю.
                     </Typography>
 
-                    
+
 
 
                 </Paper>
                 <div
                     style={{
-                        height:100
+                        height: 100
                     }}
-                    > </div>
+                > </div>
             </Box>
         </Dialog>
 

@@ -185,6 +185,10 @@
   position: relative
 }
 
+.m-1 {
+  margin: 0.25rem
+}
+
 .m-2 {
   margin: 0.5rem
 }
@@ -206,6 +210,15 @@
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem
+}
+
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem
+}
+
+.-mb-2 {
+  margin-bottom: -0.5rem
 }
 
 .mb-0 {
@@ -270,6 +283,10 @@
 
 .mt-5 {
   margin-top: 1.25rem
+}
+
+.mt-10 {
+  margin-top: 2.5rem
 }
 
 .block {

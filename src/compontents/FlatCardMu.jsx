@@ -39,12 +39,13 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import '../css/style.css'
 import { shallowEqual, useSelector } from 'react-redux';
 import { updateAppParam } from 'store/MapFlatsSlice';
+// import { Paper, Table, TableBody, TableCell, TableContainer,  TableRow } from '@mui/material';
+import FlatParamsTable from './FlatParamsTable';
 
 const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
 
-    const to_metro = useSelector(state => state.mapFlats.params.to_metro, shallowEqual);
-    const material_types = useSelector(state => state.mapFlats.params.material_types, shallowEqual);
+
 
     const fav_count = useSelector(state => state.mapFlats.app_params.fav_count, shallowEqual);
 
@@ -308,7 +309,7 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                 >
 
                     {flat.images.map((item, index) => (
-                        <ImageListItem key={flat.id + "_" + index}>
+                        <ImageListItem key={flat.id + "_image_" + index}>
                             <img
                                 onClick={handleGalleryModal}
                                 key={item.img}
@@ -346,6 +347,38 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
                 </Typography>
 
+
+                <Typography variant="body1" component="p" className='mb-3'>
+                    {flat.metro.map(function (station) {
+                        let range = 0;
+                        if (station.range < 1) {
+                            range = Math.ceil(station.range * 1000) + " м.";
+                        } else {
+                            range = Math.round(station.range * 100) / 100 + ' км';
+                        }
+
+                        // let brunch = '';
+
+
+
+
+                        // console.log(brunch.)
+
+
+
+                        return (<>
+                            {
+                                metro.filter(item => item.id === station.id)[0].colors.map(function (color, index) {
+                                    return (<span key={flat.id + '_metro_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+                                })
+                            }
+                            {metro.filter(item => item.id === station.id)[0].metro} {range} <br /></>)
+                    })}
+
+
+
+
+                </Typography>
 
 
 
@@ -447,38 +480,8 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                 </Typography>
 
                 {/* </Box> */}
-                <Typography variant="body1" component="p">
-                    {flat.metro.map(function (station) {
-                        let range = 0;
-                        if (station.range < 1) {
-                            range = Math.ceil(station.range * 1000) + " м.";
-                        } else {
-                            range = Math.round(station.range * 100) / 100 + ' км';
-                        }
-
-                        // let brunch = '';
-
-
-
-
-                        // console.log(brunch.)
-
-
-
-                        return (<>
-                            {
-                                metro.filter(item => item.id === station.id)[0].colors.map(function (color, index) {
-                                    return (<span key={flat.id + '_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
-                                })
-                            }
-                            {metro.filter(item => item.id === station.id)[0].metro} {range} <br /></>)
-                    })}
-
-
-
-
-                </Typography>
-                {(
+                
+                {/* {(
                     flat.metro_type === 5
                 )
                     ?
@@ -488,7 +491,22 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                 }
 
                 <Typography variant="subtitle1" component="p"  >
-                    Площадь: {flat.totalArea}/{flat.livingArea}/{flat.kitchenArea} <br /> Этаж: {flat.floor}/{flat.floorsCount}
+                    Площадь: {flat.totalArea}/{flat.livingArea}/{flat.kitchenArea}
+
+                    {
+                        (Number(flat.plan) > 0
+                            ?
+                            <span><br /> Планировка: {plans.filter(item => item.val === Number(flat.plan))[0]?.title}</span>
+                            :
+                            "")
+                    }
+
+                    <br /> Балконы/Лоджии: {flat.balconiesCount}/{flat.loggiasCount}
+
+                    <br /> Этаж: {flat.floor}/{flat.floorsCount}
+
+
+
                     {(
                         flat.material_type < 6 && flat.material_type > 0
                     )
@@ -497,7 +515,6 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                         :
                         ''
                     }
-
 
                 </Typography>
 
@@ -514,8 +531,15 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                     }
 
 
-                </Typography>
-                {(flat.positions).length > 0 && <PriceAnalizeTabs cat={flat.cat} districts={flat.districts} positions={flat.positions} />}
+
+                </Typography> */}
+
+
+                <FlatParamsTable flat={flat}/>
+
+
+
+                {(flat.positions).length > 0 && <PriceAnalizeTabs flat={flat} />}
 
                 <Stack className="mt-4 flex " justifyContent={"center"} alignItems={'center'} direction="row" spacing={2}>
                     <Button size="small"

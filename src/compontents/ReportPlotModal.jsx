@@ -1,10 +1,10 @@
-import  AppBar  from "@mui/material/AppBar";
-import  Dialog  from "@mui/material/Dialog";
-import  Box  from "@mui/material/Box";
-import  IconButton  from "@mui/material/IconButton";
-import  Modal  from "@mui/material/Modal";
-import  Paper  from "@mui/material/Paper";
-import  Toolbar  from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Modal from "@mui/material/Modal";
+import Paper from "@mui/material/Paper";
+import Toolbar from "@mui/material/Toolbar";
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Sheet } from "@mui/joy";
@@ -14,6 +14,7 @@ import Loading from "./Loading";
 import { updateAppParam } from "store/MapFlatsSlice";
 import { stopStatPlot } from "saga/actions";
 import { lazy } from "react";
+// import ReportDescModal from "./ReportDescModal";
 
 // import StatPlotModalContent from "./StatPlotModalContent";
 // import ReportPlotModalContent from "./ReportPlotModalContent";
@@ -31,15 +32,11 @@ const getStatPlotOpen = (state) => state.mapFlats.app_params.stat_plot_open
 
 const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
-    // let ready = false;
-
-    // const [statPlotOpen, setStatPlotOpen] = useState(false);
-
-    // const openStatPlotModal = () => { setStatPlotOpen(true) }
-    // const closeStatPlotModal = () => { setStatPlotOpen(false) }
-
 
     const report_plot_open = useSelector(getReportPlotOpen);
+
+ 
+
     // const report_plot_request = useSelector(getReportPlotRequest);
 
     const areEqual = (oldValue, newValue) => (oldValue.id === newValue.id && oldValue.status === newValue.status)
@@ -139,9 +136,9 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                     </Paper>
                 );
             case 'ready':
-                return (<StatPlotModalContent 
-                    filename={stat_plot_data.filename} 
-                    closeStatPlotModal={closeStatPlotModal} 
+                return (<StatPlotModalContent
+                    filename={stat_plot_data.filename}
+                    closeStatPlotModal={closeStatPlotModal}
                     second={stat_plot_data.second}
                 //     plot_data={{
                 //     x: data.x,
@@ -171,7 +168,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             open={report_plot_open}
             scroll='paper'
             onClose={handleReportPlotClose}
-            TransitionComponent={Transition}
+            // TransitionComponent={Transition}
         >
 
 
@@ -179,9 +176,9 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             <Box
             >
                 <Sheet
-                    classname="p-3"
+                    className="p-3"
                     style={{
-                        marginTop: 80
+                        marginTop: 60
                     }}
                 >
                     {renderSwitch(data.status)}
@@ -226,6 +223,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                 </Sheet>
             </Modal>
 
+            
 
         </Dialog>
     );

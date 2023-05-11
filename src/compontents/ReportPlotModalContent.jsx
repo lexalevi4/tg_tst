@@ -8,89 +8,127 @@ import Paper from "@mui/material/Paper";
 // import PositionsTable from "./PositionsTable";
 import { useState } from "react";
 import { lazy } from "react";
+import FlatParamsTable from "./FlatParamsTable";
+import { shallowEqual, useSelector } from "react-redux";
+// import ReportDescModal from "./ReportDescModal";
 // import { useSpring } from "@react-spring/web";
 
+const ReportDescModal = lazy(() => import('./ReportDescModal'));
 const PositionsTable = lazy(() => import('./PositionsTable'));
 
-function ReportPlotModalContent({ cols, data, openStatPlotModal, plot_data = {} }) {
+function ReportPlotModalContent({ cols, data }) {
 
     const [zoomed, setZommed] = useState(true)
+    const flat = useSelector(state => state.mapFlats.app_params.report_flat, shallowEqual);
+
+    const [report_desc_modal_open, setReportDescModalOpen] = useState(false)
+
+
+    const openReportDescModal = () => {
+        console.log('saf');
+        setReportDescModalOpen(true);
+    }
+
 
     return (
+        <>
 
-        <Sheet
-            style={{
-                marginBottom: 95
-            }}
-        >
-            <Paper
-                onClick={() => setZommed(!zoomed)}
+            <Sheet
+                // className="p-3"
 
-                className='m-3 p-2'
                 style={{
-                    height: '70wh',
-                    justifyContent: 'center',
-                    overflowX: 'auto',
-                    overflowY: 'auto'
+                    // marginTop: 80,
+                    marginBottom: 95
                 }}
             >
+                <Paper
+                    onClick={() => setZommed(!zoomed)}
 
-                <img
-                    className='m-2'
+                    className='m-3 p-2'
                     style={{
-                        width: zoomed ? '95%' : '250%',
+                        height: '70wh',
+                        justifyContent: 'center',
+                        overflowX: 'auto',
+                        overflowY: 'auto'
                     }}
-                    alt={'Боксплот'}
-                    src={'https://img.pyxi.pro/stat/img/' + data.img}
-                />
-                <Divider
-                    className="my-2"
-                />
-                <img
-                    className='m-2'
-                    style={{
-                        width: zoomed ? '95%' : '250%',
+                >
+
+                    <img
+                        className='m-2'
+                        style={{
+                            width: zoomed ? '95%' : '250%',
+                        }}
+                        alt={'Боксплот'}
+                        src={'https://img.pyxi.pro/stat/img/' + data.img}
+                    />
+                    <Divider
+                        className="my-2"
+                    />
+                    <img
+                        className='m-2'
+                        style={{
+                            width: zoomed ? '95%' : '250%',
+                        }}
+                        alt={'Гистограмма'}
+                        src={'https://img.pyxi.pro/stat/img/' + data.img_2}
+                    />
+
+                </Paper>
+
+                <Paper
+
+                    className='m-3 p-2'
+                    sx={{
+
+                        // height:500,
+                        overflowX: 'auto',
+                        overflowY: 'auto'
+
                     }}
-                    alt={'Гистограмма'}
-                    src={'https://img.pyxi.pro/stat/img/' + data.img_2}
-                />
+                >
+                    <FlatParamsTable flat={flat} />
+                </Paper>
 
-            </Paper>
-            <Paper
 
-                className='m-3 p-2'
-                sx={{
+                <Paper
 
-                    // height:500,
-                    overflowX: 'auto',
-                    overflowY: 'auto'
+                    className='m-3 p-2'
+                    sx={{
 
-                }}
-            >
+                        // height:500,
+                        overflowX: 'auto',
+                        overflowY: 'auto'
 
-                <Button
-                    onClick={openStatPlotModal}
-                >Открыть модалку</Button>
-            </Paper>
-            <Paper
+                    }}
+                >
 
-                className='m-3 p-2'
-                sx={{
-                    overflowX: 'auto',
-                    overflowY: 'auto'
-                }}
-            >
-                <PositionsTable cols={cols} data={data.plot_data.full}
+
+                    <Button
+                        onClick={openReportDescModal}
+                    >Пояснительная бригада</Button>
+                </Paper>
+
+                <Paper
+
+                    className='m-3 p-2'
+                    sx={{
+                        overflowX: 'auto',
+                        overflowY: 'auto'
+                    }}
+                >
+                    <PositionsTable cols={cols} data={data.plot_data.full}
                     // plot_data={{
 
                     // }}
-                />
-            </Paper>
+                    />
+                </Paper>
 
 
 
-        </Sheet>
+            </Sheet>
 
+            <ReportDescModal report_desc_modal_open={report_desc_modal_open} setReportDescModalOpen={setReportDescModalOpen} openReportDescModal={openReportDescModal} />
+        </>
     );
 }
 

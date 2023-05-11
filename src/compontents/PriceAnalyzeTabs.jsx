@@ -6,27 +6,29 @@ import TabPanel from '@mui/joy/TabPanel';
 import '../css/style.css'
 
 
-import  TableRow  from "@mui/material/TableRow";
-import  TableHead  from "@mui/material/TableHead";
-import  TableFooter  from "@mui/material/TableFooter";
-import  TableContainer  from "@mui/material/TableContainer";
-import  TableCell  from "@mui/material/TableCell";
-import  TableBody  from "@mui/material/TableBody";
-import  Table  from "@mui/material/Table";
-import  Paper  from "@mui/material/Paper";
-import  Button  from "@mui/material/Button";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import TableFooter from "@mui/material/TableFooter";
+import TableContainer from "@mui/material/TableContainer";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
+import Table from "@mui/material/Table";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
 
 import { updateAppParam } from 'store/MapFlatsSlice';
 import HelpIcon from '@mui/icons-material/Help';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const PriceAnalizeTabs = function ({ positions, districts, cat }) {
+const PriceAnalizeTabs = function ({ flat }) {
     // console.log( districts.filter(d => d.type === 'Okrug'))
 
 
-    
 
+    // const cat = flat.cat
+    const districts = flat.districts
+    const positions = flat.positions
 
     const dispatch = useDispatch();
     // const search = useSelector(state => state.mapFlats.search);
@@ -144,10 +146,45 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
     const positionClickHandler = function (e) {
         // console.log(e)
         let params = JSON.parse(e.target.dataset.onclickparam)
-        console.log(params)
+        let clone = Object.assign({}, flat);
+        let for_del = [
+            'address',
+            'images',
+            'actual_checked',
+            'report_id',
+            'last_checked',
+            'creationDate',
+            'src',
+            'name',
+            'cat',
+            'object',
+            'lat',
+            'lng',
+            'id',
+            'description',
+            'link',
+            'phone',
+            'positions',
+            'assessment',
+            'is_fav'
+        ];
+        for_del.map((item) => {
+            try {
+                delete clone[item]
+            } catch (e) {
+
+            }
+            return true;
+        })
+        // delete clone.description
+        // delete clone.link
+        // delete clone.phone
+        // delete clone.positions
+        // console.log(params)
         dispatch(updateAppParam({ field: 'report_plot_request', value: params }))
         dispatch(updateAppParam({ field: 'report_plot', value: { id: params.id, status: 'none' } }))
         dispatch(updateAppParam({ field: 'report_plot_open', value: true }))
+        dispatch(updateAppParam({ field: 'report_flat', value: clone }))
 
     }
 
@@ -156,9 +193,9 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
         <>
 
             <Button
-            style={{
-                textTransform: 'none',
-            }}
+                style={{
+                    textTransform: 'none',
+                }}
                 // aria-describedby={id}
 
                 // className='ml-5 mr-5 '
@@ -221,11 +258,11 @@ const PriceAnalizeTabs = function ({ positions, districts, cat }) {
                 >
                     <Tab>За квартиру</Tab>
                     <Tab>За квадрат</Tab>
-                    
+
                 </TabList>
 
                 <hr />
-                
+
 
                 <TabPanel className='mb-3' value={0}>
 

@@ -28,8 +28,8 @@ const MetroLinkMu = function ({
                         className={(checked) ? '' : "station_img_hidden"}
                         style={{
                             position: 'absolute',
-                            left: (Number(station.img_left) + 24) + "px",
-                            top: (Number(station.img_top) + 96) + "px",
+                            left: (Number(station.img_left) + 24+28) + "px",
+                            top: (Number(station.img_top) + 96+40) + "px",
                         }}
                     />
                     {
@@ -41,8 +41,8 @@ const MetroLinkMu = function ({
                         className={'metro_div'}
                         style={{
                             position: 'absolute',
-                            left: (Number(station.div_left) + 22) + "px",
-                            top: (Number(station.div_top) + 98) + "px",
+                            left: (Number(station.div_left) + 22 +28) + "px",
+                            top: (Number(station.div_top) + 98+40) + "px",
 
                         }}
                     >
