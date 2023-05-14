@@ -4,6 +4,8 @@ import { updateAppParam, updateSearch } from "store/MapFlatsSlice";
 import { useEffect } from "react";
 import { lazy } from "react";
 
+
+
 // import FlatListMu from "compontents/FlatListMu";
 const FlatListMu = lazy(() => import('compontents/FlatListMu'));
 
@@ -28,7 +30,10 @@ const FavPage = function () {
     }
 
     return (
-        <FlatListMu data={data} isLoading={loading} dispatch={dispatch} page={search.fav_page} fav={true} />
+        
+            
+            <FlatListMu data={data} isLoading={loading} dispatch={dispatch} page={search.fav_page} fav={true} />
+        
     )
 }
 export default FavPage;

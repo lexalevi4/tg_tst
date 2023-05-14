@@ -217,10 +217,6 @@
   margin-bottom: 1.25rem
 }
 
-.-mb-2 {
-  margin-bottom: -0.5rem
-}
-
 .mb-0 {
   margin-bottom: 0px
 }
@@ -269,6 +265,10 @@
   margin-top: 0.25rem
 }
 
+.mt-10 {
+  margin-top: 2.5rem
+}
+
 .mt-2 {
   margin-top: 0.5rem
 }
@@ -285,8 +285,8 @@
   margin-top: 1.25rem
 }
 
-.mt-10 {
-  margin-top: 2.5rem
+.mb-10 {
+  margin-bottom: 2.5rem
 }
 
 .block {
@@ -305,12 +305,20 @@
   display: table
 }
 
+.grid {
+  display: grid
+}
+
 .w-2\/5 {
   width: 40%
 }
 
 .w-3\/5 {
   width: 60%
+}
+
+.grid-flow-col {
+  grid-auto-flow: column
 }
 
 .content-center {
@@ -327,6 +335,10 @@
 
 .p-0 {
   padding: 0px
+}
+
+.p-1 {
+  padding: 0.25rem
 }
 
 .p-2 {

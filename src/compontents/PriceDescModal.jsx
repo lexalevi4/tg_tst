@@ -38,7 +38,18 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                             </Button> */}
                 </Toolbar>
             </AppBar>
-            <Box>
+            <Box
+                style={{
+                    height: '95vh',
+                    // display: 'flex',
+                    // gridArea={cu},
+
+                    // height:500,
+                    // overflowX: 'auto',
+                    overflowY: 'auto'
+                }}
+
+            >
                 <Paper
                     className='m-3 p-2'
                     style={{
@@ -107,7 +118,7 @@ const PriceDescModal = function ({ price_desc_modal_open, handlePriceDescModal, 
                 </Paper>
                 <div
                     style={{
-                        height: 100
+                        height: 30
                     }}
                 > </div>
             </Box>

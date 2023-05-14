@@ -12,6 +12,7 @@ import FlatParamsTable from "./FlatParamsTable";
 import { shallowEqual, useSelector } from "react-redux";
 // import ReportDescModal from "./ReportDescModal";
 // import { useSpring } from "@react-spring/web";
+import HelpIcon from '@mui/icons-material/Help';
 
 const ReportDescModal = lazy(() => import('./ReportDescModal'));
 const PositionsTable = lazy(() => import('./PositionsTable'));
@@ -60,6 +61,7 @@ function ReportPlotModalContent({ cols, data }) {
                         }}
                         alt={'Боксплот'}
                         src={'https://img.pyxi.pro/stat/img/' + data.img}
+                        loading="lazy"
                     />
                     <Divider
                         className="my-2"
@@ -71,10 +73,32 @@ function ReportPlotModalContent({ cols, data }) {
                         }}
                         alt={'Гистограмма'}
                         src={'https://img.pyxi.pro/stat/img/' + data.img_2}
+                        loading="lazy"
                     />
 
                 </Paper>
+                <Paper
 
+                    className='m-3 p-2'
+                    sx={{
+
+                        // height:500,
+                        overflowX: 'auto',
+                        overflowY: 'auto'
+
+                    }}
+                >
+
+
+                    <Button
+                        style={{
+                            textTransform: 'none',
+                        }}
+                        onClick={openReportDescModal}
+                    >
+                         <HelpIcon size='8px' /> Пояснительная бригада
+                        </Button>
+                </Paper>
                 <Paper
 
                     className='m-3 p-2'
@@ -90,23 +114,7 @@ function ReportPlotModalContent({ cols, data }) {
                 </Paper>
 
 
-                <Paper
 
-                    className='m-3 p-2'
-                    sx={{
-
-                        // height:500,
-                        overflowX: 'auto',
-                        overflowY: 'auto'
-
-                    }}
-                >
-
-
-                    <Button
-                        onClick={openReportDescModal}
-                    >Пояснительная бригада</Button>
-                </Paper>
 
                 <Paper
 

@@ -161,7 +161,7 @@ const PriceAnalizeTabs = function ({ flat }) {
             'lat',
             'lng',
             'id',
-            'description',
+            // 'description',
             'link',
             'phone',
             'positions',

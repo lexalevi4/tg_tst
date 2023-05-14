@@ -41,6 +41,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { updateAppParam } from 'store/MapFlatsSlice';
 // import { Paper, Table, TableBody, TableCell, TableContainer,  TableRow } from '@mui/material';
 import FlatParamsTable from './FlatParamsTable';
+import { Alert, Snackbar } from '@mui/material';
 
 const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
@@ -110,6 +111,14 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
 
     const [delOpen, setDelOpen] = useState(false);
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    }
+    // const handleOpenSnackbar = () => {
+    //     setSnackbarOpen(true);
+    // }
 
     const [mapOpen, setMapOpen] = useState(false);
 
@@ -242,19 +251,29 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
 
     const SendLinkToChat = () => {
 
-        console.log('send_to_chat')
+        // console.log('send_to_chat')
+        setSnackbarOpen(true);
 
-        // fetch('https://pyxi.pro/tg-web-app/send-link-to-chat', {
-        //     method: 'post',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         // search: data.search,
-        //         flat_id: flat.id,
-        //         flat_link: flat.link,
-        //         tg_data: window.Telegram.WebApp.initData || null
-        //     })
-        // })
+        try {
+            if (window.Telegram.WebApp.initData !== null && window.Telegram.WebApp.initData !== '') {
+                fetch('https://pyxi.pro/tg-web-app/send-all-fav', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        flat: flat.id,
+                        fav: 0,
+                        tg_data: window.Telegram.WebApp.initData || null
+                    })
+                }).then(
 
+                )
+            } else {
+
+            }
+        } catch (e) {
+
+        }
+        
         handleLinksClose();
     }
 
@@ -292,166 +311,170 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
     }
 
 
+
+
+
     return (
 
 
-        <Card className='mb-2  mt-4 pt-3'>
+        <>
+            <Card className='mb-2  mt-4 pt-3'>
 
-            <CardContent>
+                <CardContent>
 
-                <ImageList
-                    sx={{ height: 140 }} cols={2} rowHeight={128}
-                    // sx={{ width: 500, height: 450 }}
-                    // variant="quilted"
-                    // cols={4}
-                    // rowHeight={121}
-                    variant="masonry"
-                >
-
-                    {flat.images.map((item, index) => (
-                        <ImageListItem key={flat.id + "_image_" + index}>
-                            <img
-                                onClick={handleGalleryModal}
-                                key={item.img}
-                                src={item.thumb}
-                                srcSet={item.thumb}
-                                alt={Math.random(10000)}
-                                loading="lazy"
-                            />
-                        </ImageListItem>
-                    ))}
-                </ImageList>
-
-                <Typography gutterBottom variant="h6" component="div">
-                    {header}
-                    <br />
-                    <Button
-                        onClick={() => setMapOpen(true)}
-                        color='success'
-
-                        className="px-0"
-                        style={{
-                            textTransform: 'none',
-                            minWidth: '30px',
-                            paddingBottom: '11px'
-
-                        }}
+                    <ImageList
+                        sx={{ height: 140 }} cols={2} rowHeight={128}
+                        // sx={{ width: 500, height: 450 }}
+                        // variant="quilted"
+                        // cols={4}
+                        // rowHeight={121}
+                        variant="masonry"
                     >
-                        <ExploreIcon size='8px' />
-                    </Button>
-                    {flat.address}
-                    {
-                        (flat.isApartments) && (<span> <br /> Апартаменты</span>)
-                    }
 
+                        {flat.images.map((item, index) => (
+                            <ImageListItem key={flat.id + "_image_" + index}>
+                                <img
+                                    onClick={handleGalleryModal}
+                                    key={item.img}
+                                    src={item.thumb}
+                                    srcSet={item.thumb}
+                                    alt={Math.random(10000)}
+                                    loading="lazy"
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
 
-                </Typography>
+                    <Typography gutterBottom variant="h6" component="div">
+                        {header}
+                        <br />
+                        <Button
+                            onClick={() => setMapOpen(true)}
+                            color='success'
 
+                            className="px-0"
+                            style={{
+                                textTransform: 'none',
+                                minWidth: '30px',
+                                paddingBottom: '11px'
 
-                <Typography variant="body1" component="p" className='mb-3'>
-                    {flat.metro.map(function (station) {
-                        let range = 0;
-                        if (station.range < 1) {
-                            range = Math.ceil(station.range * 1000) + " м.";
-                        } else {
-                            range = Math.round(station.range * 100) / 100 + ' км';
+                            }}
+                        >
+                            <ExploreIcon size='8px' />
+                        </Button>
+                        {flat.address}
+                        {
+                            (flat.isApartments) && (<span> <br /> Апартаменты</span>)
                         }
 
-                        // let brunch = '';
+
+                    </Typography>
 
 
-
-
-                        // console.log(brunch.)
-
-
-
-                        return (<>
-                            {
-                                metro.filter(item => item.id === station.id)[0].colors.map(function (color, index) {
-                                    return (<span key={flat.id + '_metro_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
-                                })
+                    <Typography variant="body1" component="p" className='mb-3'>
+                        {flat.metro.map(function (station) {
+                            let range = 0;
+                            if (station.range < 1) {
+                                range = Math.ceil(station.range * 1000) + " м.";
+                            } else {
+                                range = Math.round(station.range * 100) / 100 + ' км';
                             }
-                            {metro.filter(item => item.id === station.id)[0].metro} {range} <br /></>)
-                    })}
+
+                            // let brunch = '';
 
 
 
 
-                </Typography>
+                            // console.log(brunch.)
 
 
 
-                <Typography variant="h6" component="p">
-                    <Typography variant="h6" component="span">
-                        {Intl.NumberFormat('ru-RU', {
-                            style: 'currency',
-                            currency: 'RUB',
-                            currencyDisplay: 'symbol', maximumFractionDigits: 0
-                        }).format(flat.price)}
-                    </Typography> /
-                    <Typography variant="h6" component="span" color="text.secondary">
-                        {' ' +
-                            Intl.NumberFormat('ru-RU', {
+                            return (<>
+                                {
+                                    metro.filter(item => item.id === station.id)[0].colors.map(function (color, index) {
+                                        return (<span key={flat.id + '_metro_' + index} style={{ backgroundColor: '#' + color }} className='metro_brunch_round'> </span>)
+                                    })
+                                }
+                                {metro.filter(item => item.id === station.id)[0].metro} {range} <br /></>)
+                        })}
+
+
+
+
+                    </Typography>
+
+
+
+                    <Typography variant="h6" component="p">
+                        <Typography variant="h6" component="span">
+                            {Intl.NumberFormat('ru-RU', {
                                 style: 'currency',
                                 currency: 'RUB',
                                 currencyDisplay: 'symbol', maximumFractionDigits: 0
-                            }).format(
-                                Math.round(flat.price_per_meter))
-                        } / m<sup>2</sup>
+                            }).format(flat.price)}
+                        </Typography> /
+                        <Typography variant="h6" component="span" color="text.secondary">
+                            {' ' +
+                                Intl.NumberFormat('ru-RU', {
+                                    style: 'currency',
+                                    currency: 'RUB',
+                                    currencyDisplay: 'symbol', maximumFractionDigits: 0
+                                }).format(
+                                    Math.round(flat.price_per_meter))
+                            } / m<sup>2</sup>
+                        </Typography>
                     </Typography>
-                </Typography>
 
-                <Box
-                    className='mb-3'
+                    <Box
+                        className='mb-3'
 
-                    sx={{
-                        width: 300,
-                        display: 'flex',
-                        alignItems: 'center',
+                        sx={{
+                            width: 300,
+                            display: 'flex',
+                            alignItems: 'center',
 
-                    }}
-                >
-                    <Rating
-                        name="text-feedback"
-
-                        value={getPriceRating(flat.price_type)}
-                        readOnly
-                        icon={<FavoriteIcon fontSize="inherit" style={{
-                            color: getRatingColor(flat.price_type)
-                        }} />}
-
-                        emptyIcon={<HeartBrokenIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                    />
-                    <Box sx={{ ml: 2 }}><Typography color="text.primary" >{labels[value]}</Typography></Box>
-
-                </Box>
-                {/* <Box> */}
-
-
-
-                <Typography color="text.primary" className='mt-0 mb-5' >
-
-                    Согласны?
-                    &nbsp;
-                    {/* <br/ > */}
-                    <Button size="small"
-
-                        onClick={() => assessmentHandler(1)}
-                        className='mr-1'
-                        color="success"
-                        variant={assessment === 1 ? "contained" : "outlined"}
-                        style={{
-                            // minWidth:0,
-                            textTransform: 'none',
                         }}
                     >
-                        <ThumbUpAltIcon />
-                        {/* &nbsp; */}
-                        {/* Да */}
-                    </Button>
+                        <Rating
+                            name="text-feedback"
 
-                    {/* <Button size="small"
+                            value={getPriceRating(flat.price_type)}
+                            readOnly
+                            icon={<FavoriteIcon fontSize="inherit" style={{
+                                color: getRatingColor(flat.price_type)
+                            }} />}
+
+                            emptyIcon={<HeartBrokenIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        />
+                        <Box sx={{ ml: 2 }}><Typography color="text.primary" >{labels[value]}</Typography></Box>
+
+                    </Box>
+                    {/* <Box> */}
+
+
+
+                    <Typography color="text.primary" className='mt-0 mb-5' >
+
+                        Согласны?
+                        &nbsp;
+                        {/* <br/ > */}
+                        <Button size="small"
+
+                            onClick={() => assessmentHandler(1)}
+                            className='mr-1'
+                            color="success"
+                            variant={assessment === 1 ? "contained" : "outlined"}
+                            style={{
+                                // minWidth:0,
+                                textTransform: 'none',
+                            }}
+                        >
+                            <ThumbUpAltIcon />
+                            {/* &nbsp; */}
+                            {/* Да */}
+                        </Button>
+
+                        {/* <Button size="small"
 
                     onClick={() => setAssessment(3)}
                     color="warning"
@@ -463,25 +486,25 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                     <ThumbsUpDownIcon />&nbsp;
                     
                 </Button> */}
-                    <Button size="small"
-                        onClick={() => assessmentHandler(2)}
-                        className='mr-1'
-                        color="error"
-                        variant={assessment === 2 ? "contained" : "outlined"}
-                        style={{
-                            textTransform: 'none',
-                        }}
-                    >
-                        <ThumbDownAltIcon />
-                        {/* &nbsp; */}
-                        {/* Нет */}
-                    </Button>
+                        <Button size="small"
+                            onClick={() => assessmentHandler(2)}
+                            className='mr-1'
+                            color="error"
+                            variant={assessment === 2 ? "contained" : "outlined"}
+                            style={{
+                                textTransform: 'none',
+                            }}
+                        >
+                            <ThumbDownAltIcon />
+                            {/* &nbsp; */}
+                            {/* Нет */}
+                        </Button>
 
-                </Typography>
+                    </Typography>
 
-                {/* </Box> */}
-                
-                {/* {(
+                    {/* </Box> */}
+
+                    {/* {(
                     flat.metro_type === 5
                 )
                     ?
@@ -535,144 +558,158 @@ const FlatCardMu = function ({ flat, metro, fav = false, dispatch }) {
                 </Typography> */}
 
 
-                <FlatParamsTable flat={flat}/>
+                    <FlatParamsTable flat={flat} />
 
 
 
-                {(flat.positions).length > 0 && <PriceAnalizeTabs flat={flat} />}
+                    {(flat.positions).length > 0 && <PriceAnalizeTabs flat={flat} />}
 
-                <Stack className="mt-4 flex " justifyContent={"center"} alignItems={'center'} direction="row" spacing={2}>
-                    <Button size="small"
-                        id={'original_link_' + flat.id}
-                        color="primary"
-                        variant="contained"
-                        style={{
-                            textTransform: 'none',
-                        }}
+                    <Stack className="mt-4 flex " justifyContent={"center"} alignItems={'center'} direction="row" spacing={2}>
+                        <Button size="small"
+                            id={'original_link_' + flat.id}
+                            color="primary"
+                            variant="contained"
+                            style={{
+                                textTransform: 'none',
+                            }}
 
-                        aria-controls={links_open ? 'demo-positioned-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={links_open ? 'true' : undefined}
-                        onClick={handleLinksClick}
+                            aria-controls={links_open ? 'demo-positioned-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={links_open ? 'true' : undefined}
+                            onClick={handleLinksClick}
 
-
-                    >
-                        <LaunchIcon />
-                        Ссылка
-                    </Button>
-
-                    <Menu
-                        id={'original_link_menu_' + flat.id}
-                        aria-labelledby={'original_link_' + flat.id}
-                        anchorEl={anchorEl}
-                        open={links_open}
-                        onClose={handleLinksClose}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                    >
-                        <MenuItem onClick={openLink}>Открыть в браузере</MenuItem>
-                        <MenuItem onClick={SendLinkToChat}>Отправить в чат</MenuItem>
-
-                    </Menu>
-
-
-                    <Button size="small"
-                        color={!isFav ? "success" : 'secondary'}
-                        variant="outlined"
-                        data-onclickparam={flat.id}
-                        onClick={handleFav}
-                        style={{
-                            textTransform: 'none',
-                        }}
-                    >
-
-
-
-                        {favContent()}
-                    </Button>
-                    <Button size="small"
-                        onClick={() => setDelOpen(true)}
-                        color="error"
-                        variant="contained"
-                        style={{
-                            textTransform: 'none',
-                        }}
-                    >
-                        <DeleteForeverIcon />
-                        Скрыть
-                    </Button>
-                </Stack>
-
-            </CardContent>
-
-            <Dialog
-                open={mapOpen}
-                onClose={() => setMapOpen(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogContent className="p-0">
-                    <YMaps>
-                        <Map defaultState={mapState}
-                            width={'80vw'}
-                            height={'65vh'}
 
                         >
-                            <Placemark geometry={[flat.lat, flat.lng]} />
-                            <RulerControl options={{ float: "right" }} />
-                            <ZoomControl options={{ size: "small", float: "right" }} />
-                        </Map>
-                    </YMaps>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setMapOpen(false)} autoFocus>
-                        Закрыть
-                    </Button>
+                            <LaunchIcon />
+                            Ссылка
+                        </Button>
 
-                </DialogActions>
-            </Dialog>
+                        <Menu
+                            id={'original_link_menu_' + flat.id}
+                            aria-labelledby={'original_link_' + flat.id}
+                            anchorEl={anchorEl}
+                            open={links_open}
+                            onClose={handleLinksClose}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                        >
+                            <MenuItem onClick={openLink}>Открыть в браузере</MenuItem>
+                            <MenuItem onClick={SendLinkToChat}>Отправить в чат</MenuItem>
 
-            <Dialog
-                open={delOpen}
-                onClose={handleDelClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+                        </Menu>
+
+
+                        <Button size="small"
+                            color={!isFav ? "success" : 'secondary'}
+                            variant="outlined"
+                            data-onclickparam={flat.id}
+                            onClick={handleFav}
+                            style={{
+                                textTransform: 'none',
+                            }}
+                        >
+
+
+
+                            {favContent()}
+                        </Button>
+                        <Button size="small"
+                            onClick={() => setDelOpen(true)}
+                            color="error"
+                            variant="contained"
+                            style={{
+                                textTransform: 'none',
+                            }}
+                        >
+                            <DeleteForeverIcon />
+                            Скрыть
+                        </Button>
+                    </Stack>
+
+                </CardContent>
+
+                <Dialog
+                    open={mapOpen}
+                    onClose={() => setMapOpen(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogContent className="p-0">
+                        <YMaps>
+                            <Map defaultState={mapState}
+                                width={'80vw'}
+                                height={'65vh'}
+
+                            >
+                                <Placemark geometry={[flat.lat, flat.lng]} />
+                                <RulerControl options={{ float: "right" }} />
+                                <ZoomControl options={{ size: "small", float: "right" }} />
+                            </Map>
+                        </YMaps>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setMapOpen(false)} autoFocus>
+                            Закрыть
+                        </Button>
+
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={delOpen}
+                    onClose={handleDelClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Добавить объект в чёрный список?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Он будет скрыт во всех будущих поисках.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={hideFlat} autoFocus>
+                            Да
+                        </Button>
+                        <Button onClick={handleDelClose}>Нет</Button>
+                    </DialogActions>
+                </Dialog>
+
+                <GalleryModal
+                    gallery_modal_open={gallery_modal_open}
+                    handleGalleryModal={handleGalleryModal}
+                    images={flat.images}
+                />
+
+
+
+
+
+            </Card>
+
+            <Snackbar
+            // className='mb-10'
+            style={{
+                marginBottom:'60px'
+            }}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                // style={}
             >
-                <DialogTitle id="alert-dialog-title">
-                    {"Добавить объект в чёрный список?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Он будет скрыт во всех будущих поисках.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={hideFlat} autoFocus>
-                        Да
-                    </Button>
-                    <Button onClick={handleDelClose}>Нет</Button>
-                </DialogActions>
-            </Dialog>
-
-            <GalleryModal
-                gallery_modal_open={gallery_modal_open}
-                handleGalleryModal={handleGalleryModal}
-                images={flat.images}
-            />
-
-
-
-
-
-
-        </Card>
-
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    Отправлено
+                </Alert>
+            </Snackbar>
+        </>
     )
 
 }

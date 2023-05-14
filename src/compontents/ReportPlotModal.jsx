@@ -8,7 +8,7 @@ import Toolbar from "@mui/material/Toolbar";
 
 import CloseIcon from '@mui/icons-material/Close';
 import { Sheet } from "@mui/joy";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { action } from "store/index";
 import Loading from "./Loading";
 import { updateAppParam } from "store/MapFlatsSlice";
@@ -33,9 +33,9 @@ const getStatPlotOpen = (state) => state.mapFlats.app_params.stat_plot_open
 const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
 
 
-    const report_plot_open = useSelector(getReportPlotOpen);
+    const report_plot_open = useSelector(getReportPlotOpen, shallowEqual);
 
- 
+
 
     // const report_plot_request = useSelector(getReportPlotRequest);
 
@@ -168,7 +168,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
             open={report_plot_open}
             scroll='paper'
             onClose={handleReportPlotClose}
-            // TransitionComponent={Transition}
+        // TransitionComponent={Transition}
         >
 
 
@@ -223,7 +223,7 @@ const ReportPlotModal = function ({ handleReportPlotClose, Transition }) {
                 </Sheet>
             </Modal>
 
-            
+
 
         </Dialog>
     );
