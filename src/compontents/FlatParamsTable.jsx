@@ -273,12 +273,12 @@ function FlatParamsTable({ flat }) {
                         }}
                     >
                         <Typography>
-                            {flat.description?.split('\n').map(function (item) {
+                            {flat.description?.split('\n').map(function (item, index) {
                                 return (
-                                    <>
+                                    <span key={'flat_desc_' + flat.id + '_' + index}>
                                         {item}
                                         < br />
-                                    </>
+                                    </span>
                                 )
                             })}
 

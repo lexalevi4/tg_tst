@@ -59,7 +59,7 @@ const MetroLinkMu = function ({
                     </div>
                 </>
             )
-        }, [checked, station])
+        }, [checked, station.id,station.img_left,station.div_left,station.div_top,station.img_top,station.metro])
 
     )
 }

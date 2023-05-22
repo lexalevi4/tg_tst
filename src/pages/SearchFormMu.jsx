@@ -3,21 +3,21 @@
 // import MetroModal from "../compontents/MetroModal";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateAppParam, updateSearch } from "../store/MapFlatsSlice";
-import React, { useCallback,  useEffect,  useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // import '../css/style.css'
 // import DistrictsModal from "../compontents/DistrictsModal";
 // import { Sheet } from '@mui/joy';
 // import { Button, ButtonGroup, Divider, FormControl, FormLabel, Grid, Paper, Stack } from '@mui/material';
 
-import  Button  from "@mui/material/Button";
-import  ButtonGroup  from "@mui/material/ButtonGroup";
-import  Divider  from "@mui/material/Divider";
-import  FormControl  from "@mui/material/FormControl";
-import  FormLabel  from "@mui/material/FormLabel";
-import  Grid  from "@mui/material/Grid";
-import  Paper  from "@mui/material/Paper";
-import  Stack  from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 
 
 import MetroModalMu from "compontents/MetroModalMu";
@@ -25,13 +25,37 @@ import DistrictsModalMu from "compontents/DistrictsModalMu";
 import MyMultiSelect from "compontents/MyMultiSelect";
 import MyNativeSelect from "compontents/MyNativeSelect";
 import MyTextInput from "compontents/MyTextInput";
-
+import { Typography } from "@mui/material";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const SearchFormMu = function () {
 
     const state = useSelector(state => state.mapFlats);
     const params = useSelector(state => state.mapFlats.params, shallowEqual)
-    const search = useSelector(state => state.mapFlats.search, shallowEqual)
+    // const search = useSelector(state => state.mapFlats.search, shallowEqual)
+    const cat =useSelector(state => state.mapFlats.search.cat, shallowEqual) 
+    const rooms =useSelector(state => state.mapFlats.search.rooms, shallowEqual) 
+    // const metro =useSelector(state => state.mapFlats.search.metro, shallowEqual) 
+    const to_metro =useSelector(state => state.mapFlats.search.to_metro, shallowEqual) 
+    // const districts =useSelector(state => state.mapFlats.search.districts, shallowEqual) 
+    const min_price =useSelector(state => state.mapFlats.search.min_price, shallowEqual) 
+    const max_price =useSelector(state => state.mapFlats.search.max_price, shallowEqual) 
+    const price_type =useSelector(state => state.mapFlats.search.price_type, shallowEqual) 
+    const min_total_area =useSelector(state => state.mapFlats.search.min_total_area, shallowEqual) 
+    const max_total_area =useSelector(state => state.mapFlats.search.max_total_area, shallowEqual) 
+    const min_kitchen_area =useSelector(state => state.mapFlats.search.min_kitchen_area, shallowEqual) 
+    const max_kitchen_area =useSelector(state => state.mapFlats.search.max_kitchen_area, shallowEqual) 
+    const min_floor =useSelector(state => state.mapFlats.search.min_floor, shallowEqual) 
+    const max_floor =useSelector(state => state.mapFlats.search.max_floor, shallowEqual) 
+    const floor_types =useSelector(state => state.mapFlats.search.floor_types, shallowEqual) 
+    const floors_count_type =useSelector(state => state.mapFlats.search.floors_count_type, shallowEqual) 
+    const material =useSelector(state => state.mapFlats.search.material, shallowEqual) 
+    const year_build_type =useSelector(state => state.mapFlats.search.year_build_type, shallowEqual) 
+    const plan =useSelector(state => state.mapFlats.search.plan, shallowEqual) 
+    const isApartment =useSelector(state => state.mapFlats.search.isApartment, shallowEqual) 
+    const src =useSelector(state => state.mapFlats.search.src, shallowEqual) 
+    const isByHomeowner =useSelector(state => state.mapFlats.search.isByHomeowner, shallowEqual) 
+
 
     const dispatch = useDispatch();
 
@@ -52,9 +76,9 @@ const SearchFormMu = function () {
         set_districts_open(false);
     }
 
-    const updateSearchParam = useCallback((field, value) => {
+    const updateSearchParam = (field, value) => {
         dispatch(updateSearch({ field: field, value: value }))
-    }, [dispatch])
+    }
 
 
     // useEffect(() => {
@@ -64,8 +88,8 @@ const SearchFormMu = function () {
     useEffect(() => {
         dispatch(updateAppParam({ field: 'stat_plot_open', value: false }))
         dispatch(updateAppParam({ field: 'report_plot_open', value: false }))
-        
-    }, [dispatch])
+
+    }, [])
 
     const counter = (param) => {
         let count = state.search[param].length
@@ -77,25 +101,23 @@ const SearchFormMu = function () {
     }
 
 
-    const handleChangeMultiple = useCallback(
-        (event) => {
-            const { options } = event.target;
-            const value = [];
-            for (let i = 0, l = options.length; i < l; i += 1) {
-                if (options[i].selected) {
-                    value.push(options[i].value);
-                }
+    const handleChangeMultiple = (event) => {
+        const { options } = event.target;
+        const value = [];
+        for (let i = 0, l = options.length; i < l; i += 1) {
+            if (options[i].selected) {
+                value.push(options[i].value);
             }
-            dispatch(updateSearch({ field: event.target.name, value: value }))
         }
-        , [dispatch]
-    );
+        dispatch(updateSearch({ field: event.target.name, value: value }))
+    }
+
 
 
 
     const handleupdateCheckbox = (field, value, reset = false) => {
 
-        console.log(value)
+        // console.log(value)
         let arr = [];
         state.search[field].map(function (item, index) {
             arr.push(item);
@@ -114,19 +136,17 @@ const SearchFormMu = function () {
     }
 
 
-    const handleChangeSelect = useCallback((e) => {
-        console.log(e.target.value)
+    const handleChangeSelect = (e) => {
+        // console.log(e.target.value)
         updateSearchParam(e.target.name, e.target.value)
-    }, [updateSearchParam])
+    }
 
 
-    const handleTextInput = useCallback(
-        (e) => {
-            let clean = e.target.value.replace(/\D/gi, '');
-            updateSearchParam(e.target.name, clean)
-        }
-        , [updateSearchParam]
-    )
+    const handleTextInput = (e) => {
+        let clean = e.target.value.replace(/\D/gi, '');
+        updateSearchParam(e.target.name, clean)
+    }
+
 
     return (
 
@@ -159,13 +179,13 @@ const SearchFormMu = function () {
                             // fullWidth
                             size="small"
                             onClick={() => updateSearchParam('cat', 1)}
-                            variant={state.search.cat === 1 ? 'contained' : 'outlined'}
+                            variant={cat === 1 ? 'contained' : 'outlined'}
                         >
                             Вторичка
                         </Button>
                         <Button
                             onClick={() => updateSearchParam('cat', 2)}
-                            variant={state.search.cat === 2 ? 'contained' : 'outlined'}
+                            variant={cat === 2 ? 'contained' : 'outlined'}
                             // fullWidth
                             size="small"
                         >Аренда</Button>
@@ -202,7 +222,7 @@ const SearchFormMu = function () {
                                         size="small"
                                         key={'rooms' + item.val}
                                         onClick={() => handleupdateCheckbox('rooms', item.val, false)}
-                                        variant={state.search.rooms.includes(item.val) ? 'contained' : 'outlined'}
+                                        variant={rooms.includes(item.val) ? 'contained' : 'outlined'}
                                     > {item.title}
                                     </Button>
                                 )
@@ -249,7 +269,7 @@ const SearchFormMu = function () {
                                     // label={<>До метро <DirectionsRunIcon /></>}
                                     label={'Метро пешком'}
                                     handleChangeSelect={handleChangeSelect}
-                                    value={search.to_metro}
+                                    value={to_metro}
                                     values={params.to_metro}
                                 />
                             </Stack>
@@ -292,13 +312,13 @@ const SearchFormMu = function () {
                         name={'min_price'}
                         label="Цена от"
                         handleTextInput={handleTextInput}
-                        value={search.min_price}
+                        value={min_price}
                     />
                     <MyTextInput
                         name={'max_price'}
                         label="Цена до"
                         handleTextInput={handleTextInput}
-                        value={search.max_price}
+                        value={max_price}
                     />
 
                     <Stack
@@ -311,7 +331,7 @@ const SearchFormMu = function () {
                             name={'price_type'}
                             label={'Тип цены'}
                             handleChangeMultiple={handleChangeMultiple}
-                            value={search.price_type}
+                            value={price_type}
                             values={params.price_type}
 
                         />
@@ -352,13 +372,13 @@ const SearchFormMu = function () {
                                         name={'min_total_area'}
                                         label="От"
                                         handleTextInput={handleTextInput}
-                                        value={search.min_total_area}
+                                        value={min_total_area}
                                     />
                                     <MyTextInput
                                         name={'max_total_area'}
                                         label="До"
                                         handleTextInput={handleTextInput}
-                                        value={search.max_total_area}
+                                        value={max_total_area}
                                     />
 
                                 </Stack>
@@ -386,13 +406,13 @@ const SearchFormMu = function () {
                                         name={'min_kitchen_area'}
                                         label="От"
                                         handleTextInput={handleTextInput}
-                                        value={search.min_kitchen_area}
+                                        value={min_kitchen_area}
                                     />
                                     <MyTextInput
                                         name={'max_kitchen_area'}
                                         label="До"
                                         handleTextInput={handleTextInput}
-                                        value={search.max_kitchen_area}
+                                        value={max_kitchen_area}
                                     />
 
                                 </Stack>
@@ -435,7 +455,7 @@ const SearchFormMu = function () {
                                         name={'min_floor'}
                                         label="От"
                                         handleTextInput={handleTextInput}
-                                        value={search.min_floor}
+                                        value={min_floor}
                                     />
 
 
@@ -443,7 +463,7 @@ const SearchFormMu = function () {
                                         name={'max_floor'}
                                         label="До"
                                         handleTextInput={handleTextInput}
-                                        value={search.max_floor}
+                                        value={max_floor}
                                     />
                                 </Stack>
                                 <Stack
@@ -455,7 +475,7 @@ const SearchFormMu = function () {
                                         name={'floor_types'}
                                         label={'Тип этажа'}
                                         handleChangeSelect={handleChangeSelect}
-                                        value={search.floor_types}
+                                        value={floor_types}
                                         values={params.floor_types}
                                     />
                                 </Stack>
@@ -493,7 +513,7 @@ const SearchFormMu = function () {
                                     name={'floors_count_type'}
                                     label={'Этажность'}
                                     handleChangeMultiple={handleChangeMultiple}
-                                    value={search.floors_count_type}
+                                    value={floors_count_type}
                                     values={params.floors_count_types}
                                 />
                             </Stack>
@@ -506,7 +526,7 @@ const SearchFormMu = function () {
                                     name={'material'}
                                     label={'Материал'}
                                     handleChangeMultiple={handleChangeMultiple}
-                                    value={search.material}
+                                    value={material}
                                     values={params.material_types}
                                 />
 
@@ -523,7 +543,7 @@ const SearchFormMu = function () {
                                     name={'year_build_type'}
                                     label={'Год'}
                                     handleChangeMultiple={handleChangeMultiple}
-                                    value={search.year_build_type}
+                                    value={year_build_type}
                                     values={params.year_types}
                                 />
                             </Stack>
@@ -531,7 +551,7 @@ const SearchFormMu = function () {
                     </Grid>
                 </Grid>
 
-                
+
                 <Grid item xs={12} md={12}>
                     <Divider className="m-3" />
                 </Grid>
@@ -558,7 +578,7 @@ const SearchFormMu = function () {
                                     name={'plan'}
                                     label={'Планировка'}
                                     handleChangeMultiple={handleChangeMultiple}
-                                    value={search.plan}
+                                    value={plan}
                                     values={params.plans}
                                 />
                             </Stack>
@@ -571,7 +591,7 @@ const SearchFormMu = function () {
                                     name={'isApartment'}
                                     label={'Апартаменты'}
                                     handleChangeSelect={handleChangeSelect}
-                                    value={search.isApartment}
+                                    value={isApartment}
                                     values={params.isApartment}
                                 />
 
@@ -582,7 +602,7 @@ const SearchFormMu = function () {
                 </Grid>
 
 
-            
+
                 <Grid item xs={12} md={12}>
                     <Divider className="m-3" />
                 </Grid>
@@ -609,7 +629,7 @@ const SearchFormMu = function () {
                                     name={'src'}
                                     label={'Источник'}
                                     handleChangeMultiple={handleChangeMultiple}
-                                    value={search.src}
+                                    value={src}
                                     values={params.srcs}
                                 />
                             </Stack>
@@ -622,7 +642,7 @@ const SearchFormMu = function () {
                                     name={'isByHomeowner'}
                                     label={'От собственников'}
                                     handleChangeSelect={handleChangeSelect}
-                                    value={search.isByHomeowner}
+                                    value={isByHomeowner}
                                     values={params.isByHomeowner}
                                 />
 
@@ -631,7 +651,13 @@ const SearchFormMu = function () {
                         </Stack>
                     </Grid>
                 </Grid>
+                <Grid item xs={12} md={12}>
+                    <Divider className="m-3" />
+                </Grid>
+                <Typography >
+                    Выберете в меню список или карту, фильтр применяется автоматически.<br />
 
+                </Typography>
 
 
             </Paper>
