@@ -13,14 +13,14 @@ import { action } from "store/index";
 import Loading from "./Loading";
 import { updateAppParam } from "store/MapFlatsSlice";
 import { stopStatPlot } from "saga/actions";
-import { lazy } from "react";
+// import { lazy } from "react";
 // import ReportDescModal from "./ReportDescModal";
 
-// import StatPlotModalContent from "./StatPlotModalContent";
-// import ReportPlotModalContent from "./ReportPlotModalContent";
+import StatPlotModalContent from "./StatPlotModalContent";
+import ReportPlotModalContent from "./ReportPlotModalContent";
 // import { width } from "@mui/system";
-const ReportPlotModalContent = lazy(() => import('./ReportPlotModalContent'));
-const StatPlotModalContent = lazy(() => import('./StatPlotModalContent'));
+// const ReportPlotModalContent = lazy(() => import('./ReportPlotModalContent'));
+// const StatPlotModalContent = lazy(() => import('./StatPlotModalContent'));
 
 // const getReportPlotRequest = (state) => state.mapFlats.app_params.report_plot_request
 

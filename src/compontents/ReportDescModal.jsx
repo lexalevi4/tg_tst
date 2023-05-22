@@ -103,10 +103,10 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                     <Typography className='mt-3' component={'div'} >
                         Читается она следующим образом:
                         <ul>
-                            <li
+                            {/* <li
                                 className="mb-2"
                             >
-                                Все объявления каждого класса делятся на 4 равные части.</li>
+                                Все объявления каждого класса делятся на 4 равные части.</li> */}
                             <li
                                 className="mb-2"
                             >
@@ -118,20 +118,13 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                             <li
                                 className="mb-2"
                             >
-                                <b>Линия посередине ящика</b> - это медиана. Она делит всю выборку пополам. </li>
-                            <li
-                                className="mb-2"
-                            >
-                                Внутри ящика объявления тоже поделены этой линией пополам.
-                            </li>
+                                <b>Линия посередине ящика</b> - это медиана. Она делит всю выборку и объявления внутри ящика пополам. </li>
+
                             <li
                                 className="mb-2"
                             >
                                 Каждый сегмент соответствует 25% выборки.</li>
-                            <li
-                                className="mb-2"
-                            >
-                                Внутри сегментов объявления могут быть распределены неравномерно.</li>
+
                             <li
                                 className="mb-2"
                             >
@@ -182,22 +175,19 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                         В районе есть 29 таких объявлений.
                     </Typography>
                     <Typography className='mt-3' >
-                        Из них половина находится в диапазоне 10-12 миллионов.
-                    </Typography>
-                    <Typography className='mt-3' >
-                        Другая половина, без выбросов, от 12 до 14.
+                        Из них половина  выставлена ниже 12 миллионов, остальные в диапазоне 12-14.
                     </Typography>
                     <Typography className='mt-3' >
                         Выброс совпадает с ценой объявления.
                     </Typography>
-                    <Typography className='mt-3' >
-                        Внутри района дома схожих годов и этажности, как правило, одинаковые.
-                    </Typography>
+
 
                     <Typography className='mt-3' >
                         Квартиры в 9-этажках за 18 действительно есть, но они в другом сегменте.
                     </Typography>
-
+                    <Typography className='mt-3' >
+                        Внутри района дома схожих годов и этажности, как правило, одинаковые.
+                    </Typography>
                     <Typography className='mt-3' >
                         За эти деньги можно купить любую аналогичную квартиру, и почти все в более новых домах.
                     </Typography>
@@ -258,10 +248,7 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
 
                         Так же, оранжевая, второй слобец.
                     </Typography>
-                    <Typography className='mt-3' >
-                        Горизонтальная линия показывает текущее значение.
 
-                    </Typography>
                     <Paper
                         className='m-1 p-2'
                     >
@@ -297,15 +284,18 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                             src={require('../images/report_plot/example_2_2.png')} alt='' loading="lazy" />
 
                     </Paper>
-                    <Typography className='mt-3' >
-                        Аналогично.
-                    </Typography>
+
 
 
 
                     <Divider className='mt-3' />
                     <Typography className='mt-10' >
                         <b>Площадь/кухня:</b>
+                    </Typography>
+                    <Typography className='mt-3' >
+                        38 квадратов, кухня 8,6.
+
+                        Зелёные, первый столбец.
                     </Typography>
 
                     <Paper
@@ -318,12 +308,7 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                             src={require('../images/report_plot/example_2_3.png')} alt='' loading="lazy" />
 
                     </Paper>
-                    <Typography className='mt-3' >
-                        Эта 38 квадратов, кухня 8,6. 
-                    </Typography>
-                    <Typography className='mt-3' >
-                        Зелёные, первый столбец.
-                    </Typography>
+
 
                     <Divider className='mt-3' />
                     <Typography className='mt-10' >
@@ -348,7 +333,7 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
                     </Typography>
 
                     <Typography className='mt-3' >
-                    <b>Первая квартира за 18 миллионов. </b>
+                        <b>Первая квартира за 18 миллионов. </b>
                     </Typography>
                     <Paper
                         className='m-1 p-2'
@@ -363,13 +348,13 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
 
                     <Divider className='mt-3' />
                     <Typography className='mt-10' >
-                    <b> Вторая за 11,5. </b>
+                        <b> Вторая за 11,5. </b>
                     </Typography>
                     <Typography className='mt-3' >
-                       Всего в районе 113 объявлений однокомнаных квартир.
+                        Всего в районе 113 объявлений однокомнаных квартир.
                     </Typography>
                     <Typography className='mt-3' >
-                    <b>Наши фиолетовые.</b>
+                        <b>Наши фиолетовые.</b>
                     </Typography>
                     <Paper
                         className='m-1 p-2'
@@ -441,9 +426,9 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
 
 
                     <Typography className='mt-10' >
-                      <b> 
-                        Первая за 18. Район Выхино-Жулебино.
-                      </b>
+                        <b>
+                            Первая за 18. Район Выхино-Жулебино.
+                        </b>
                     </Typography>
 
                     <Paper
@@ -467,9 +452,9 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
 
                     </Paper>
                     <Typography className='mt-10' >
-                      <b> 
-                        Вторая за 11,5. Район Обручевский.
-                      </b>
+                        <b>
+                            Вторая за 11,5. Район Обручевский.
+                        </b>
                     </Typography>
                     <Paper
                         className='m-1 p-2'
@@ -492,9 +477,9 @@ const ReportDescModal = function ({ report_desc_modal_open = false, setReportDes
 
                     </Paper>
                     <Typography className='mt-10' >
-                      <b> 
-                       Трёшки, ЖК Крылья
-                      </b>
+                        <b>
+                            Трёшки, ЖК Крылья
+                        </b>
                     </Typography>
                     <Paper
                         className='m-1 p-2'
